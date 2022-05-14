@@ -1,0 +1,63 @@
+@use '../../../sass/abstracts/' as *;
+.headerPhone-component {
+  @media all and (min-width: 800px) {
+    display: none !important;
+  }
+  @media all and (max-width: 800px) {
+    display: flex;
+    margin: 0px auto;
+    font-size: 1rem;
+    height: 3rem;
+    border-bottom: #f4f2f2;
+    background-color: $backgroundColor;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.2rem;
+    box-shadow: 0 5px 5px #a5a5a580;
+  }
+  .headerPhone-logo {
+    height: 5rem;
+    margin-left: -2rem;
+  }
+  .headerPhone-form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &__input {
+      font-family: $mainFontFamily;
+      font-size: 10px;
+      color: #000000 !important;
+      background-color: #eee;
+      border: none;
+      padding: 0.3rem 1rem;
+      border-radius: 5rem;
+      width: 90%;
+
+      //    margin-right: -3.25rem;
+      &:focus {
+        outline: none;
+
+        background-color: #f0eeee;
+      }
+      &::-webkit-input-placeholder {
+        //*only work with chrome and safari
+        font-weight: $fontWeight-L;
+        color: #5c5c5c;
+        font-size: 0.8rem;
+      }
+    }
+    &__input:focus + &__button {
+      background-color: #f0eeee;
+    }
+    &__button {
+      margin-left: -1.5rem;
+      border: none;
+      background-color: #eee;
+      border-radius: 100px;
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+}

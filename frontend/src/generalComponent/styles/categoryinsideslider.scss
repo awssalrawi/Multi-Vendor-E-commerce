@@ -1,0 +1,45 @@
+@use '../../sass/abstracts/' as *;
+.cat-card {
+  //margin-left: 1rem;
+  margin: auto;
+  padding: 0.5rem;
+  border-radius: 10px;
+
+  width: 16rem;
+  display: flex;
+  flex-direction: column;
+
+  @media all and (max-width: 950px) {
+    width: 12rem;
+    padding: 5px;
+    border: 1px solid #c4c4c4;
+  }
+
+  @media all and (max-width: 600px) {
+    width: 11rem;
+    padding: 5px;
+    border: 1px solid #c4c4c4;
+  }
+  @media all and (max-width: 400px) {
+    width: 10rem;
+    padding: 5px;
+    border: 1px solid #c4c4c4;
+  }
+
+  // background-color: #eee;
+  .cat-pictures {
+    display: flex;
+
+    .catImageShow {
+      width: 100%;
+      border-radius: 0.8rem;
+    }
+  }
+  .cat-name {
+    text-align: center;
+    text-transform: uppercase;
+    color: #000;
+    font-size: $mainFontSize;
+    margin-bottom: 0;
+  }
+}

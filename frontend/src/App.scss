@@ -1,0 +1,57 @@
+@use './sass/abstracts/' as *;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: inherit;
+  box-sizing: inherit;
+}
+// *::selection {
+//   background-color: #6c6969;
+//   color: #fff;
+// }
+
+html {
+  font-size: 100%;
+
+  @media all and (max-width: 950px) {
+    font-size: 85%;
+  }
+  @media all and (max-width: 800px) {
+    font-size: 75%;
+  }
+  @media all and (max-width: 400px) {
+    font-size: 62.5%;
+  }
+}
+
+body {
+  background-color: $backgroundColor;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+
+  font-family: $mainFontFamily;
+  font-weight: $fontWeight-L;
+  font-size: 1rem;
+  color: $textColor;
+
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+.link {
+  color: inherit;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+.centered-flex {
+  display: flex;
+  align-items: center;
+}

@@ -1,0 +1,63 @@
+.load-center {
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  //color: #e36e1a;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  min-height: 75vh;
+  .load-ring {
+    //  background-color: #b1b1a9;
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    animation: ring 2s linear infinite;
+
+    &:before {
+      position: absolute;
+      content: "";
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 100%;
+      border-radius: 50%;
+      box-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+    }
+  }
+
+  .load-span {
+    color: #737373;
+    font: size 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    line-height: 200px;
+    animation: text 2s linear infinite;
+  }
+}
+@keyframes ring {
+  0% {
+    transform: rotate(0deg);
+    box-shadow: 1px 5px 5px #e65c00;
+  }
+  50% {
+    transform: rotate(180deg);
+    box-shadow: 1px 5px 5px #18b201;
+  }
+  100% {
+    transform: rotate(360deg);
+    box-shadow: 1px 5px 5px #0456c8;
+  }
+}
+@keyframes text {
+  0% {
+    color: #676767;
+  }
+
+  50% {
+    color: #696969;
+  }
+  100% {
+    color: black;
+  }
+}

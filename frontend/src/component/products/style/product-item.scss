@@ -1,0 +1,120 @@
+// @use '../../../sass/abstracts/' as *;
+// .product__item {
+//   text-decoration: none;
+//   font-family: $mainFontFamily;
+//   color: $textColor;
+//   font-size: mainTextSize;
+//   line-height: lineHeight;
+//   border: none;
+//   border-radius: 5px;
+//   display: flex;
+//   flex-direction: column;
+
+//   width: 15rem;
+//   background-color: #ebebeb;
+//   box-shadow: 0 5px 5px #a5a5a580;
+
+//   @media all and(max-width:800px) {
+//     width: 13rem;
+//   }
+//   @media all and(max-width:600px) {
+//     width: 12rem;
+//   }
+
+//   @media all and(max-width:450px) {
+//     width: 11rem;
+//   }
+
+//   &:hover {
+//     color: inherit;
+//   }
+
+//   &__img {
+//     border-radius: 10px 10px 0 0;
+//     object-fit: cover;
+//     width: 100%;
+//   }
+
+//   &__details {
+//     display: flex;
+//     flex-direction: column;
+//     padding: 5px;
+
+//     *:not(:last-child) {
+//       margin-bottom: 5px;
+//     }
+//   }
+//   &__name {
+//     hyphens: auto;
+
+//     // @media screen and(max-width:400px) {
+//     //   font-size: 1.3rem;
+//     // }
+//   }
+//   &__info {
+//     display: flex;
+//     justify-content: left;
+//     align-items: center;
+//     font-family: var(--font-price);
+
+//     & > *:not(:last-child) {
+//       margin-right: 5px;
+//       @media all and (max-width: 700px) {
+//         margin-right: 2px;
+//       }
+//     }
+//   }
+//   &__price-no {
+//     opacity: 50%;
+//     font-family: inherit;
+//     text-decoration: line-through;
+//     color: #000;
+//   }
+//   &__price-dis {
+//     font-weight: 100;
+//     font-family: inherit;
+//     color: #ff0000;
+//     font-size: 1.8rem;
+//   }
+//   &__price-dis-rate {
+//     font-style: bold;
+//     font-weight: 600;
+//     font-size: 12px;
+//     color: #ff0000;
+//     font-family: inherit;
+
+//     opacity: 90%;
+//   }
+//   &__review {
+//     border: none;
+
+//     display: flex;
+//     flex-direction: row;
+//     justify-content: left;
+//     align-items: center;
+//     font-size: 1.2rem;
+
+//     &-star {
+//       font-size: 8px;
+//       height: 17px;
+//       width: 17px;
+//       border: none;
+//       //   margin: 0 10px;
+//       fill: #fa9c23;
+//     }
+//     &-number {
+//       margin-left: 4px;
+//       font-weight: 500;
+//       font-size: 1.2rem;
+//     }
+//   }
+//   &__shipping {
+//     font-size: 12px;
+//   }
+//   &__seller {
+//     font-size: 12px;
+//     color: rgb(177, 174, 174);
+//     text-decoration: underline;
+//     text-align: left;
+//   }
+// }

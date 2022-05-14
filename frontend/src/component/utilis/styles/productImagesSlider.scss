@@ -1,0 +1,60 @@
+@mixin respond($size) {
+  @media only screen and (max-width: $size) {
+    @content;
+  } //600px
+}
+
+.product-images-slider {
+  .swiper-slide {
+    padding-top: 69%;
+    overflow: hidden;
+    position: relative;
+
+    img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      border-radius: 5px;
+    }
+  }
+  .swiper-button-prev {
+    display: none;
+    left: 0;
+    color: #000;
+  }
+
+  .swiper-button-next {
+    display: none;
+    right: 0;
+    color: #000;
+  }
+}
+.product-images-slider-thumbs {
+  @include respond(900px) {
+    display: none;
+  }
+  .swiper-slide {
+    cursor: pointer;
+    border: 1px solid #eee;
+    &-thumb-active {
+      //  border-radius: 5px;
+      border-top: 1px solid #ff3a3a;
+      outline: none;
+      height: fit-content;
+      // border-color: #ff0000;
+    }
+  }
+  &-wrapper {
+    width: 100%;
+    padding-top: 7rem;
+    overflow: hidden;
+    position: relative;
+    img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+    }
+  }
+}

@@ -1,0 +1,11 @@
+.footer {
+  top: calc(100vh - 4rem);
+  background-color: var(--color-primary);
+  height: 4rem;
+  width: 100%;
+  display: block;
+  justify-content: center;
+  &__nav {
+    background-color: #ee3;
+  }
+}

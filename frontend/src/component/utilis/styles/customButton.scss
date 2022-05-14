@@ -1,0 +1,31 @@
+.custom-button {
+  //  margin-top: 2rem;
+  width: 100%;
+
+  color: #e7e7e7;
+  border: none;
+  outline: none;
+  padding: 5px 0;
+  border-radius: 10px;
+  font-weight: 400;
+  transition: all 0.3s;
+}
+.orange-color {
+  background-color: #ffa500;
+  &:hover {
+    background-color: darken($color: #ffa500, $amount: 10%);
+  }
+}
+
+.red-color {
+  background-color: #c63312;
+  &:hover {
+    background-color: darken($color: #c63312, $amount: 10%);
+  }
+}
+.blue-color {
+  background-color: #4554d9;
+  &:hover {
+    background-color: darken($color: #4554d9, $amount: 10%);
+  }
+}

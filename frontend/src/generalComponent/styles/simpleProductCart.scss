@@ -1,0 +1,40 @@
+@use '../../sass/abstracts/' as *;
+.simple-product {
+  margin: auto;
+  width: 10rem;
+  background-color: #fff;
+  border-radius: 5px;
+
+  &__content {
+    padding: $cardPad;
+    display: flex;
+    flex-direction: column;
+    @media all and (max-width: 500px) {
+      padding: 8px;
+    }
+    @media all and (max-width: 400px) {
+      padding: 3px;
+    }
+    @media all and (max-width: 320px) {
+      padding: 1px;
+    }
+
+    &-img {
+      width: 100%;
+      border-radius: 5px;
+    }
+
+    &-name {
+      color: #000;
+      font-size: $mainFontSize;
+      font-weight: $fontWeight-D;
+      margin: 3px 0;
+    }
+
+    &-price {
+      color: $colorRed-D;
+      font-size: $priceFontSize;
+      font-weight: $fontWeight-D;
+    }
+  }
+}

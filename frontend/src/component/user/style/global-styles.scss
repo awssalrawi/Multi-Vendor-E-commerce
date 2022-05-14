@@ -1,0 +1,41 @@
+@use '../../../sass/abstracts/' as *;
+.generalBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80%;
+  color: #e7e7e7;
+  border: none;
+  outline: none;
+  padding: 3px 0;
+  border-radius: 10px;
+  font-weight: 400;
+  transition: all 0.3s;
+  font-size: $btnTextSize;
+  position: relative;
+}
+
+.googleBtn {
+  background-color: #dc4e41;
+  &:hover {
+    background-color: darken($color: #dc4e41, $amount: 10%);
+  }
+}
+
+.faceBtn {
+  background-color: #3c5a99;
+  &:hover {
+    background-color: darken($color: #3c5a99, $amount: 10%);
+  }
+}
+
+.googleIcon {
+  width: 2rem;
+  height: 2rem;
+  margin-right: 10px;
+}
+.faceIcon {
+  width: 1.6rem;
+  height: 2rem;
+  margin-right: 8px;
+}

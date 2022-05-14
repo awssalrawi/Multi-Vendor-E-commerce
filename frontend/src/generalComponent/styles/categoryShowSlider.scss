@@ -1,0 +1,34 @@
+.productSliderContainer {
+  //  background-color: aqua;
+  overflow-x: hidden;
+  padding: 1rem;
+}
+.categorySlideContainer {
+  //  width: 85%;
+  margin: 0 auto;
+  padding: 1rem;
+  overflow-x: hidden;
+  //background-color: #808080;
+}
+// .slick-prev {
+//   left: 1%;
+//   z-index: 5;
+//   &::before {
+//     font-size: 4rem;
+//     color: rgb(255, 255, 255);
+//   }
+// }
+// .slick-next {
+//   right: 1%;
+//   z-index: 5;
+//   &::before {
+//     font-size: 4rem;
+//     color: rgb(255, 255, 255);
+//   }
+// }
+
+.simple-product-container {
+  background-color: #eef8ff;
+  overflow-x: hidden;
+  margin: 10px 0; //padding: 0 1px;
+}

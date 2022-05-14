@@ -1,0 +1,158 @@
+// #order-btn-phone {
+//   display: none;
+// }
+// @media all and (max-width: 470px) {
+//   #order-btn-large {
+//     display: none;
+//   }
+//   #order-btn-phone {
+//     display: block;
+//   }
+// }
+
+.profile {
+  padding: 2rem;
+  // background-color: aquamarine;
+  @media all and (max-width: 470px) {
+    padding: 0;
+  }
+  @media all and (max-width: 1000px) {
+    padding: 0.5rem;
+  }
+
+  &__header {
+    text-align: center;
+
+    .user-scroll {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .cup-icon {
+        width: 5rem;
+        height: fit-content;
+        fill: black;
+      }
+      &__text {
+        display: block;
+        font-size: 1.6rem;
+        color: var(--font-color);
+        // margin: 0 2rem;
+      }
+      .cup-icon-style {
+        margin-bottom: 1rem;
+      }
+    }
+  }
+
+  &__content {
+    padding: 0 3rem;
+    display: flex;
+    justify-content: space-around;
+    @media screen and (max-width: 1000px) {
+      flex-direction: row;
+      justify-content: space-around;
+      padding: 0 2rem;
+    }
+    @media screen and (max-width: 600px) {
+      flex-direction: row;
+      justify-content: space-between;
+      padding: 0 0.2rem;
+    }
+    @media screen and (max-width: 470px) {
+      padding: 0 5rem;
+      flex-direction: column;
+      justify-content: space-around;
+    }
+
+    .user-update {
+      // max-width: 30rem;
+      .profile-avatar {
+        position: relative;
+        z-index: 5;
+        .upload-input {
+          display: none;
+        }
+        display: flex;
+        justify-content: center;
+      }
+      .name-update__form {
+        margin: 1rem auto;
+        .input-icon {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          color: inherit;
+          font-size: 2rem;
+          padding-bottom: 6px;
+          left: 0;
+        }
+        &:focus ~ i {
+          outline: none;
+
+          color: orange;
+        }
+      }
+      .upload-avatar-icon {
+        font-size: 4rem;
+        position: absolute;
+        top: 70%;
+        right: 10%;
+        z-index: 1;
+        color: orange;
+        @media screen and (max-width: 600px) {
+          right: 30%;
+          top: 80%;
+        }
+      }
+    }
+
+    .user-info {
+      margin-top: 2rem;
+      display: flex;
+      flex-direction: column;
+      padding: 2rem;
+      justify-content: center;
+      @media screen and (max-width: 700px) {
+        padding: 2rem;
+        justify-content: center;
+      }
+      @media screen and (max-width: 470px) {
+        padding: 0;
+        justify-content: center;
+      }
+
+      & > *:not(:last-child) {
+        margin-bottom: 2rem;
+      }
+      .info__container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        border: 1px solid #eee;
+        border-radius: 5px;
+        & > * {
+          margin-bottom: 0;
+          margin-right: 1rem;
+        }
+
+        .info-label {
+          font-size: 1.4rem;
+          color: #565656;
+          margin-bottom: 0px;
+        }
+
+        .info-field {
+          color: #676767;
+          font-size: 1.6rem;
+        }
+        .active-coupon {
+          color: #62ba50;
+        }
+        .no-coupon {
+          color: #d34141;
+        }
+      }
+    }
+  }
+}

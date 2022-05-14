@@ -1,0 +1,88 @@
+@use '../../../sass/abstracts/' as *;
+
+#phone-footer-nav {
+  display: none;
+}
+@media (max-width: 800px) {
+  #phone-footer-nav {
+    display: flex;
+  }
+  .phone-footer-nav {
+    position: fixed;
+    bottom: 0;
+    height: 3rem;
+    width: 100%;
+    background-color: $backgroundColor;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+
+    & > * {
+      padding: 0 1rem;
+      //margin: 0 1rem;
+      cursor: pointer;
+      height: 100%;
+      display: flex;
+      align-items: center;
+    }
+    & > *:hover {
+      cursor: pointer;
+      background-color: #f0eeee;
+    }
+
+    &__icon-box {
+      position: relative;
+    }
+    &__icon {
+      color: #544545;
+      font-size: x-large;
+    }
+    &__notification {
+      font-size: 1rem;
+      height: 1.75rem;
+      width: 1.75rem;
+      border-radius: 50%;
+      // background-color: var(--color-primary);
+      background-color: #ff0000;
+      text-align: center;
+      color: #fff;
+      position: absolute;
+      top: 0.8rem;
+      left: 1.5rem;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    &__user-photo {
+      height: 3.75rem;
+      border-radius: 50%;
+      margin-right: 1rem;
+    }
+    //   &__user-name {
+    //   }
+    &__link {
+      text-decoration: none;
+      color: inherit;
+      font-weight: 500;
+      &:hover,
+      &:focus {
+        color: inherit;
+      }
+    }
+    .item-number {
+      position: relative;
+
+      &__style {
+        position: absolute;
+        bottom: 44%;
+        left: 61%;
+        color: $textColor;
+        font-weight: 500;
+        padding: 2px;
+      }
+    }
+  }
+}

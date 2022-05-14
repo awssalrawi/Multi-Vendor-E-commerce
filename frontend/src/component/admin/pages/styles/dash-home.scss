@@ -1,0 +1,14 @@
+.dash-home {
+  flex: 4;
+  font-weight: 400;
+
+  .home-widget {
+    display: flex;
+    margin: 2rem;
+  }
+
+  .home-chart-view {
+    width: 80%;
+    margin: 0 auto;
+  }
+}

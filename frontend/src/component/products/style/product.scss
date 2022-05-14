@@ -1,0 +1,102 @@
+@use '../../../sass/abstracts/' as *;
+.product {
+  padding: 1rem;
+
+  &__container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+
+    grid-row-gap: 1rem;
+    grid-column-gap: 0.5rem;
+
+    @media (max-width: 700px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    @media (max-width: 550px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  &__item {
+    text-decoration: none;
+    margin: 0 auto;
+    font-family: $mainFontFamily;
+    color: $textColor;
+    font-size: $productTextSize;
+    border: none;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    width: 15rem;
+    background-color: #ffffff;
+    box-shadow: $boxShadow;
+    @media (max-width: 600px) {
+      max-width: 14rem;
+    }
+    &:hover {
+      color: inherit;
+    }
+
+    &__img {
+      border-radius: 10px 10px 0 0;
+      object-fit: cover;
+    }
+
+    &__details {
+      display: flex;
+      flex-direction: column;
+      padding: 5px;
+    }
+    &__name {
+      font-size: $mainTextSize;
+    }
+    &__info {
+      display: flex;
+      justify-content: left;
+      align-items: center;
+      font-family: $mainTextSize;
+
+      & > *:not(:last-child) {
+        margin-right: 2px;
+      }
+    }
+
+    .item__price-dis {
+      font-weight: $fontWeight-D;
+      color: $colorRed-D;
+      font-size: $priceFontSize;
+    }
+    .item__price-dis-rate {
+      margin-left: 0.4rem;
+      font-style: bold;
+      font-weight: 600;
+      font-size: $subTextSize;
+      color: $colorRed-D;
+      font-family: inherit;
+
+      opacity: 90%;
+    }
+    &__review {
+      border: none;
+      display: flex;
+      flex-direction: row;
+      justify-content: left;
+      align-items: center;
+
+      .product-review-number {
+        margin-left: 10px;
+        font-weight: $fontWeight-L;
+        font-size: subTextSize;
+      }
+    }
+    &__shipping {
+      font-size: $mainTextSize;
+    }
+    &__seller {
+      font-size: $mainTextSize;
+      color: #b1aeae;
+      text-decoration: underline;
+      text-align: left;
+    }
+  }
+}

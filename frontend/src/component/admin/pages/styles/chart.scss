@@ -1,0 +1,10 @@
+@use '../../../../sass/abstracts/' as *;
+.chart {
+  margin: 0.5rem;
+  padding: 0.5rem;
+  box-shadow: $boxShadow;
+  font-weight: 400;
+  &__title {
+    margin-bottom: 0.5rem;
+  }
+}

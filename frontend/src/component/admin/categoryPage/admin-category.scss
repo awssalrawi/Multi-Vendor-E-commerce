@@ -1,0 +1,29 @@
+@use '../../../sass/abstracts/' as *;
+
+.admin-cat {
+  display: flex;
+  flex-direction: column;
+  .name-add-btn {
+    padding: 0 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .cat-title {
+      font-weight: bold;
+      font-size: 1.2rem;
+      color: $textColor;
+    }
+    .add-cat-btn {
+      background-color: $colorGreen;
+      color: white;
+      border: none;
+      padding: 7px 5px;
+      border-radius: 0.8rem;
+    }
+  }
+  .categories_container {
+    display: flex;
+    flex-direction: column;
+  }
+}
