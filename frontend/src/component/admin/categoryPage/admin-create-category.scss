@@ -1,0 +1,58 @@
+@use '../../../sass/abstracts/' as *;
+
+.admin-create-category {
+  height: 50vh;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+    .field_container {
+      display: flex;
+      margin-bottom: 0.8rem;
+      flex-direction: column;
+      width: 25rem;
+
+      .field-label {
+        text-align: start;
+        width: fit-content;
+        font-size: 0.8rem;
+        align-items: revert;
+        margin-bottom: 0.4rem;
+        color: #555;
+      }
+
+      .field-input {
+        font-size: $mainFontSize;
+        width: 80%;
+        border: none;
+        height: 100%;
+        border-bottom: 1px solid #989898;
+        background-color: inherit;
+        &:focus {
+          outline: none;
+          border-bottom: 1px solid #000;
+        }
+      }
+      .upload-field {
+        padding: 5px;
+        border: 1px solid #000;
+        border-radius: 5px;
+        width: 80%;
+      }
+    }
+    .create-category-btn {
+      width: 50%;
+      padding: 7px 10px;
+      border: none;
+      border-radius: 0.5rem;
+      background-color: $colorGreen;
+      color: white;
+      cursor: pointer;
+    }
+  }
+}

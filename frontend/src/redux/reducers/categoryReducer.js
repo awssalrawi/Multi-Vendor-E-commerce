@@ -9,36 +9,46 @@ import {
 } from '../constants/categoryConstant';
 
 const buildNewCategories = (parentId, categories, category) => {
+  if (parentId === undefined) {
+    return [
+      ...categories,
+      {
+        _id: category._id,
+        name: category.name,
+        slug: category.slug,
+        children: [],
+      },
+    ];
+  }
+
   let myCategories = [];
   for (let cat of categories) {
     if (cat._id === parentId) {
       myCategories.push({
         ...cat,
-        children:
-          cat.children && cat.children.length > 0
-            ? buildNewCategories(
-                parentId,
-                [
-                  ...cat.children,
-                  {
-                    _id: category._id,
-                    name: category.name,
-                    slug: category.slug,
-                    parentId: category.parentId,
-                    children: category.children,
-                  },
-                ],
-                category
-              )
-            : [],
+        children: cat.children
+          ? buildNewCategories(
+              parentId,
+              [
+                ...cat.children,
+                {
+                  _id: category._id,
+                  name: category.name,
+                  slug: category.slug,
+                  parentId: category.parentId,
+                  children: category.children,
+                },
+              ],
+              category
+            )
+          : [],
       });
     } else {
       myCategories.push({
         ...cat,
-        children:
-          cat.children && cat.children.length > 0
-            ? buildNewCategories(parentId, cat.children, category)
-            : [],
+        children: cat.children
+          ? buildNewCategories(parentId, cat.children, category)
+          : [],
       });
     }
   }
@@ -70,10 +80,11 @@ export const categoryReducer = (state = { categories: [] }, action) => {
       return {
         ...state,
         categories: buildNewCategories(
-          action.payload.parentId,
+          action.payload.category.parentId,
           state.categories,
-          action.payload
+          action.payload.category
         ),
+
         loading: false,
       };
     case ADMIN_CREATE_CATEGORY_FAIL:

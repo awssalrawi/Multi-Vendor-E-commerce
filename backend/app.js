@@ -10,6 +10,7 @@ const cors = require('cors');
 const env = require('dotenv');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const adminRouter = require('./routes/adminRouter');
 env.config({ path: 'backend/.env' });
 app.use(express.json());
 app.use(bodyParser.json());
@@ -26,6 +27,7 @@ app.use('/api/v1', categoryRouter);
 app.use('/api/v1', productRouter);
 app.use('/api/v1', cartRouter);
 app.use('/api/v1/user', authRouter);
+app.use('/api/v1', adminRouter);
 
 app.use(globalErrorHandler);
 module.exports = app;

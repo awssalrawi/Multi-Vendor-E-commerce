@@ -3,6 +3,11 @@ import { DataGrid } from '@material-ui/data-grid';
 import { DeleteOutline, Settings } from '@material-ui/icons';
 import { Link } from 'react-router-dom';
 import './styles/admin-products-list.scss';
+//!Trying Making it responsive
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
+
+//!Trying Making it responsive
 
 const productRows = [
   {
@@ -135,9 +140,17 @@ const productRows = [
   },
 ];
 const AdminProductList = () => {
+  //!Trying Making it responsive
+  const thame = useTheme();
+  console.log(thame);
+  const isMatch = useMediaQuery('960px');
+  console.log(isMatch);
+  const MyWidth = isMatch ? 100 : 200;
+  //!Trying Making it responsive
+
   const [data, setData] = useState(productRows);
   const columns = [
-    { field: 'id', headerName: 'ID', width: 90 },
+    { field: 'id', headerName: 'ID', width: '100' },
     {
       field: 'name',
       headerName: 'Product',
@@ -180,15 +193,15 @@ const AdminProductList = () => {
       headerName: 'Action',
       width: 70,
       renderCell: (params) => (
-        <Fragment>
-          <Link to={`/admin/product/${params.row.id}`}>
+        <div className="iconsDisplay">
+          <Link to={`/admin/product/${params.row.id}`} className="break-link">
             <Settings className="productEdit-icon" />
           </Link>
           <DeleteOutline
             className="productDelete-icon"
             onClick={() => handleDelete(params.row.id)}
           />
-        </Fragment>
+        </div>
       ),
     },
   ];

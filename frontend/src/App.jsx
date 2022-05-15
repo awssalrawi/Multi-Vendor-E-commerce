@@ -21,7 +21,7 @@ import 'react-toastify/dist/ReactToastify.min.css';
 import './assests/toast-my-style.scss';
 
 import LoaderSpinner from './component/utilis/LoaderSpinner.jsx';
-
+import { getAllCategories } from './redux/actions/categoryAction';
 import Categories from './component/layout/Categories';
 import CategoryShow from './generalComponent/CategoreyShow';
 import AdminDashboard from './component/admin/AdminDashboard';
@@ -35,13 +35,25 @@ import AdminGetProduct from './component/admin/productPage/AdminGetProduct';
 import { getMyProfileData } from './redux/actions/userAction';
 import AdminCategory from './component/admin/categoryPage/AdminCategory';
 import AdminShowProducts from './component/admin/productPage/AdminShowProducts';
+import AdminCreateCategory from './component/admin/categoryPage/AdminCreateCategory';
 
 function App() {
   useEffect(() => {
     if (localStorage.getItem('authTokenReload')) {
       store.dispatch(getMyProfileData());
     }
+    store.dispatch(getAllCategories());
   });
+
+  // useEffect(() => {
+  //   if (error) {
+  //     toast.error(error);
+  //     dispatch(clearErrors());
+  //   }
+
+  //   dispatch(getAllCategories());
+  // }, [dispatch, error]);
+
   return (
     <Router>
       <Header />
@@ -51,8 +63,9 @@ function App() {
         transition={Zoom}
         className="error-toast"
         hideProgressBar={true}
-        autoClose={1000}
+        autoClose={1500}
         pauseOnHover={true}
+        style={{ fontSize: '14px' }}
       />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -84,6 +97,7 @@ function App() {
           <Route path="feedbacks" element={<AdminFeedbacks />} />
           <Route path="categories" element={<AdminCategory />} />
           <Route path="viewproducts" element={<AdminShowProducts />} />
+          <Route path="create-category" element={<AdminCreateCategory />} />
         </Route>
         <Route element={<PrivateRoute />}>
           <Route exact path="/me" element={<MyProfile />} />

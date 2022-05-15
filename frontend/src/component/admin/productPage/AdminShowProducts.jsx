@@ -11,7 +11,9 @@ import {
   Button,
 } from '@mui/material';
 import './styles/admin-show-products.scss';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { adminCreateProduct } from '../../../redux/actions/productAction';
+
 //**Model */
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -86,6 +88,24 @@ const AdminShowProducts = () => {
     setProductPictures([...productPictures, e.target.files[0]]);
     console.log(productPictures);
   };
+
+  const dispatch = useDispatch();
+  const handleNewProductSubmit = (e) => {
+    e.preventDefault();
+
+    const form = new FormData();
+    form.append('name', name);
+    form.append('price', price);
+    form.append('quantity', quantity);
+    form.append('category', category);
+    form.append('description', description);
+
+    for (let pic of productPictures) {
+      form.append('productPictures', pic);
+    }
+
+    dispatch(adminCreateProduct(form));
+  };
   return (
     <Fragment>
       <div className="ad-show-products__header">
@@ -106,7 +126,7 @@ const AdminShowProducts = () => {
               New Product
             </BootstrapDialogTitle>
             <DialogContent dividers>
-              <form className="new-prod-form">
+              <form className="new-prod-form" onSubmit={handleNewProductSubmit}>
                 <div className="prod-field">
                   <label htmlFor="prod-name" className="prod-label">
                     Product Name
@@ -195,6 +215,9 @@ const AdminShowProducts = () => {
                     onChange={handleProductPictures}
                   />
                 </div>
+                <button type="submit" className="add-product-btn">
+                  Add Product
+                </button>
               </form>
             </DialogContent>
 

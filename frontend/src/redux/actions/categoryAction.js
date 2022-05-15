@@ -44,7 +44,7 @@ export const adminCreateCategory = (form) => async (dispatch) => {
     );
     dispatch({
       type: ADMIN_CREATE_CATEGORY_SUCCESS,
-      payload: data.category,
+      payload: { category: data.category },
     });
   } catch (error) {
     console.log(error);
@@ -55,6 +55,6 @@ export const adminCreateCategory = (form) => async (dispatch) => {
   }
 };
 
-export const clearErrors = () => async (dispatch) => {
+export const clearErrors = () => (dispatch) => {
   dispatch({ type: CLEAR_ERRORS });
 };

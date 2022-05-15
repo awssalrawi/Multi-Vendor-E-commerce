@@ -28,6 +28,12 @@ exports.createProduct = catchAsync(async (req, res, next) => {
   });
 });
 
+///*                /products/get-all
 exports.getAllProducts = catchAsync(async (req, res, next) => {
-  res.status(200).json({ message: 'Yes I am there', data: req.user });
+  const products = await Product.find();
+
+  res.status(200).json({
+    success: true,
+    products,
+  });
 });
