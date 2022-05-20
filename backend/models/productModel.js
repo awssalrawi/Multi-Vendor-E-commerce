@@ -7,10 +7,9 @@ const productSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    slug: {
-      type: String,
-      unique: true,
-    },
+    // slug: {
+    //   type: String,
+    // },
     price: {
       type: Number,
       required: [true, 'product must have a price'],
@@ -31,9 +30,20 @@ const productSchema = new mongoose.Schema(
       {
         img: {
           type: String,
+          required: [true, 'product must have images'],
         },
       },
     ],
+    detailsPictures: [
+      {
+        img: {
+          type: String,
+        },
+      },
+    ],
+    cardPicture: String,
+
+    specification: String,
 
     reviews: [
       {
@@ -42,18 +52,18 @@ const productSchema = new mongoose.Schema(
       },
     ],
     category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' },
-    createdBy: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
-    },
-    createdBy: String,
+    // createdBy: {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   ref: 'User',
+    // },
+    shop: { type: mongoose.Schema.Types.ObjectId, ref: 'Shop' },
     updatedAt: Date,
   },
   { timestamps: true }
 );
 
-productSchema.pre('save', function (next) {
-  this.slug = slugify(this.name, { lower: true });
-  next();
-});
+// productSchema.pre('save', function (next) {
+//   this.slug = slugify(this.name, { lower: true });
+//   next();
+// });
 module.exports = mongoose.model('Product', productSchema);

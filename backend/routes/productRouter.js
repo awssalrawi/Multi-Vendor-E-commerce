@@ -5,6 +5,7 @@ const shortid = require('shortid');
 const {
   createProduct,
   getAllProducts,
+  getProductsBySlug,
 } = require('../controllers/productController');
 const {
   restrictTo,
@@ -21,13 +22,19 @@ const storage = multer.diskStorage({
   },
 });
 const upload = multer({ storage: storage });
+
 router.post(
   '/products/create',
   isAuthenticatedUser,
-  upload.array('productPictures'),
+  upload.fields([
+    { name: 'productPictures', maxCount: 5 },
+    { name: 'detailsPictures', maxCount: 5 },
+    { name: 'cardPicture', maxCount: 1 },
+  ]),
   createProduct
 );
 
 router.get('/products/get-all', isAuthenticatedUser, getAllProducts);
+router.get('/products/:slug', getProductsBySlug);
 
 module.exports = router;

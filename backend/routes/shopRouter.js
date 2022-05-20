@@ -1,15 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const {
-  createCategory,
-  getAllCategories,
-  getCategoryById,
-  deleteCategoryById,
-  updateCategory,
-} = require('./../controllers/categoryController');
 const multer = require('multer');
-const path = require('path');
 const shortid = require('shortid');
+const path = require('path');
+const {
+  restrictTo,
+  isAuthenticatedUser,
+} = require('../utilities/authMiddlewares');
+
+const { CreateShop } = require('../controllers/shopController');
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, path.join(path.dirname(__dirname), 'uploads'));
@@ -20,18 +19,8 @@ const storage = multer.diskStorage({
   },
 });
 const upload = multer({ storage: storage });
+router.use(isAuthenticatedUser, restrictTo('admin', 'seller'));
 
-router.post(
-  '/categories/create',
-  upload.single('categoryImage'),
-  createCategory
-);
-router.get('/categories/getall', getAllCategories);
-
-router
-  .route('/categories/:categoryId')
-  .get(getCategoryById)
-  .delete(deleteCategoryById)
-  .put(upload.single('categoryImage'), updateCategory);
+router.post('/create-shop', upload.single('shopImage'), CreateShop);
 
 module.exports = router;

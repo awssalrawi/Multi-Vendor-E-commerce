@@ -13,7 +13,7 @@ import ProductDetails from './component/products/ProductDetails';
 
 import ActivateCourse from './component/authCourse/ActivateCourse';
 
-import PrivateRoute from './component/authCourse/PrivateRoute';
+import IfLoggedIn from './component/restrictUser/IfLoggedIn';
 import store from './redux/store';
 
 import { ToastContainer, toast, Zoom } from 'react-toastify';
@@ -27,6 +27,8 @@ import CategoryShow from './generalComponent/CategoreyShow';
 import AdminDashboard from './component/admin/AdminDashboard';
 import UserList from './component/admin/pages/UserList';
 import DashHome from './component/admin/pages/DashHome';
+import ProductsListPage from './component/products/ProductsListPage';
+//* Admin
 import AdminProductList from './component/admin/productPage/AdminProductList';
 import AdminGetUser from './component/admin/pages/AdminGetUser';
 import AdminCreateUser from './component/admin/pages/AdminCreateUser';
@@ -36,6 +38,7 @@ import { getMyProfileData } from './redux/actions/userAction';
 import AdminCategory from './component/admin/categoryPage/AdminCategory';
 import AdminShowProducts from './component/admin/productPage/AdminShowProducts';
 import AdminCreateCategory from './component/admin/categoryPage/AdminCreateCategory';
+import AdminGetCategoryAndUpdate from './component/admin/categoryPage/AdminGetCategoryAndUpdate';
 
 function App() {
   useEffect(() => {
@@ -44,15 +47,6 @@ function App() {
     }
     store.dispatch(getAllCategories());
   });
-
-  // useEffect(() => {
-  //   if (error) {
-  //     toast.error(error);
-  //     dispatch(clearErrors());
-  //   }
-
-  //   dispatch(getAllCategories());
-  // }, [dispatch, error]);
 
   return (
     <Router>
@@ -81,6 +75,7 @@ function App() {
         {/* <Route exact path="/signup" element={<SignUpCourse />} /> */}
         <Route exact path="/signup" element={<Register />} />
         <Route path="/categories" element={<Categories />} />
+        <Route path="/:slug" element={<ProductsListPage />} />
         <Route path="/test" element={<CategoryShow />} />
         {/* <Route path="/admin/dashboard" element={<AdminDashboard />} /> */}
 
@@ -98,8 +93,12 @@ function App() {
           <Route path="categories" element={<AdminCategory />} />
           <Route path="viewproducts" element={<AdminShowProducts />} />
           <Route path="create-category" element={<AdminCreateCategory />} />
+          <Route
+            path="categories/:categoryId"
+            element={<AdminGetCategoryAndUpdate />}
+          />
         </Route>
-        <Route element={<PrivateRoute />}>
+        <Route element={<IfLoggedIn />}>
           <Route exact path="/me" element={<MyProfile />} />
         </Route>
       </Routes>

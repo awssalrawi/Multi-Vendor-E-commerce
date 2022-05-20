@@ -4,10 +4,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearErrors, login } from '../../redux/actions/userAction';
 import { toast } from 'react-toastify';
-import PageTitle from '../utilis/PageTitle';
+// import PageTitle from '../utilis/PageTitle';
 import LoaderSpinner from '../utilis/LoaderSpinner';
 import GoogleSign from './GoogleSign';
-import FacebookSign from './FacebookSign';
+// import FacebookSign from './FacebookSign';
 import { EmailOutlined, LockOutlined } from '@material-ui/icons';
 
 //import { clear } from "google-auth-library/build/src/auth/envDetect";
@@ -54,7 +54,7 @@ const Login = () => {
   }
   return (
     <Fragment>
-      <PageTitle title="Login" />
+      {/* <PageTitle title="Login" /> */}
       {loading ? (
         <LoaderSpinner />
       ) : (
@@ -127,7 +127,7 @@ const Login = () => {
 
               <div className="google-facebook-login design-same">
                 <GoogleSign text="Sign in with Google" />
-                <FacebookSign text="Sign in with Facebook" />
+                {/* <FacebookSign text="Sign in with Facebook" /> */}
               </div>
             </div>
           </div>

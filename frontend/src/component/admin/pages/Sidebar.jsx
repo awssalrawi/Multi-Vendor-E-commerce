@@ -41,7 +41,7 @@ const Sidebar = () => {
                   className="page-side-link"
                   onClick={() => handleActive(0)}
                 >
-                  <LineStyle className="sidebarIcon activePage" />
+                  <LineStyle className="sidebarIcon " />
                   Home
                 </Link>
               </li>

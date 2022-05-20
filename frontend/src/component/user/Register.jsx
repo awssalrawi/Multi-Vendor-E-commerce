@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import GoogleSign from './GoogleSign';
-import FacebookSign from './FacebookSign';
+// import FacebookSign from './FacebookSign';
 import {
   EmailOutlined,
   LockOutlined,
@@ -127,7 +127,7 @@ const Register = () => {
             </div> */}
             <div className="google-facebook-login">
               <GoogleSign text=" Sign Up With Google" />
-              <FacebookSign text=" Sign Up With Facebook" />
+              {/* <FacebookSign text=" Sign Up With Facebook" /> */}
             </div>
           </form>
         </div>

@@ -7,14 +7,19 @@ import {
 } from '../../../redux/actions/categoryAction';
 import './admin-create-category.scss';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 const AdminCreateCategory = () => {
   //!for create new category
   const [enterCategoryName, setEnterCategoryName] = useState('');
   const [parentCategoryId, setParentCategoryId] = useState('');
   const [categoryImage, setCategoryImage] = useState('');
+  const [categoryImagePre, setCategoryImagePre] = useState(
+    'https://brecke.com/wp-content/uploads/2017/06/no-image-icon-13.png'
+  );
 
   const { categories, error } = useSelector((state) => state.category);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   useEffect(() => {
     if (error) {
       toast.error(error);
@@ -31,6 +36,16 @@ const AdminCreateCategory = () => {
     }
     return options;
   };
+  const handleImageChange = (e) => {
+    setCategoryImage(e.target.files[0]);
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (reader.readyState === 2) {
+        setCategoryImagePre(reader.result);
+      }
+    };
+    reader.readAsDataURL(e.target.files[0]);
+  };
 
   const handleSubmitCategory = (e) => {
     e.preventDefault();
@@ -43,10 +58,11 @@ const AdminCreateCategory = () => {
     console.log(parentCategoryId);
     dispatch(adminCreateCategory(form));
 
-    setEnterCategoryName("");
-    setCategoryImage("")
-    setParentCategoryId("")
-    
+    setEnterCategoryName('');
+
+    setParentCategoryId('');
+
+    navigate('/admin/categories');
   };
   return (
     <div className="admin-create-category">
@@ -59,6 +75,7 @@ const AdminCreateCategory = () => {
             Category Name
           </label>
           <input
+            required
             className="field-input"
             id="category-name"
             type="text"
@@ -86,13 +103,21 @@ const AdminCreateCategory = () => {
           </select>
         </div>
         <div className="field_container">
+          <img
+            src={categoryImagePre}
+            alt="cat"
+            className="field_container__preview"
+          />
+        </div>
+        <div className="field_container">
           <input
             type="file"
             className="upload-field"
             name="category"
             id="customFile"
             accept="images/*"
-            onChange={(e) => setCategoryImage(e.target.files[0])}
+            onChange={(e) => handleImageChange(e)}
+            // onChange={(e) => setCategoryImage(e.target.files[0])}
           />
         </div>
         <button type="submit" className="create-category-btn">

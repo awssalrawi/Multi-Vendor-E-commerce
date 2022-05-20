@@ -1,6 +1,6 @@
 const Category = require('./../models/categoryModel');
 const catchAsync = require('../utilities/catchAsync');
-
+const AppError = require('./../utilities/appError');
 //* nested categories
 function createCategories(categories, parentId = null) {
   const categoryList = [];
@@ -12,10 +12,13 @@ function createCategories(categories, parentId = null) {
   }
 
   for (let cate of category) {
+    let categoryImage = [];
+    if (cate.categoryImage) categoryImage = cate.categoryImage;
     categoryList.push({
       _id: cate._id,
       name: cate.name,
       parentId: cate.parentId,
+      categoryImage,
       slug: cate.slug,
       children: createCategories(categories, cate._id),
     });
@@ -59,9 +62,58 @@ exports.getAllCategories = catchAsync(async (req, res, next) => {
 //* get category by id /api/v1/categories/:categoryId
 exports.getCategoryById = catchAsync(async (req, res, next) => {
   const category = await Category.findById(req.params.categoryId);
+  if (!category)
+    return next(new AppError('There is no Category with that Id', 404));
 
   res.status(200).json({
     success: true,
-    data: category,
+    category,
+  });
+});
+//* delete category by admin  /api/v1/categories/:categoryId
+exports.deleteCategoryById = catchAsync(async (req, res, next) => {
+  const doc = await Category.findByIdAndDelete(req.params.categoryId);
+  if (!doc) {
+    return next(new AppError('No document found with that id', 404));
+  }
+
+  res.status(204).json({
+    success: true,
+  });
+});
+
+exports.updateCategory = catchAsync(async (req, res, next) => {
+  const id = req.params.categoryId;
+  const update = {};
+  if (req.body.name) {
+    update.name = req.body.name;
+    update.slug = req.body.name.toLowerCase();
+  }
+  if (req.body.parentId) {
+    update.parentId = req.body.parentId;
+  } else {
+  }
+
+  if (req.file) {
+    update.categoryImage = `${process.env.SERVER_API}/public/${req.file.filename}`;
+  }
+
+  console.log('update', update);
+  const category = await Category.findByIdAndUpdate(
+    req.params.categoryId,
+    {
+      $set: update,
+    },
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+  if (!category)
+    return next(new AppError('No Category found with that id', 404));
+
+  res.status(200).json({
+    success: true,
+    category,
   });
 });

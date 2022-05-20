@@ -8,6 +8,7 @@ import PhoneHeaderHome from './../layout/PhoneHeaderHome';
 import CategoryInsideSlider from '../../generalComponent/CategoryInsideSlider';
 import { Link } from 'react-router-dom';
 import SimpleProductCard from '../../generalComponent/SimpleProductCard';
+import CategoryHeader from './CategoryHeader';
 const settings1 = {
   dots: false,
   infinite: true,
@@ -119,7 +120,7 @@ const Home = () => {
   return (
     <Fragment>
       <PhoneHeaderHome />
-
+      <CategoryHeader />
       <div className="home-feature">
         <Slider {...featureSetting}>
           <div className="home-feature__content">

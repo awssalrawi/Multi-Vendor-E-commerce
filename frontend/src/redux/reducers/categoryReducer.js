@@ -5,6 +5,15 @@ import {
   ADMIN_CREATE_CATEGORY_REQUEST,
   ADMIN_CREATE_CATEGORY_SUCCESS,
   ADMIN_CREATE_CATEGORY_FAIL,
+  ADMIN_GET_CATEGORY_BY_ID_REQUEST,
+  ADMIN_GET_CATEGORY_BY_ID_SUCCESS,
+  ADMIN_GET_CATEGORY_BY_ID_FAIL,
+  ADMIN_DELETE_CATEGORY_BY_ID_REQUEST,
+  ADMIN_DELETE_CATEGORY_BY_ID_SUCCESS,
+  ADMIN_DELETE_CATEGORY_BY_ID_FAIL,
+  ADMIN_UPDATE_CATEGORY_REQUEST,
+  ADMIN_UPDATE_CATEGORY_SUCCESS,
+  ADMIN_UPDATE_CATEGORY_FAIL,
   CLEAR_ERRORS,
 } from '../constants/categoryConstant';
 
@@ -55,10 +64,50 @@ const buildNewCategories = (parentId, categories, category) => {
   return myCategories;
 };
 
+const buildCategoriesAfterDelete = (deletedCatId, categories) => {
+  // let updatedCategories = categories.filter(
+  //   (category) => category._id !== deletedCatId
+  // );
+  let updatedCategories = [];
+
+  console.log(String(deletedCatId));
+  const isMain = categories.find((category) => category._id === deletedCatId);
+  console.log(('isMain', isMain));
+
+  if (isMain) {
+    updatedCategories = categories.filter(
+      (category) => category._id !== deletedCatId
+    );
+    return updatedCategories;
+  }
+  updatedCategories = categories.map((category) => {
+    return {
+      ...category,
+      children:
+        category.children.length > 0
+          ? category.children.filter((subCat) => subCat._id !== deletedCatId)
+          : [],
+    };
+  });
+  return updatedCategories;
+
+  // console.log(updatedCategories);
+};
+
+const buildNewCategoriesAfterUpdate = (updatedCat, categories) => {
+  const deleteCat = buildCategoriesAfterDelete(updatedCat._id, categories);
+
+  const result = buildNewCategories(updatedCat.parentId, deleteCat, updatedCat);
+  console.log(result);
+  return result;
+};
+
 export const categoryReducer = (state = { categories: [] }, action) => {
   switch (action.type) {
     case GET_ALL_CATEGORIES_REQUEST:
     case ADMIN_CREATE_CATEGORY_REQUEST:
+    case ADMIN_DELETE_CATEGORY_BY_ID_REQUEST:
+    case ADMIN_UPDATE_CATEGORY_REQUEST:
       return {
         ...state,
         loading: true,
@@ -87,16 +136,69 @@ export const categoryReducer = (state = { categories: [] }, action) => {
 
         loading: false,
       };
+    case ADMIN_UPDATE_CATEGORY_SUCCESS:
+      return {
+        ...state,
+        categories: buildNewCategoriesAfterUpdate(
+          action.payload,
+          state.categories
+        ),
+        loading: false,
+      };
+
+    case ADMIN_DELETE_CATEGORY_BY_ID_SUCCESS:
+      return {
+        loading: false,
+        categories: buildCategoriesAfterDelete(
+          action.payload,
+          state.categories
+        ),
+      };
     case ADMIN_CREATE_CATEGORY_FAIL:
+    case ADMIN_GET_CATEGORY_BY_ID_FAIL:
+    case ADMIN_DELETE_CATEGORY_BY_ID_FAIL:
+    case ADMIN_UPDATE_CATEGORY_FAIL:
       return {
         ...state,
         error: action.payload,
       };
+
     case CLEAR_ERRORS:
       return {
         ...state,
         error: null,
       };
+    default:
+      return state;
+  }
+};
+
+export const categoryConfigReducer = (state = { category: {} }, action) => {
+  switch (action.type) {
+    case ADMIN_GET_CATEGORY_BY_ID_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case ADMIN_GET_CATEGORY_BY_ID_SUCCESS:
+      return {
+        ...state,
+        category: action.payload,
+        loading: false,
+      };
+    case ADMIN_GET_CATEGORY_BY_ID_FAIL:
+      return {
+        ...state,
+        error: action.payload,
+        loading: false,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
     default:
       return state;
   }
