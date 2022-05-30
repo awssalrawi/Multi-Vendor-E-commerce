@@ -29,8 +29,10 @@ const AdminGetCategoryAndUpdate = () => {
 
   const { categories } = useSelector((state) => state.category);
 
-  const [parentCategoryId, setParentCategoryId] = useState(
-    category.parentId ? category.parentId : ''
+  const [parentCategoryId, setParentCategoryId] = useState('');
+
+  const [categoryType, setCategoryType] = useState(
+    category.showType ? category.showType : ''
   );
   const [catName, setCatName] = useState('');
   const [updateCatImage, setUpdateCatImage] = useState('');
@@ -89,16 +91,25 @@ const AdminGetCategoryAndUpdate = () => {
   const handleUpdateCategory = (e) => {
     e.preventDefault();
 
-    if (parentCategoryId === 'Main Category') setParentCategoryId(null);
-
     const form = new FormData();
 
-    form.append('name', catName);
-    form.append('parentId', parentCategoryId);
-    form.append('categoryImage', updateCatImage);
-    dispatch(adminUpdateCategory(params.categoryId, form));
+    if (catName) form.append('name', catName);
+    if (parentCategoryId) form.append('parentId', parentCategoryId);
 
-    navigate('/admin/categories');
+    if (updateCatImage) form.append('categoryImage', updateCatImage);
+
+    if (categoryType) form.append('showType', categoryType);
+
+    const promise = dispatch(adminUpdateCategory(params.categoryId, form));
+
+    toast
+      .promise(promise, {
+        loading: 'Loading',
+        success: 'Category Updated successfully',
+        error: 'Error happened',
+      })
+      .then(() => navigate('/admin/categories'))
+      .catch((error) => toast.error(error));
   };
   return (
     <Fragment>
@@ -131,6 +142,9 @@ const AdminGetCategoryAndUpdate = () => {
                 ) : (
                   <span className="existsCat__main">Main Category</span>
                 )}
+                {category.showType ? (
+                  <span className="existsCat__main">{category.showType}</span>
+                ) : null}
                 <Button
                   variant="outlined"
                   onClick={handleClickOpen}
@@ -209,16 +223,39 @@ const AdminGetCategoryAndUpdate = () => {
                   <select
                     id="cat-select-parent"
                     onChange={(e) => setParentCategoryId(e.target.value)}
-                    value={parentCategoryId}
+                    value={
+                      parentCategoryId
+                        ? parentCategoryId
+                        : category.parentId || 'Main Category'
+                    }
                     className="updateCat__field-input"
                   >
-                    <option>Main Category</option>
+                    <option value="Main Category">Main Category</option>
                     {createCategoryList(categories) &&
                       createCategoryList(categories).map((option) => (
                         <option value={option.value} key={option.value}>
                           {option.name}
                         </option>
                       ))}
+                  </select>
+                </div>
+                <div className="updateCat__field">
+                  <label
+                    htmlFor="cat-select-type"
+                    className="updateCat__field-label"
+                  >
+                    Select Category Type if there
+                  </label>
+                  <select
+                    id="cat-select-type"
+                    onChange={(e) => setCategoryType(e.target.value)}
+                    value={categoryType}
+                    className="updateCat__field-input"
+                  >
+                    <option value="">Select Category type</option>
+                    <option value="store">Store</option>
+                    <option value="product">Product</option>
+                    <option value="page">Page</option>
                   </select>
                 </div>
                 <button type="submit" className="updateCat__submit-btn">

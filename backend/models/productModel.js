@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const slugify = require('slugify');
+// const slugify = require('slugify');
 const productSchema = new mongoose.Schema(
   {
     name: {
@@ -7,9 +7,7 @@ const productSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    // slug: {
-    //   type: String,
-    // },
+    rating: Number,
     price: {
       type: Number,
       required: [true, 'product must have a price'],
@@ -23,11 +21,12 @@ const productSchema = new mongoose.Schema(
       required: [true, 'product must have a description'],
       trim: true,
     },
-    offer: {
+    priceAfterDiscount: {
       type: Number,
     },
     productPictures: [
       {
+        _id: false,
         img: {
           type: String,
           required: [true, 'product must have images'],
@@ -36,6 +35,7 @@ const productSchema = new mongoose.Schema(
     ],
     detailsPictures: [
       {
+        _id: false,
         img: {
           type: String,
         },
@@ -43,7 +43,12 @@ const productSchema = new mongoose.Schema(
     ],
     cardPicture: String,
 
-    specification: String,
+    specification: [
+      {
+        _id: false,
+        specific: String,
+      },
+    ],
 
     reviews: [
       {
@@ -52,13 +57,19 @@ const productSchema = new mongoose.Schema(
       },
     ],
     category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' },
-    // createdBy: {
-    //   type: mongoose.Schema.Types.ObjectId,
-    //   ref: 'User',
-    // },
-    shop: { type: mongoose.Schema.Types.ObjectId, ref: 'Shop' },
+
+    shop: { type: mongoose.Schema.Types.String, ref: 'Shop' },
     updatedAt: Date,
+
+    availableSpecific: [
+      {
+        _id: false,
+        option: String,
+        inStockCount: Number,
+      },
+    ],
   },
+
   { timestamps: true }
 );
 

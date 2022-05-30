@@ -9,6 +9,8 @@ import CategoryInsideSlider from '../../generalComponent/CategoryInsideSlider';
 import { Link } from 'react-router-dom';
 import SimpleProductCard from '../../generalComponent/SimpleProductCard';
 import CategoryHeader from './CategoryHeader';
+import { useSelector } from 'react-redux';
+
 const settings1 = {
   dots: false,
   infinite: true,
@@ -117,6 +119,8 @@ const simpleProd = {
   // prevArrow: true,
 };
 const Home = () => {
+  const { products } = useSelector((state) => state.productsManagement);
+
   return (
     <Fragment>
       <PhoneHeaderHome />
@@ -178,7 +182,8 @@ const Home = () => {
         </Slider>
       </div>
       <h4 className="text-align-center my-2">Latest product</h4>
-      <Product />
+
+      <Product products={products} />
     </Fragment>
   );
 };

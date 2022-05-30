@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 import './App.scss';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -22,6 +22,7 @@ import './assests/toast-my-style.scss';
 
 import LoaderSpinner from './component/utilis/LoaderSpinner.jsx';
 import { getAllCategories } from './redux/actions/categoryAction';
+import { adminGetAllProducts } from './redux/actions/productAction';
 import Categories from './component/layout/Categories';
 import CategoryShow from './generalComponent/CategoreyShow';
 import AdminDashboard from './component/admin/AdminDashboard';
@@ -39,6 +40,8 @@ import AdminCategory from './component/admin/categoryPage/AdminCategory';
 import AdminShowProducts from './component/admin/productPage/AdminShowProducts';
 import AdminCreateCategory from './component/admin/categoryPage/AdminCreateCategory';
 import AdminGetCategoryAndUpdate from './component/admin/categoryPage/AdminGetCategoryAndUpdate';
+import AdminCreateProduct from './component/admin/productPage/AdminCreateProduct';
+import Page from './component/admin/ShowPage/Page';
 
 function App() {
   useEffect(() => {
@@ -46,6 +49,7 @@ function App() {
       store.dispatch(getMyProfileData());
     }
     store.dispatch(getAllCategories());
+    store.dispatch(adminGetAllProducts());
   });
 
   return (
@@ -81,7 +85,7 @@ function App() {
 
         {/* <Route exact path="/me" element={<MyProfile />} /> */}
         <Route exact path="/forgotpassword" element={<ForgotPassword />} />
-        <Route exact path="/product" element={<ProductDetails />} />
+        <Route exact path="/product/:productId" element={<ProductDetails />} />
         <Route path="/admin" element={<AdminDashboard />}>
           <Route path="" element={<DashHome />} />
           <Route path="user-list" element={<UserList />} />
@@ -93,10 +97,13 @@ function App() {
           <Route path="categories" element={<AdminCategory />} />
           <Route path="viewproducts" element={<AdminShowProducts />} />
           <Route path="create-category" element={<AdminCreateCategory />} />
+          <Route path="page" element={<Page />} />
           <Route
             path="categories/:categoryId"
             element={<AdminGetCategoryAndUpdate />}
           />
+
+          <Route path="create-product" element={<AdminCreateProduct />} />
         </Route>
         <Route element={<IfLoggedIn />}>
           <Route exact path="/me" element={<MyProfile />} />

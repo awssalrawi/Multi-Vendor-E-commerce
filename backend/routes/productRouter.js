@@ -2,10 +2,14 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 const shortid = require('shortid');
+
 const {
   createProduct,
   getAllProducts,
   getProductsBySlug,
+  deleteProductById,
+  updateProductById,
+  getProductDetailsById,
 } = require('../controllers/productController');
 const {
   restrictTo,
@@ -17,7 +21,6 @@ const storage = multer.diskStorage({
     cb(null, path.join(path.dirname(__dirname), 'uploads'));
   },
   filename: function (req, file, cb) {
-    //  const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
     cb(null, shortid.generate() + '-' + file.originalname);
   },
 });
@@ -27,14 +30,26 @@ router.post(
   '/products/create',
   isAuthenticatedUser,
   upload.fields([
-    { name: 'productPictures', maxCount: 5 },
-    { name: 'detailsPictures', maxCount: 5 },
+    { name: 'productPictures', maxCount: 8 },
+    { name: 'detailsPictures', maxCount: 8 },
     { name: 'cardPicture', maxCount: 1 },
   ]),
   createProduct
 );
-
 router.get('/products/get-all', isAuthenticatedUser, getAllProducts);
-router.get('/products/:slug', getProductsBySlug);
+router
+  .route('/products/:productId')
+  .delete(isAuthenticatedUser, deleteProductById)
+  .put(
+    isAuthenticatedUser,
+    upload.fields([
+      { name: 'productPictures', maxCount: 8 },
+      { name: 'detailsPictures', maxCount: 8 },
+      { name: 'cardPicture', maxCount: 1 },
+    ]),
+    updateProductById
+  )
+  .get(getProductDetailsById);
 
+router.get('/products/:slug', getProductsBySlug);
 module.exports = router;

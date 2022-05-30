@@ -5,6 +5,6 @@
 //   };
 // };
 module.exports = (func) => (req, res, next) => {
-  console.log('visited catchAsync function');
+  // console.log('visited catchAsync function');
   return Promise.resolve(func(req, res, next)).catch((err) => next(err));
 };

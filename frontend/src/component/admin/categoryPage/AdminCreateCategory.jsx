@@ -13,19 +13,14 @@ const AdminCreateCategory = () => {
   const [enterCategoryName, setEnterCategoryName] = useState('');
   const [parentCategoryId, setParentCategoryId] = useState('');
   const [categoryImage, setCategoryImage] = useState('');
+  const [categoryType, setCategoryType] = useState('');
   const [categoryImagePre, setCategoryImagePre] = useState(
     'https://brecke.com/wp-content/uploads/2017/06/no-image-icon-13.png'
   );
 
-  const { categories, error } = useSelector((state) => state.category);
+  const { categories } = useSelector((state) => state.category);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  useEffect(() => {
-    if (error) {
-      toast.error(error);
-      dispatch(clearErrors());
-    }
-  }, [dispatch, error]);
 
   const createCategoryList = (categories, options = []) => {
     for (let category of categories) {
@@ -55,14 +50,21 @@ const AdminCreateCategory = () => {
     form.append('name', enterCategoryName);
     form.append('parentId', parentCategoryId);
     form.append('categoryImage', categoryImage);
-    console.log(parentCategoryId);
-    dispatch(adminCreateCategory(form));
+    form.append('showType', categoryType);
 
-    setEnterCategoryName('');
+    const promise = dispatch(adminCreateCategory(form));
 
-    setParentCategoryId('');
-
-    navigate('/admin/categories');
+    toast
+      .promise(promise, {
+        loading: 'Loading',
+        success: 'Category Updated successfully',
+        error: 'Error happened',
+      })
+      .then(() => navigate('/admin/categories'))
+      .catch((error) => {
+        toast.error(error);
+        dispatch(clearErrors());
+      });
   };
   return (
     <div className="admin-create-category">
@@ -93,13 +95,29 @@ const AdminCreateCategory = () => {
             value={parentCategoryId}
             className="field-input"
           >
-            <option>Choose Parent Category</option>
+            <option value=" ">Choose Parent Category</option>
             {createCategoryList(categories) &&
               createCategoryList(categories).map((option) => (
                 <option value={option.value} key={option.value}>
                   {option.name}
                 </option>
               ))}
+          </select>
+        </div>
+        <div className="field_container">
+          <label htmlFor="cat-select-parent" className="field-label">
+            Select Type
+          </label>
+          <select
+            id="cat-select-parent"
+            value={categoryType}
+            onChange={(e) => setCategoryType(e.target.value)}
+            className="field-input"
+          >
+            <option value=""></option>
+            <option value="store">Store</option>
+            <option value="product">Product</option>
+            <option value="page">Page</option>
           </select>
         </div>
         <div className="field_container">

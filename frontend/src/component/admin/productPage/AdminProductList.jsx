@@ -1,11 +1,21 @@
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import { DataGrid } from '@material-ui/data-grid';
 import { DeleteOutline, Settings } from '@material-ui/icons';
 import { Link } from 'react-router-dom';
 import './styles/admin-products-list.scss';
+import { useSelector } from 'react-redux';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles({
+  root: {
+    '&.MuiDataGrid-root .MuiDataGrid-cell:focus': {
+      outline: 'none',
+    },
+  },
+});
 //!Trying Making it responsive
-import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
+// import { useTheme } from '@mui/material/styles';
+// import useMediaQuery from '@mui/material/useMediaQuery';
 
 //!Trying Making it responsive
 
@@ -140,12 +150,34 @@ const productRows = [
   },
 ];
 const AdminProductList = () => {
+  const classes = useStyles();
+
+  const productShow = (products) => {
+    let productRowList = [];
+    if (products?.length > 0) {
+      products.map((product) =>
+        productRowList.push({
+          id: product._id,
+          name: product.name,
+          image: product.cardPicture,
+          price: product.price,
+          quantity: product.quantity,
+          shop: product.shop.charAt(0).toUpperCase() + product.shop.slice(1),
+          ProdDetails: product,
+        })
+      );
+    }
+    return productRowList;
+  };
+
+  const { products } = useSelector((state) => state.productsManagement);
+
   //!Trying Making it responsive
-  const thame = useTheme();
-  console.log(thame);
-  const isMatch = useMediaQuery('960px');
-  console.log(isMatch);
-  const MyWidth = isMatch ? 100 : 200;
+  // const thame = useTheme();
+  // console.log(thame);
+  // const isMatch = useMediaQuery('960px');
+  // console.log(isMatch);
+  // const MyWidth = isMatch ? 100 : 200;
   //!Trying Making it responsive
 
   const [data, setData] = useState(productRows);
@@ -169,14 +201,14 @@ const AdminProductList = () => {
       // editable: true,
     },
     {
-      field: 'stock',
+      field: 'shop',
       headerName: 'Stock',
       width: 250,
       //  editable: true,
     },
     {
-      field: 'status',
-      headerName: 'Status',
+      field: 'quantity',
+      headerName: 'Quantity',
       //type: 'number',
       width: 120,
       //  editable: true,
@@ -191,16 +223,21 @@ const AdminProductList = () => {
     {
       field: 'action',
       headerName: 'Action',
-      width: 70,
+      width: 80,
       renderCell: (params) => (
         <div className="iconsDisplay">
-          <Link to={`/admin/product/${params.row.id}`} className="break-link">
+          <Link
+            to={`/admin/product/${params.row.id}`}
+            className="break-link"
+            state={params.row.ProdDetails}
+          >
             <Settings className="productEdit-icon" />
+            <DeleteOutline className="productDelete-icon" />
           </Link>
-          <DeleteOutline
+          {/* <DeleteOutline
             className="productDelete-icon"
             onClick={() => handleDelete(params.row.id)}
-          />
+          /> */}
         </div>
       ),
     },
@@ -211,12 +248,19 @@ const AdminProductList = () => {
   };
   return (
     <div className="adminproduct-table">
+      <div className="adminProdTitleAndBtn">
+        <h4 className="adminProdTitleAndBtn__title">Admin Products List</h4>
+        <Link to="/admin/create-product" className="adminProdTitleAndBtn__btn">
+          Create Product
+        </Link>
+      </div>
       <DataGrid
-        rows={data}
+        className={classes.root}
+        rows={productShow(products)}
         columns={columns}
-        pageSize={10}
-        checkboxSelection
-        disableSelectionOnClick
+        pageSize={25}
+        // checkboxSelection
+        disableColumnSelector={true}
         rowsPerPageOptions={[10, 25, 50, 100]}
       />
     </div>

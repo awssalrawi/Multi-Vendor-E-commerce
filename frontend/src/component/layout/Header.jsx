@@ -99,6 +99,7 @@ const Header = () => {
                   <Tooltip title="Account settings">
                     <IconButton
                       onClick={handleClick}
+                      // onMouseOver={handleClick}
                       size="small"
                       aria-controls={open ? 'account-menu' : undefined}
                       aria-haspopup="true"
@@ -124,8 +125,10 @@ const Header = () => {
                 <Menu
                   anchorEl={anchorEl}
                   id="account-menu"
-                  open={open}
+                  // open={open}
                   onClose={handleClose}
+                  open={Boolean(anchorEl)}
+                  MenuListProps={{ onMouseLeave: handleClose }}
                   onClick={handleClose}
                   PaperProps={{
                     elevation: 0,
@@ -152,8 +155,9 @@ const Header = () => {
                         width: 10,
                         height: 10,
                         bgcolor: 'background.paper',
-                        transform: 'translateY(-50%) rotate(45deg)',
+                        // transform: 'translateY(-50%) rotate(45deg)',
                         zIndex: 0,
+                        outline: 'none',
                       },
                     },
                   }}
@@ -167,18 +171,21 @@ const Header = () => {
                   }}
                 >
                   <MenuItem>
-                    <Link className="link" to="/me">
-                      <PersonOutlineOutlined /> My account
+                    <Link className="link centered-flex" to="/me">
+                      <ListItemIcon>
+                        <PersonOutlineOutlined fontSize="small" />
+                      </ListItemIcon>
+                      My account
                     </Link>
                   </MenuItem>
-                  <Divider />
+                  {/* <Divider /> */}
                   <MenuItem>
                     <ListItemIcon>
                       <LocalMallOutlined fontSize="small" />
                     </ListItemIcon>
                     My Cart
                   </MenuItem>
-                  <Divider />
+                  {/* <Divider /> */}
                   <MenuItem>
                     <Link className="link centered-flex" to="/admin">
                       <ListItemIcon>
@@ -187,7 +194,7 @@ const Header = () => {
                       Dashboard
                     </Link>
                   </MenuItem>
-                  <Divider />
+                  {/* <Divider /> */}
                   <MenuItem>
                     <Link
                       className="link centered-flex"
@@ -196,7 +203,7 @@ const Header = () => {
                     >
                       <ListItemIcon>
                         <Logout fontSize="small" />
-                      </ListItemIcon>
+                      </ListItemIcon>{' '}
                       Logout
                     </Link>
                   </MenuItem>

@@ -11,8 +11,8 @@ const categorySchema = new mongoose.Schema(
       type: String,
       unique: true,
     },
-    showType: { type: String },
-    parentId: { type: String },
+    showType: { type: String, default: 'product' },
+    parentId: { type: String, default: '' },
     categoryImage: { type: String },
   },
 

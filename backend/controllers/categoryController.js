@@ -1,12 +1,20 @@
 const Category = require('./../models/categoryModel');
 const catchAsync = require('../utilities/catchAsync');
 const AppError = require('./../utilities/appError');
+
+const { promisify } = require('util');
+const {
+  deleteImagesFromStorage,
+  deleteSingleImageFromStorage,
+  takeUrlFormImageFiles,
+} = require('../utilities/assestFunctions');
+
 //* nested categories
 function createCategories(categories, parentId = null) {
   const categoryList = [];
   let category;
   if (!parentId) {
-    category = categories.filter((cat) => cat.parentId == undefined);
+    category = categories.filter((cat) => cat.parentId == '');
   } else {
     category = categories.filter((cat) => cat.parentId == parentId);
   }
@@ -20,6 +28,7 @@ function createCategories(categories, parentId = null) {
       parentId: cate.parentId,
       categoryImage,
       slug: cate.slug,
+      showType: cate.showType,
       children: createCategories(categories, cate._id),
     });
   }
@@ -34,10 +43,14 @@ exports.createCategory = catchAsync(async (req, res, next) => {
 
   if (req.file) {
     categoryObj.categoryImage = `${process.env.SERVER_API}/public/${req.file.filename}`;
+    //categoryObj.categoryImage = req.file.filename;
   }
 
   if (req.body.parentId) {
     categoryObj.parentId = req.body.parentId;
+  }
+  if (req.body.showType) {
+    categoryObj.showType = req.body.showType;
   }
   console.log('Iam here');
   const category = await Category.create(categoryObj);
@@ -73,8 +86,17 @@ exports.getCategoryById = catchAsync(async (req, res, next) => {
 //* delete category by admin  /api/v1/categories/:categoryId
 exports.deleteCategoryById = catchAsync(async (req, res, next) => {
   const doc = await Category.findByIdAndDelete(req.params.categoryId);
+  console.log('Document', doc);
   if (!doc) {
     return next(new AppError('No document found with that id', 404));
+  }
+
+  if (doc.categoryImage) {
+    // const ImageName = doc.categoryImage.split('/public/')[1];
+    // const existPath = path.join(__dirname, `../uploads/${ImageName}`);
+
+    // await rm(existPath);
+    deleteSingleImageFromStorage(doc.categoryImage);
   }
 
   res.status(204).json({
@@ -84,21 +106,33 @@ exports.deleteCategoryById = catchAsync(async (req, res, next) => {
 
 exports.updateCategory = catchAsync(async (req, res, next) => {
   const id = req.params.categoryId;
+  console.log(req.body);
   const update = {};
   if (req.body.name) {
     update.name = req.body.name;
     update.slug = req.body.name.toLowerCase();
   }
   if (req.body.parentId) {
-    update.parentId = req.body.parentId;
-  } else {
+    if (req.body.parentId === 'Main Category') {
+      update.parentId = '';
+    } else {
+      update.parentId = req.body.parentId;
+    }
   }
 
   if (req.file) {
+    const imageWillDelete = await Category.findById(id);
+    if (imageWillDelete.categoryImage) {
+      deleteSingleImageFromStorage(imageWillDelete.categoryImage);
+    }
+
     update.categoryImage = `${process.env.SERVER_API}/public/${req.file.filename}`;
   }
 
-  console.log('update', update);
+  if (req.body.showType) {
+    update.showType = req.body.showType;
+  }
+
   const category = await Category.findByIdAndUpdate(
     req.params.categoryId,
     {

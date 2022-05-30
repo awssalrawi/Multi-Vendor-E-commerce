@@ -12,9 +12,11 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const adminRouter = require('./routes/adminRouter');
 const shopRouter = require('./routes/shopRouter');
+
 env.config({ path: 'backend/.env' });
 app.use(express.json());
 app.use(bodyParser.json());
+
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use(cookieParser());
 const path = require('path'); //*to be able to find ve main path

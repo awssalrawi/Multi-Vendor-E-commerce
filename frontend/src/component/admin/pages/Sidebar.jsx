@@ -93,12 +93,12 @@ const Sidebar = () => {
               </li>
               <li className="sidebarListItem">
                 <Link
-                  to="/admin/product"
+                  to="/admin/page"
                   className="page-side-link"
                   onClick={() => handleActive(5)}
                 >
                   <AttachMoney className="sidebarIcon" />
-                  Transactions
+                  Page
                 </Link>
               </li>
               <li className="sidebarListItem">

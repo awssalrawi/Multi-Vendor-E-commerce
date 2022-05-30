@@ -10,6 +10,7 @@ const ShopSchema = new mongoose.Schema(
     slug: {
       type: String,
       unique: [true, 'This name already used. Please choose a different name'],
+      trim: true,
     },
     description: {
       type: String,

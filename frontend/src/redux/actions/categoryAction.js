@@ -51,10 +51,7 @@ export const adminCreateCategory = (form) => async (dispatch) => {
       form,
       config
     );
-    dispatch({
-      type: ADMIN_CREATE_CATEGORY_SUCCESS,
-      payload: { category: data.category },
-    });
+    dispatch({ type: ADMIN_CREATE_CATEGORY_SUCCESS, payload: data.category });
   } catch (error) {
     console.log(error);
     dispatch({
