@@ -180,3 +180,35 @@
     }
   }
 }
+.require {
+  color: #c83131;
+}
+
+//* for sub products
+.subprodLabel {
+  font-size: 10px;
+  display: block;
+}
+.subprodInput {
+  padding: 5px;
+  background-color: inherit;
+  border: 1px solid #777;
+  border-radius: 5px;
+  margin-right: 5px;
+}
+.subProdModel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  border-bottom: 1px solid #000;
+}
+.subPorductInputContainer {
+  display: flex;
+  flex-direction: column;
+}
+.subPorductImage {
+  width: 50px;
+  height: 50px;
+  object-fit: content;
+}

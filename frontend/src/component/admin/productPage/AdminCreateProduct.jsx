@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 
 import './styles/admin-get-product.scss';
 import 'react-photo-view/dist/react-photo-view.css';
@@ -11,9 +11,24 @@ import {
   clearErrors,
 } from '../../../redux/actions/productAction';
 import { useNavigate } from 'react-router-dom';
-//*imported from product details
+import { TextField, IconButton, Icon, Button } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import { Add, Remove } from '@material-ui/icons';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& MuiTextField.root': {
+      margin: theme.spacing(1),
+      height: '10px',
+    },
+  },
+  button: {
+    margin: theme.spacing(1),
+  },
+}));
 
 const AdminCreateProduct = () => {
+  const classes = useStyles();
   //*Declare variables
   const [cardImage, setCardImage] = useState('');
   const [cardImagePreview, setCardImagePreview] = useState('');
@@ -29,6 +44,11 @@ const AdminCreateProduct = () => {
   const [productDetailPictures, setProductDetailPictures] = useState([]);
   const [productDetailPicturesPreview, setProductDetailPicturesPreview] =
     useState([]);
+
+  const [subProducts, setSubProducts] = useState({
+    subName: '',
+    model: [{ name: '', subNumInStock: 0, subPrice: price }],
+  });
 
   const { categories } = useSelector((state) => state.category);
   const { loading, error } = useSelector((state) => state.productsManagement);
@@ -46,12 +66,12 @@ const AdminCreateProduct = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  useEffect(() => {
-    if (error) {
-      toast.error(error);
-      dispatch(clearErrors());
-    }
-  }, [dispatch, error]);
+  // useEffect(() => {
+  //   if (error) {
+  //     toast.error(error);
+  //     dispatch(clearErrors());
+  //   }
+  // }, []);
 
   //*functions for update
   const handleDeleteImage = () => {
@@ -170,14 +190,29 @@ const AdminCreateProduct = () => {
         form.append('detailsPictures', image);
       });
     }
+    if (subProducts.subName) {
+      if (subProducts.model.length <= 1)
+        return toast.error(
+          'Sub Product Name must be at least 2 item Please delete it if there not'
+        );
+      subProducts.model.forEach((item) => {
+        // Object.values(item).forEach((key) => console.log(key));
+        console.log(item);
+        if (!item.name || !item.subNumInStock || !item.subPrice)
+          return toast.error('Please Enter the Sub Product field correctly');
+      });
 
+      form.append('subProducts', JSON.stringify(subProducts));
+    }
+
+    //console.log(JSON.stringify(subProducts));
     const promise = dispatch(adminCreateProduct(form));
 
     toast
       .promise(promise, {
         loading: 'Loading',
-        success: 'Product created successfully',
-        error: 'Error happened',
+        // success: 'Product created successfully',
+        // error: 'Error happened',
       })
       .then(() => navigate('/admin/product'))
       .catch((error) => toast.error(error));
@@ -185,6 +220,49 @@ const AdminCreateProduct = () => {
     //*Create form data and set content inside
   };
   //*functions for update
+
+  //*Sub Product
+  const handleSubProductName = (e) => {
+    const values = { ...subProducts };
+    values.subName = e.target.value;
+    setSubProducts(values);
+  };
+  const handleModelChangeName = (i, e) => {
+    const values = { ...subProducts };
+    values.model[i].name = e.target.value;
+    setSubProducts(values);
+  };
+  const handleModelChangeNumStok = (i, e) => {
+    const values = { ...subProducts };
+    values.model[i].subNumInStock = e.target.value;
+    setSubProducts(values);
+  };
+  const handleModelChangeSubPrice = (i, e) => {
+    const values = { ...subProducts };
+    values.model[i].subPrice = e.target.value;
+    setSubProducts(values);
+  };
+
+  const handleAddNewModelInSubProduct = (subProducts) => {
+    subProducts.model = [
+      ...subProducts.model,
+      { name: '', subNumInStock: '', subPrice: price },
+    ];
+
+    setSubProducts({ ...subProducts });
+  };
+  const handleRemoveNewModelInSubProduct = (subProducts, subindex) => {
+    const removedModel = subProducts.model.splice(subindex, 1);
+    const newMod = subProducts.model.filter((obj) => obj !== removedModel);
+
+    const update = {};
+    update.subName = subProducts.subName;
+    update.model = newMod;
+
+    setSubProducts(update);
+  };
+
+  //*Sub Product
   return (
     <div className="agp-body">
       <form
@@ -192,7 +270,7 @@ const AdminCreateProduct = () => {
         onSubmit={handleProductInfoAndSubmit}
         encType="multipart/form-data"
       >
-        <span className="agp-exists__header">Product Update</span>
+        <span className="agp-exists__header">New Product</span>
         <div className="content-container">
           <img
             src={
@@ -284,7 +362,10 @@ const AdminCreateProduct = () => {
           </select>
         </div>
         <div className="content-container">
-          <label htmlFor="agp-description" className="content-container__label">
+          <label
+            htmlFor="agp-description"
+            className="content-container__label require"
+          >
             Description
           </label>
           <textarea
@@ -328,6 +409,103 @@ const AdminCreateProduct = () => {
             value={specifications}
             onChange={(e) => setSpecifications(e.target.value)}
           ></textarea>
+        </div>
+        <div className="content-container">
+          <span className="content-container__label">
+            Sub Product (if there or leave empty)
+          </span>
+          <div>
+            <div
+              style={{
+                padding: '8px',
+                border: '1px solid black',
+                marginBottom: '2px',
+              }}
+            >
+              <label htmlFor={`sub-prod-subname`} className="subprodLabel">
+                Name of Sub Product like color or size
+              </label>
+              <input
+                className="subprodInput"
+                placeholder="ex:Size,Color"
+                id={`sub-prod-subname`}
+                type="text"
+                value={subProducts.subName}
+                onChange={(e) => handleSubProductName(e)}
+              />
+              <IconButton
+                onClick={() => handleAddNewModelInSubProduct(subProducts)}
+                style={{
+                  display: 'block',
+                }}
+              >
+                <Add />
+              </IconButton>
+              <div>
+                {subProducts.model.map((col, i) => (
+                  <Fragment key={i}>
+                    <div className="subProdModel">
+                      <div className="subPorductInputContainer">
+                        <label
+                          htmlFor={`sub-prod-mod-name${i}-s`}
+                          className="subprodLabel"
+                        >
+                          Specific Name
+                        </label>
+                        <input
+                          id={`sub-prod-mod-name${i}-s`}
+                          name="name"
+                          className="subprodInput"
+                          type="text"
+                          value={col.name}
+                          onChange={(e) => handleModelChangeName(i, e)}
+                        />
+                      </div>
+                      <div className="subPorductInputContainer">
+                        <label
+                          htmlFor={`sub-prod-mod-stock${i}-s`}
+                          className="subprodLabel"
+                        >
+                          Product in Stock
+                        </label>
+                        <input
+                          id={`sub-prod-mod-stock${i}-s`}
+                          name="subNumInStock"
+                          className="subprodInput"
+                          type="number"
+                          value={col.subNumInStock}
+                          onChange={(e) => handleModelChangeNumStok(i, e)}
+                        />
+                      </div>
+
+                      <div className="subPorductInputContainer">
+                        <label
+                          htmlFor={`sub-prod-mod-price${i}-s`}
+                          className="subprodLabel"
+                        >
+                          Price if different
+                        </label>
+                        <input
+                          id={`sub-prod-mod-price${i}-s`}
+                          type="number"
+                          value={col.subPrice}
+                          className="subprodInput"
+                          onChange={(e) => handleModelChangeSubPrice(i, e)}
+                        />
+                      </div>
+                      <IconButton
+                        onClick={() =>
+                          handleRemoveNewModelInSubProduct(subProducts, i)
+                        }
+                      >
+                        <Remove />
+                      </IconButton>
+                    </div>
+                  </Fragment>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="content-container">

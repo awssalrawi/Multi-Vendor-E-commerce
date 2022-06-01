@@ -68,6 +68,16 @@ const productSchema = new mongoose.Schema(
         inStockCount: Number,
       },
     ],
+    subProducts: {
+      subName: String,
+      model: [
+        {
+          name: String,
+          subNumInStock: String,
+          subPrice: Number,
+        },
+      ],
+    },
   },
 
   { timestamps: true }

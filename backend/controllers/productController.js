@@ -12,8 +12,9 @@ const {
 
 //* create new product   /api/v1/products/create
 exports.createProduct = catchAsync(async (req, res, next) => {
+  console.log('subProducts', req.body);
   const { name, price, description, category, quantity } = req.body;
-
+  let subProducts = {};
   let productPictures = [];
   let detailsPictures = [];
   let cardPicture;
@@ -49,6 +50,15 @@ exports.createProduct = catchAsync(async (req, res, next) => {
   if (req.files.detailsPictures?.length > 0) {
     detailsPictures = takeUrlFormImageFiles(req.files.detailsPictures);
   }
+  if (req.body.subProducts) {
+    subProducts = JSON.parse(req.body.subProducts);
+    subProducts.model.forEach((item) => {
+      if (!item.name || !item.subNumInStock || !item.subPrice)
+        return next(
+          new AppError('Enter Sub Product Correctly or delete it', 400)
+        );
+    });
+  }
 
   cardPicture = `${process.env.SERVER_API}/public/${req.files.cardPicture[0].filename}`;
   const shop = await Shop.findOne({ owner: req.user._id });
@@ -64,6 +74,7 @@ exports.createProduct = catchAsync(async (req, res, next) => {
     detailsPictures,
     category,
     quantity,
+    subProducts,
     shop: shop.slug,
   });
 

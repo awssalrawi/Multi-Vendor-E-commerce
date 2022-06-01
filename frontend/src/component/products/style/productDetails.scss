@@ -62,15 +62,16 @@
       // }
 
       .img_containerWithSlick {
-        display: none;
-        @media (max-width: 900px) {
-          display: block;
+        // display: none;
+        // @media (max-width: 900px) {
+        display: block;
+        max-width: 30rem;
+        width: 100%;
+        .slickImages {
+          height: auto;
           width: 100%;
-          .slickImages {
-            height: auto;
-            width: 100%;
-          }
         }
+        // }
       }
     }
     .info-part {

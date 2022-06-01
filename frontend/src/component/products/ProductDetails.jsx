@@ -90,7 +90,7 @@ const ProductDetails = () => {
   console.log(Object.keys(product).length);
 
   const featureSetting = {
-    dots: false,
+    dots: true,
     infinite: true,
     slidesToShow: 1,
     slidesToScroll: 1,
@@ -114,13 +114,13 @@ const ProductDetails = () => {
                 {/* <div className="imgs__container-withswiper">
                   <ProductImagesSlider images={product.productPictures} />
                 </div> */}
-                <div className="verticalImageStack">
+                {/* <div className="verticalImageStack">
                   {product.productPictures.map((item, index) => (
                     <div className="thumbnail" key={index}>
                       <img src={item.img} alt="Product" />
                     </div>
                   ))}
-                </div>
+                </div> */}
                 <div className="img_containerWithSlick">
                   <Slider {...featureSetting}>
                     {product.productPictures &&
