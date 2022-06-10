@@ -11,24 +11,24 @@ import {
   clearErrors,
 } from '../../../redux/actions/productAction';
 import { useNavigate } from 'react-router-dom';
-import { TextField, IconButton, Icon, Button } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { IconButton } from '@material-ui/core';
+//import { makeStyles } from '@material-ui/core/styles';
 import { Add, Remove } from '@material-ui/icons';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    '& MuiTextField.root': {
-      margin: theme.spacing(1),
-      height: '10px',
-    },
-  },
-  button: {
-    margin: theme.spacing(1),
-  },
-}));
+// const useStyles = makeStyles((theme) => ({
+//   root: {
+//     '& MuiTextField.root': {
+//       margin: theme.spacing(1),
+//       height: '10px',
+//     },
+//   },
+//   button: {
+//     margin: theme.spacing(1),
+//   },
+// }));
 
 const AdminCreateProduct = () => {
-  const classes = useStyles();
+  // const classes = useStyles();
   //*Declare variables
   const [cardImage, setCardImage] = useState('');
   const [cardImagePreview, setCardImagePreview] = useState('');
@@ -66,12 +66,12 @@ const AdminCreateProduct = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // useEffect(() => {
-  //   if (error) {
-  //     toast.error(error);
-  //     dispatch(clearErrors());
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+      dispatch(clearErrors());
+    }
+  }, [dispatch, error]);
 
   //*functions for update
   const handleDeleteImage = () => {

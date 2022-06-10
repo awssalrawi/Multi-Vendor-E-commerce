@@ -42,6 +42,7 @@ import AdminCreateCategory from './component/admin/categoryPage/AdminCreateCateg
 import AdminGetCategoryAndUpdate from './component/admin/categoryPage/AdminGetCategoryAndUpdate';
 import AdminCreateProduct from './component/admin/productPage/AdminCreateProduct';
 import Page from './component/admin/ShowPage/Page';
+import CartPage from './component/cart/CartPage';
 
 function App() {
   useEffect(() => {
@@ -81,6 +82,7 @@ function App() {
         <Route path="/categories" element={<Categories />} />
         <Route path="/:slug" element={<ProductsListPage />} />
         <Route path="/test" element={<CategoryShow />} />
+        <Route path="/cart" element={<CartPage />} />
         {/* <Route path="/admin/dashboard" element={<AdminDashboard />} /> */}
 
         {/* <Route exact path="/me" element={<MyProfile />} /> */}

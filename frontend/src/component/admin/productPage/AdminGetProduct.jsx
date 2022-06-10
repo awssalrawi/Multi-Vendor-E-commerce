@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import './styles/admin-get-product.scss';
 import 'react-photo-view/dist/react-photo-view.css';
 import { PhotoProvider, PhotoView } from 'react-photo-view';
 import { ArrowBack, Backup, HighlightOff } from '@material-ui/icons';
 import { toast } from 'react-toastify';
+import { IconButton } from '@material-ui/core';
+import { Add, Remove } from '@material-ui/icons';
 import {
-  clearErrors,
   adminDeleteProductById,
   adminUpdateProductById,
 } from '../../../redux/actions/productAction';
@@ -34,7 +35,10 @@ const AdminGetProduct = () => {
   const [productDetailPictures, setProductDetailPictures] = useState([]);
   const [productDetailPicturesPreview, setProductDetailPicturesPreview] =
     useState([]);
-
+  const [subProducts, setSubProducts] = useState({
+    subName: '',
+    model: [{ name: '', subNumInStock: 0, subPrice: price }],
+  });
   //*Declare variables
 
   //*functions for update
@@ -184,6 +188,49 @@ const AdminGetProduct = () => {
       .then(() => navigate('/admin/product'));
   };
 
+  //*Sub Product
+  const handleSubProductName = (e) => {
+    const values = { ...subProducts };
+    values.subName = e.target.value;
+    setSubProducts(values);
+  };
+  const handleModelChangeName = (i, e) => {
+    const values = { ...subProducts };
+    values.model[i].name = e.target.value;
+    setSubProducts(values);
+  };
+  const handleModelChangeNumStok = (i, e) => {
+    const values = { ...subProducts };
+    values.model[i].subNumInStock = e.target.value;
+    setSubProducts(values);
+  };
+  const handleModelChangeSubPrice = (i, e) => {
+    const values = { ...subProducts };
+    values.model[i].subPrice = e.target.value;
+    setSubProducts(values);
+  };
+
+  const handleAddNewModelInSubProduct = (subProducts) => {
+    subProducts.model = [
+      ...subProducts.model,
+      { name: '', subNumInStock: '', subPrice: price },
+    ];
+
+    setSubProducts({ ...subProducts });
+  };
+  const handleRemoveNewModelInSubProduct = (subProducts, subindex) => {
+    const removedModel = subProducts.model.splice(subindex, 1);
+    const newMod = subProducts.model.filter((obj) => obj !== removedModel);
+
+    const update = {};
+    update.subName = subProducts.subName;
+    update.model = newMod;
+
+    setSubProducts(update);
+  };
+
+  //*Sub Product
+
   return (
     <div className="agp-body">
       <ArrowBack onClick={() => navigate(-1)} />
@@ -208,7 +255,7 @@ const AdminGetProduct = () => {
         <div className="content-container">
           <TextDetail header="Description" content={product.description} />
         </div>
-        {product.availableSpecific && (
+        {Object.keys(product.subProducts).length !== 0 && (
           <div className="content-container">
             <span className="content-container__general-header">
               available Items
@@ -219,12 +266,14 @@ const AdminGetProduct = () => {
                   <th className="av-th">N</th>
                   <th className="av-th">Option</th>
                   <th className="av-th">Count in stock</th>
+                  <th className="av-th">Price</th>
                 </tr>
-                {product.availableSpecific.map((item, index) => (
+                {product.subProducts.model.map((item, index) => (
                   <tr className="availableSpecific__body-tr" key={index}>
                     <td className="av-td">{index + 1}</td>
-                    <td className="av-td">{item.option}</td>
-                    <td className="av-td">{item.inStockCount}</td>
+                    <td className="av-td">{item.name}</td>
+                    <td className="av-td">{item.subNumInStock}</td>
+                    <td className="av-td">{item.subPrice}</td>
                   </tr>
                 ))}
               </tbody>
@@ -438,6 +487,103 @@ const AdminGetProduct = () => {
             value={availableSpecific}
             onChange={(e) => setAvailableSpecific(e.target.value)}
           ></textarea>
+        </div>
+        <div className="content-container">
+          <span className="content-container__label">
+            Sub Product (if there or leave empty)
+          </span>
+          <div>
+            <div
+              style={{
+                padding: '8px',
+                border: '1px solid black',
+                marginBottom: '2px',
+              }}
+            >
+              <label htmlFor={`sub-prod-subname`} className="subprodLabel">
+                Name of Sub Product like color or size
+              </label>
+              <input
+                className="subprodInput"
+                placeholder="ex:Size,Color"
+                id={`sub-prod-subname`}
+                type="text"
+                value={subProducts.subName}
+                onChange={(e) => handleSubProductName(e)}
+              />
+              <IconButton
+                onClick={() => handleAddNewModelInSubProduct(subProducts)}
+                style={{
+                  display: 'block',
+                }}
+              >
+                <Add />
+              </IconButton>
+              <div>
+                {subProducts.model.map((col, i) => (
+                  <Fragment key={i}>
+                    <div className="subProdModel">
+                      <div className="subPorductInputContainer">
+                        <label
+                          htmlFor={`sub-prod-mod-name${i}-s`}
+                          className="subprodLabel"
+                        >
+                          Specific Name
+                        </label>
+                        <input
+                          id={`sub-prod-mod-name${i}-s`}
+                          name="name"
+                          className="subprodInput"
+                          type="text"
+                          value={col.name}
+                          onChange={(e) => handleModelChangeName(i, e)}
+                        />
+                      </div>
+                      <div className="subPorductInputContainer">
+                        <label
+                          htmlFor={`sub-prod-mod-stock${i}-s`}
+                          className="subprodLabel"
+                        >
+                          Product in Stock
+                        </label>
+                        <input
+                          id={`sub-prod-mod-stock${i}-s`}
+                          name="subNumInStock"
+                          className="subprodInput"
+                          type="number"
+                          value={col.subNumInStock}
+                          onChange={(e) => handleModelChangeNumStok(i, e)}
+                        />
+                      </div>
+
+                      <div className="subPorductInputContainer">
+                        <label
+                          htmlFor={`sub-prod-mod-price${i}-s`}
+                          className="subprodLabel"
+                        >
+                          Price if different
+                        </label>
+                        <input
+                          id={`sub-prod-mod-price${i}-s`}
+                          type="number"
+                          value={col.subPrice}
+                          className="subprodInput"
+                          onChange={(e) => handleModelChangeSubPrice(i, e)}
+                        />
+                      </div>
+                      <IconButton
+                        onClick={() =>
+                          handleRemoveNewModelInSubProduct(subProducts, i)
+                        }
+                      >
+                        <Remove />
+                      </IconButton>
+                    </div>
+                  </Fragment>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="content-container">

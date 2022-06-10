@@ -1,4 +1,4 @@
-import { combineReducers } from 'redux';
+import { combineReducers, createStore } from 'redux';
 import { configureStore } from '@reduxjs/toolkit';
 //import { thunk } from "redux-thunk";
 //import { composeWithDevTools } from "redux-devtools-extension";
@@ -12,6 +12,8 @@ import {
   productsManagementReducer,
   cusProductsReducer,
 } from './reducers/productReducer';
+
+import { cartReducer } from './reducers/cartReducer';
 const reducer = combineReducers({
   auth: authReducer,
   category: categoryReducer,
@@ -19,6 +21,7 @@ const reducer = combineReducers({
   categoryConfig: categoryConfigReducer,
   cusProducts: cusProductsReducer,
   productsManagement: productsManagementReducer,
+  cart: cartReducer,
 });
 
 //const middleware = [thunk];

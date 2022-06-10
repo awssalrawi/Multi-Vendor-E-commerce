@@ -25,11 +25,11 @@ import {
   PersonOutlineOutlined,
 } from '@mui/icons-material';
 
-// import {} from "@material-ui/icons"
-
 const Header = () => {
   const { loading, user, isAuthenticated } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+
+  const { cartItems } = useSelector((state) => state.cart);
 
   const logoutHandler = () => {
     // dispatch(userLoggedOut);
@@ -68,10 +68,12 @@ const Header = () => {
           </button>
         </form>
         <nav className="user-nav" id="user-nav">
-          <div className="user-nav__icon-box">
+          <Link className="user-nav__icon-box" to="/cart">
             <CartIcon className="cart-icon" />
-            <span className="cart-notification">15</span>
-          </div>
+            <span className="cart-notification">
+              {cartItems && cartItems.length}
+            </span>
+          </Link>
           {!isAuthenticated || !user || loading ? (
             <Fragment>
               <Link to="/login" className="user-nav__login-shape">
@@ -218,7 +220,7 @@ const Header = () => {
         </nav>
       </div>
 
-      <PhoneFooterNav user={user} />
+      <PhoneFooterNav user={user} cartItems={cartItems} />
       {/* <nav className="phone-footer-nav" id="phone-footer-nav">
         <div className="phone-footer-nav__icon-box">
           <i className="fa-solid fa-house phone-footer-nav__icon"></i>

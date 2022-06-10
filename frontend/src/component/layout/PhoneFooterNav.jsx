@@ -8,7 +8,7 @@ import {
   ShoppingBasketOutlined,
   StorefrontOutlined,
 } from '@material-ui/icons';
-const PhoneFooterNav = ({ user }) => {
+const PhoneFooterNav = ({ user, cartItems }) => {
   return (
     <nav className="phone-footer-nav" id="phone-footer-nav">
       <Link to="/" className="phone-footer-nav__icon-box">
@@ -17,9 +17,11 @@ const PhoneFooterNav = ({ user }) => {
       <Link to="#" className="phone-footer-nav__icon-box">
         <StorefrontOutlined className="phone-footer-nav__icon" />
       </Link>
-      <Link to="#" className="phone-footer-nav__icon-box item-number">
+      <Link to="/cart" className="phone-footer-nav__icon-box item-number">
         <ShoppingBasketOutlined className="phone-footer-nav__icon" />
-        <span className="item-number__style">14</span>
+        <span className="item-number__style">
+          {cartItems && cartItems.length}
+        </span>
       </Link>
 
       {user ? (
