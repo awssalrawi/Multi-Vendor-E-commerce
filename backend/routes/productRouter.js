@@ -36,7 +36,7 @@ router.post(
   ]),
   createProduct
 );
-router.get('/products/get-all', isAuthenticatedUser, getAllProducts);
+router.get('/products/get-all', getAllProducts);
 router
   .route('/products/:productId')
   .delete(isAuthenticatedUser, deleteProductById)

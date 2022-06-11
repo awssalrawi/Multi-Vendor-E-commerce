@@ -43,15 +43,23 @@ import AdminGetCategoryAndUpdate from './component/admin/categoryPage/AdminGetCa
 import AdminCreateProduct from './component/admin/productPage/AdminCreateProduct';
 import Page from './component/admin/ShowPage/Page';
 import CartPage from './component/cart/CartPage';
+import { useSelector } from 'react-redux';
+import { updateCart } from './redux/actions/cartAction';
 
 function App() {
+  const { isAuthenticated } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    store.dispatch(updateCart());
+  }, [isAuthenticated]);
+
   useEffect(() => {
     if (localStorage.getItem('authTokenReload')) {
       store.dispatch(getMyProfileData());
     }
     store.dispatch(getAllCategories());
     store.dispatch(adminGetAllProducts());
-  });
+  }, []);
 
   return (
     <Router>

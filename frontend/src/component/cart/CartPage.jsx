@@ -1,11 +1,10 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import './cart-page.scss';
 import { Link } from 'react-router-dom';
 import { IconButton } from '@material-ui/core';
 //import { makeStyles } from '@material-ui/core/styles';
 import {
   Add,
-  ArrowRightOutlined,
   DeleteOutline,
   OpenInNewOutlined,
   RemoveRounded,
@@ -15,7 +14,9 @@ import {
   removeItemToCart,
   addItemToCart,
   decreaseQtyFormCart,
+  getMyCartItems,
 } from '../../redux/actions/cartAction';
+
 import ButtonMat from '../../generalComponent/ButtonMat';
 const dimi = [
   {
@@ -84,27 +85,26 @@ const dimi = [
 ];
 
 const CartPage = () => {
-  //*Model
-  const [open, setOpen] = useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-  //*Model
-
   const dispatch = useDispatch();
-  const { cartItems } = useSelector((state) => state.cart);
+  const cart = useSelector((state) => state.cart);
+  const { isAuthenticated } = useSelector((state) => state.auth);
+  const [cartItems, setCartItems] = useState(cart.cartItems);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      dispatch(getMyCartItems());
+    }
+  }, [isAuthenticated]);
+  useEffect(() => {
+    setCartItems(cart.cartItems);
+  }, [cart.cartItems]);
 
   const removeItem = (item) => {
     dispatch(removeItemToCart(item));
   };
 
   const increaseQty = (item) => {
-    if (item.cartQuant > item.inStock) return;
+    if (item.cartQuant >= item.inStock) return;
     console.log('items', item.cartQuant > item.inStock);
     dispatch(addItemToCart(item));
   };
@@ -137,7 +137,7 @@ const CartPage = () => {
 
   const catTotalDiscount = (cartItems) => {
     let discount;
-    if (cartItems.length > 1) {
+    if (cartItems.length > 0) {
       discount =
         (cartItems.reduce((acc, item) => acc + item.cartQuant * 1, 0) - 1) * 20;
     } else {
