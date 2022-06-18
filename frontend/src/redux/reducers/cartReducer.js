@@ -4,6 +4,8 @@ import {
   DECREASE_QTY,
   GET_CART_ITEMS_DB,
   GET_CART_ITEMS_LOCAL,
+  CURR_SUCCESS,
+  CURR_FAIL,
 } from '../constants/cartConstant';
 
 // let initialState = {

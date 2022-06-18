@@ -143,9 +143,11 @@ const ProductDetails = () => {
     } else {
       const { cardPicture, quantity, price } = product;
       item.image = cardPicture;
-      item.price = price;
+      item.price = product.priceAfterDiscount
+        ? product.priceAfterDiscount
+        : price;
       item.inStock = quantity;
-      console.log('ıtem', item);
+      console.log('ıtem', product);
     }
 
     dispatch(addItemToCart(item));

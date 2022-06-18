@@ -8,6 +8,18 @@ const PhoneHeaderHome = () => {
         <Link to="/" className="text-decoration-none">
           <img src="/logo.png" alt="logo" className="headerPhone-logo" />
         </Link>
+        <div className="currency-select-container">
+          <select name="currency" id="currency">
+            <option value="">USD</option>
+            <option value="">IQD</option>
+          </select>
+
+          <select name="language" id="language" className="language">
+            <option value="">عربي</option>
+            <option value="">Türkçe</option>
+            <option value="">English</option>
+          </select>
+        </div>
         <form action="#" className="headerPhone-form">
           <input
             type="text"

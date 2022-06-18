@@ -1,0 +1,260 @@
+@use '../../../sass/abstracts/' as *;
+
+.user-address {
+  width: 100%;
+  // background-color: rgb(255, 255, 255);
+
+  display: flex;
+  //border: 1px solid #555;
+  flex-direction: column;
+  margin: 1rem 0;
+  .container-address-button {
+    display: flex;
+    flex-direction: column;
+
+    .address-box {
+      margin-top: 5px;
+      display: flex;
+      align-items: center;
+
+      .coa-deliver-here {
+        opacity: 0;
+        padding: 0.2rem;
+        border: 1px solid #555;
+        background-color: rgb(190, 220, 249);
+        font-size: 0.7rem;
+        font-weight: 500;
+        margin: 0 0.3rem;
+        border-radius: 5px;
+      }
+      .coa-opacity-deliver {
+        opacity: 1 !important;
+      }
+      .address-container {
+        width: 70%;
+
+        padding: 1rem;
+        border: 1px solid #555;
+        border-radius: 10px;
+        background-color: #f4f4f455;
+        display: flex;
+        color: #555;
+        flex-direction: column;
+        font-weight: 500;
+        cursor: pointer;
+        .address-content {
+          display: flex;
+
+          flex-direction: column;
+          .coc-contact {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            .ucc-icon {
+              font-size: 1.5rem;
+
+              margin-right: 0.5rem;
+            }
+
+            .ucc-txt {
+              font-size: $subTextSize;
+            }
+          }
+        }
+        // .address-info {
+        //   width: 80%;
+        //   margin-top: 0.5rem;
+        //   .coa-address {
+        //     font-size: $subTextSize;
+        //     font-weight: 500;
+        //     max-width: 50%;
+        //   }
+        // }
+      }
+      // .address-radio {
+      //   height: 25px;
+      //   width: 25px;
+      //   accent-color: #318541;
+      //   margin: 0 0.5rem;
+      // }
+    }
+
+    .aaf-add-btn {
+      max-width: 14rem;
+      background-color: orange;
+      margin: 1rem 0;
+    }
+  }
+
+  .add-address {
+    margin: 0.5rem 0;
+
+    // .add-address-form {
+    //   display: flex;
+    //   flex-direction: column;
+    //   .aaf-from-container {
+    //     margin: 0.5rem 0;
+    //     display: flex;
+    //     flex-wrap: wrap;
+    //     padding: 0.5rem;
+    //     border: 1px solid #555;
+    //     border-radius: 10px;
+
+    //     .aaf-field-container {
+    //       display: flex;
+    //       flex-direction: column;
+    //       padding: 0.5rem 0;
+    //       margin: 1rem;
+    //       width: 40%;
+
+    //       .aaf-field-label {
+    //         font-size: 0.7rem;
+    //         font-weight: 500;
+    //       }
+
+    //       input::-webkit-outer-spin-button,
+    //       input::-webkit-inner-spin-button {
+    //         -webkit-appearance: none;
+    //         margin: 0;
+    //       }
+
+    //       /* Firefox */
+    //       input[type='number'] {
+    //         -moz-appearance: textfield;
+    //       }
+    //       .aaf-field-input {
+    //         border: none;
+    //         background-color: inherit;
+    //         border: 1px solid #777;
+    //         height: 1.8rem;
+    //         border-radius: 5px;
+    //         padding-left: 3px;
+    //         font-size: $subTextSize;
+    //         &:focus {
+    //           outline: none;
+    //           background-color: inherit;
+    //           border: 1px solid #555;
+    //         }
+    //       }
+
+    //       .aaf-field-textarea {
+    //         resize: vertical;
+    //         background-color: inherit;
+    //         height: 3.5rem;
+    //         padding: 3px;
+    //         font-size: $subTextSize;
+    //         border-radius: 5px;
+    //         &:focus {
+    //           outline: none;
+    //           border-bottom: 1px solid #000;
+    //         }
+    //       }
+    //     }
+    //   }
+
+    //   .aaf-save-btn {
+    //     background-color: $colorGreen;
+    //     max-width: 10rem;
+    //   }
+    // }
+  }
+}
+
+.uae-form {
+  width: 400px;
+}
+
+.add-address-btn {
+  font-size: 10px;
+}
+
+.css-yiavyu-MuiBackdrop-root-MuiDialog-backdrop {
+  background-color: rgba(21, 21, 21, 0.2) !important;
+}
+
+.selectedAddress {
+  background-color: rgb(190, 220, 249) !important;
+}
+
+.add-address-form {
+  display: flex;
+  flex-direction: column;
+  .aaf-from-container {
+    margin: 0.5rem 0;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0.5rem;
+    border: 1px solid #555;
+    border-radius: 10px;
+
+    .aaf-field-container {
+      display: flex;
+      flex-direction: column;
+      padding: 0.5rem 0;
+      margin: 1rem;
+      width: 40%;
+
+      .aaf-field-label {
+        font-size: 0.7rem;
+        font-weight: 500;
+      }
+
+      input::-webkit-outer-spin-button,
+      input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      /* Firefox */
+      input[type='number'] {
+        -moz-appearance: textfield;
+      }
+      .aaf-field-input {
+        border: none;
+        background-color: inherit;
+        border: 1px solid #777;
+        height: 1.8rem;
+        border-radius: 5px;
+        padding-left: 3px;
+        font-size: $subTextSize;
+        &:focus {
+          outline: none;
+          background-color: inherit;
+          border: 1px solid #555;
+        }
+      }
+
+      .aaf-field-textarea {
+        resize: vertical;
+        background-color: inherit;
+        height: 3.5rem;
+        padding: 3px;
+        font-size: $subTextSize;
+        border-radius: 5px;
+        &:focus {
+          outline: none;
+          border-bottom: 1px solid #000;
+        }
+      }
+    }
+  }
+
+  .aaf-save-btn {
+    background-color: $colorGreen;
+    max-width: 10rem;
+  }
+
+  .btn-inModel {
+    display: flex;
+    justify-content: space-between;
+
+    .aaf-save-btn {
+      background-color: $colorGreen;
+      max-width: 10rem;
+    }
+    .aaf-delete-btn {
+      background-color: $colorRed-D;
+      max-width: 10rem;
+    }
+  }
+}

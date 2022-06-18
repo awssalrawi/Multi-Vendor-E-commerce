@@ -11,6 +11,8 @@ import {
   REMOVE_ITEM_DB_SUCCESS,
   REMOVE_ITEM_DB_FAIL,
   DECREASE_QTY_DB,
+  CURR_SUCCESS,
+  CURR_FAIL,
 } from '../constants/cartConstant';
 import axios from 'axios';
 
@@ -256,5 +258,17 @@ export const updateCart = () => async (dispatch, getState) => {
   } else {
     console.log('update cart cartItems', cartItems);
     dispatch({ type: GET_CART_ITEMS_LOCAL, payload: cartItems });
+  }
+};
+
+export const getCur = (curr) => async (dispatch) => {
+  try {
+    const { data } = await axios.get(
+      `https://free.currconv.com/api/v7/convert?q=${curr}&compact=ultra&apiKey=201ab253b42cc8a1d101`
+    );
+    dispatch({ type: CURR_SUCCESS, payload: data });
+  } catch (error) {
+    console.log(error);
+    dispatch({ type: CURR_FAIL });
   }
 };

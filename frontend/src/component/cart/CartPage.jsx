@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react';
-import './cart-page.scss';
-import { Link } from 'react-router-dom';
+import './styles/cart-page.scss';
+import { Link, useNavigate } from 'react-router-dom';
 import { IconButton } from '@material-ui/core';
 //import { makeStyles } from '@material-ui/core/styles';
 import {
@@ -85,6 +85,7 @@ const dimi = [
 ];
 
 const CartPage = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
   const { isAuthenticated } = useSelector((state) => state.auth);
@@ -148,6 +149,10 @@ const CartPage = () => {
 
   const calFinalPrice = (cartItems) => {
     return calTotalPrice(cartItems) - catTotalDiscount(cartItems);
+  };
+
+  const navigateToCheckout = () => {
+    navigate('/place-order');
   };
   return (
     <div className="cart-page">
@@ -248,6 +253,7 @@ const CartPage = () => {
               name="Check"
               icon={<OpenInNewOutlined fontSize="large" />}
               className="ss-mtui-btn"
+              onClick={navigateToCheckout}
             />
           </div>
         </div>

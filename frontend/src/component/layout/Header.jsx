@@ -6,14 +6,13 @@ import { ReactComponent as ScoreIcon } from './../../assests/certificate.svg';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../redux/actions/userAction';
 import PhoneFooterNav from './PhoneFooterNav';
-//import { LOGOUT } from '../../redux/constants/userConstant';
+
 //!add ne MenuItem
 import {
   Box,
   Avatar,
   Menu,
   ListItemIcon,
-  Divider,
   IconButton,
   Tooltip,
   MenuItem,
@@ -67,6 +66,18 @@ const Header = () => {
             <i className="fa-solid fa-magnifying-glass"></i>
           </button>
         </form>
+        <div className="currency-select-container">
+          <select name="currency" id="currency">
+            <option value="">USD</option>
+            <option value="">IQD</option>
+          </select>
+
+          <select name="language" id="language" className="language">
+            <option value="">عربي</option>
+            <option value="">Türkçe</option>
+            <option value="">English</option>
+          </select>
+        </div>
         <nav className="user-nav" id="user-nav">
           <Link className="user-nav__icon-box" to="/cart">
             <CartIcon className="cart-icon" />

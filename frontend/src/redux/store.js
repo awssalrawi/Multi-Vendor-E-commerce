@@ -1,12 +1,11 @@
-import { combineReducers, createStore } from 'redux';
+import { combineReducers } from 'redux';
 import { configureStore } from '@reduxjs/toolkit';
-//import { thunk } from "redux-thunk";
-//import { composeWithDevTools } from "redux-devtools-extension";
+
 import {
   categoryReducer,
   categoryConfigReducer,
 } from './reducers/categoryReducer';
-import { authReducer } from './reducers/userReducer';
+import { authReducer, userInfoReducer } from './reducers/userReducer';
 import {
   getProductsBySlugReducer,
   productsManagementReducer,
@@ -22,9 +21,8 @@ const reducer = combineReducers({
   cusProducts: cusProductsReducer,
   productsManagement: productsManagementReducer,
   cart: cartReducer,
+  userInfo: userInfoReducer,
 });
-
-//const middleware = [thunk];
 
 const store = configureStore({
   reducer,

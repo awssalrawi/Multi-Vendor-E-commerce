@@ -135,7 +135,7 @@ exports.getMyCartItems = catchAsync(async (req, res, next) => {
   let cartItems = [];
   const cart = await Cart.findOne({ user: req.user._id }).populate(
     'cartItems.product',
-    'name price subProducts cardPicture quantity shop _id'
+    'name price subProducts cardPicture quantity shop _id priceAfterDiscount'
   );
 
   if (!cart || !cart.cartItems.length > 0) {
@@ -164,7 +164,9 @@ exports.getMyCartItems = catchAsync(async (req, res, next) => {
       _id: item.product._id,
       name: item.product.name,
       image: item.product.cardPicture,
-      price: item.product.price,
+      price: item.product.priceAfterDiscount
+        ? item.product.priceAfterDiscount
+        : item.product.price,
       inStock: item.product.quantity,
       cartQuant: item.cartQuant,
       shop: item.product.shop,

@@ -18,13 +18,30 @@ import {
   SIGNUP_FAIL,
   GET_TOKEN_FROM_COOKIE,
   CLEAR_ERRORS,
+  GET_USER_ADDRESS_REQUEST,
+  GET_USER_ADDRESS_SUCCESS,
+  GET_USER_ADDRESS_FAIL,
+  CLEAR_MESSAGE,
+  ADD_USER_ADDRESS_SUCCESS,
+  ADD_USER_ADDRESS_REQUEST,
+  ADD_USER_ADDRESS_FAIL,
+  DELETE_USER_ADDRESS_REQUEST,
+  DELETE_USER_ADDRESS_SUCCESS,
+  DELETE_USER_ADDRESS_FAIL,
 } from '../constants/userConstant';
 
-let initialState = {
+let authInitialState = {
   user: {},
 };
 
-export const authReducer = (state = initialState, action) => {
+let userInfoInitialState = {
+  address: [],
+  loading: false,
+  error: null,
+  message: null,
+};
+
+export const authReducer = (state = authInitialState, action) => {
   switch (action.type) {
     case SIGNUP_REQUEST:
     case LOGIN_REQUEST:
@@ -97,5 +114,58 @@ export const authReducer = (state = initialState, action) => {
 
     default:
       return { ...state };
+  }
+};
+
+export const userInfoReducer = (state = userInfoInitialState, action) => {
+  switch (action.type) {
+    case GET_USER_ADDRESS_REQUEST:
+    case ADD_USER_ADDRESS_REQUEST:
+    case DELETE_USER_ADDRESS_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case GET_USER_ADDRESS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        address: action.payload,
+      };
+    case ADD_USER_ADDRESS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        address: action.payload,
+        message: 'Address Added Successfully',
+      };
+    case DELETE_USER_ADDRESS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        message: 'Address removed Successfully',
+      };
+    case GET_USER_ADDRESS_FAIL:
+    case ADD_USER_ADDRESS_FAIL:
+    case DELETE_USER_ADDRESS_FAIL:
+      return {
+        ...state,
+        error: action.payload,
+        loading: false,
+      };
+    case CLEAR_MESSAGE:
+      return {
+        ...state,
+        message: null,
+        loading: false,
+      };
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
   }
 };

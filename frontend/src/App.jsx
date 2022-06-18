@@ -45,7 +45,7 @@ import Page from './component/admin/ShowPage/Page';
 import CartPage from './component/cart/CartPage';
 import { useSelector } from 'react-redux';
 import { updateCart } from './redux/actions/cartAction';
-
+import CheckoutSteps from './component/cart/CheckoutSteps';
 function App() {
   const { isAuthenticated } = useSelector((state) => state.auth);
 
@@ -91,6 +91,7 @@ function App() {
         <Route path="/:slug" element={<ProductsListPage />} />
         <Route path="/test" element={<CategoryShow />} />
         <Route path="/cart" element={<CartPage />} />
+
         {/* <Route path="/admin/dashboard" element={<AdminDashboard />} /> */}
 
         {/* <Route exact path="/me" element={<MyProfile />} /> */}
@@ -117,6 +118,7 @@ function App() {
         </Route>
         <Route element={<IfLoggedIn />}>
           <Route exact path="/me" element={<MyProfile />} />
+          <Route path="/place-order" element={<CheckoutSteps />} />
         </Route>
       </Routes>
     </Router>

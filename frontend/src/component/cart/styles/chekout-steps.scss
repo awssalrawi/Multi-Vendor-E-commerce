@@ -1,0 +1,13 @@
+@use '../../../sass/abstracts' as *;
+
+.place-order {
+  display: flex;
+
+  .checkout-page {
+    flex: 3;
+  }
+
+  .checkout-summary {
+    flex: 1;
+  }
+}
