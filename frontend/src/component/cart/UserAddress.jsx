@@ -29,12 +29,12 @@ import { FadeLoader } from 'react-spinners';
 import Input from 'react-phone-number-input/input';
 import CustomDialog from './CustomDialog';
 
-//*Dialog Functions
 const override = css`
   display: block;
   margin: 0 auto;
   border-color: red;
 `;
+//*Dialog Functions
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {

@@ -5,7 +5,9 @@ import {
   ADD_TO_CART_REQUEST,
   ADD_TO_CART_SUCCESS,
   ADD_TO_CART_FAIL,
-  GET_CART_ITEMS_DB,
+  GET_CART_ITEMS_DB_REQUEST,
+  GET_CART_ITEMS_DB_SUCCESS,
+  GET_CART_ITEMS_DB_FAIL,
   GET_CART_ITEMS_LOCAL,
   REMOVE_ITEM_DB_REQUEST,
   REMOVE_ITEM_DB_SUCCESS,
@@ -13,6 +15,8 @@ import {
   DECREASE_QTY_DB,
   CURR_SUCCESS,
   CURR_FAIL,
+  CLEAR_ERRORS,
+  DECREASE_QTY_DB_REQUEST,
 } from '../constants/cartConstant';
 import axios from 'axios';
 
@@ -75,7 +79,6 @@ export const addItemToCart = (item) => async (dispatch, getState) => {
   const isAuthenticated = getState().auth.isAuthenticated;
   const { cartItems } = getState().cart;
   if (!isAuthenticated) {
-    console.log('inside add to cart action and it is not auth');
     dispatch({
       type: ADD_TO_CART,
       payload: addItemToCartConditions(cartItems, item),
@@ -96,17 +99,13 @@ export const addItemToCart = (item) => async (dispatch, getState) => {
           ItemAlreadyAdded = cartItems.find(
             (i) => i._id === item._id && i.specific === item.specific
           );
-          //  console.log('inside has specific', ItemAlreadyAdded);
         } else {
           ItemAlreadyAdded = cartItems.find((i) => i._id === item._id);
-
-          console.log('iiii', ItemAlreadyAdded);
         }
 
         if (ItemAlreadyAdded) {
           if (ItemAlreadyAdded.cartQuant >= ItemAlreadyAdded.inStock) return;
 
-          console.log('I came hereeeeeeeeeee');
           itemSendToDb = {
             cartItems: [
               {
@@ -138,10 +137,16 @@ export const addItemToCart = (item) => async (dispatch, getState) => {
       }
 
       const { data } = await axios.post('/api/v1/user/cart/test', itemSendToDb);
+
       dispatch(getMyCartItems());
-      console.log(data);
+      console.log('Bitween two dispatch');
+      dispatch({ type: ADD_TO_CART_SUCCESS });
     } catch (error) {
       console.log(error);
+      dispatch({
+        type: ADD_TO_CART_FAIL,
+        payload: error.response.data.message,
+      });
     }
   }
 };
@@ -158,10 +163,11 @@ export const removeItemToCart = (item) => async (dispatch, getState) => {
     };
 
     try {
+      dispatch({ type: REMOVE_ITEM_DB_REQUEST });
       const res = await axios.put('/api/v1/user/cart/delete-one', removeItem);
       if (res.data.success) {
         dispatch(getMyCartItems());
-        dispatch({ type: REMOVE_ITEM_DB_SUCCESS });
+        // dispatch({ type: REMOVE_ITEM_DB_SUCCESS });
       }
     } catch (error) {
       console.log(error);
@@ -195,6 +201,8 @@ export const decreaseQtyFormCart = (item) => async (dispatch, getState) => {
     };
 
     try {
+      dispatch({ type: DECREASE_QTY_DB_REQUEST });
+
       const res = await axios.post('/api/v1/user/cart/test', decItem);
 
       if (res.status === 200) {
@@ -223,10 +231,15 @@ export const getMyCartItems = () => async (dispatch, getState) => {
   if (!isAuthenticated) return;
 
   try {
+    dispatch({ type: GET_CART_ITEMS_DB_REQUEST });
     const { data } = await axios.get('/api/v1/user/cart/getcartitem');
-    dispatch({ type: GET_CART_ITEMS_DB, payload: data.cartItems });
+    dispatch({ type: GET_CART_ITEMS_DB_SUCCESS, payload: data.cartItems });
   } catch (error) {
     console.log('error', error);
+    dispatch({
+      type: GET_CART_ITEMS_DB_FAIL,
+      payload: error.response.data.message,
+    });
   }
 };
 
@@ -261,14 +274,6 @@ export const updateCart = () => async (dispatch, getState) => {
   }
 };
 
-export const getCur = (curr) => async (dispatch) => {
-  try {
-    const { data } = await axios.get(
-      `https://free.currconv.com/api/v7/convert?q=${curr}&compact=ultra&apiKey=201ab253b42cc8a1d101`
-    );
-    dispatch({ type: CURR_SUCCESS, payload: data });
-  } catch (error) {
-    console.log(error);
-    dispatch({ type: CURR_FAIL });
-  }
+export const clearErrors = () => (dispatch) => {
+  dispatch({ type: CLEAR_ERRORS });
 };

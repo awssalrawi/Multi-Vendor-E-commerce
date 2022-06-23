@@ -126,6 +126,24 @@
           }
         }
       }
+
+      .no-item-show {
+        background-color: #59e4f2;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        &__text {
+          font-size: $headerFont;
+          font-weight: 500;
+        }
+        &__link {
+          margin-left: 5px;
+          color: $colorOrng-D;
+          font-size: $headerFont;
+        }
+      }
     }
     .summary-side {
       padding: 5px;

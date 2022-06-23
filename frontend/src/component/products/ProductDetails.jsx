@@ -19,43 +19,33 @@ import {
   clearErrors,
 } from '../../redux/actions/productAction';
 import Button from '@mui/material/Button';
-import DeleteIcon from '@mui/icons-material/Delete';
 import LoaderSpinner from '../utilis/LoaderSpinner';
 import { addItemToCart } from '../../redux/actions/cartAction';
+import { realPrice } from '../../assests/currencyControl';
+import WaitingDialog from '../utilis/WaitingDialog';
 
 const ProductDetails = () => {
   const dispatch = useDispatch();
   const params = useParams();
 
-  //! if there state inside location we dont need to send request to database,but if not like someone shared a link we need to get info from database
-
-  const { product, error, loading } = useSelector((state) => state.cusProducts);
   useEffect(() => {
     dispatch(cusGetSingleProductDetails(params.productId));
   }, []);
 
-  //!continously
+  //! if there state inside location we dont need to send request to database,but if not like someone shared a link we need to get info from database
 
-  // const productDetails = product._id ? product : location.state;
+  const { product, error, loading } = useSelector((state) => state.cusProducts);
+  const { currs, selectedCurrency } = useSelector((state) => state.currency);
+  const cart = useSelector((state) => state.cart);
 
-  //? const {
-  //?   name,
-  //?   price,
-  //?   cardPicture,
-  //?   shop,
-  //?   quantity,
-  //?   productPictures,
-  //?   detailsPictures,
-  //?   rating,
-  //?   reviews,
-  //?   availableSpecific,
-  //?   createdAt,
-  //?   description,
-  //?   specification,
-  //? } = product;
+  const [checkAddToCardLoading, setCheckAddToCardLoading] = useState(false);
+  //const addTocartLoading = useSelector((state) => state.cart.loading);
 
+  useEffect(() => {
+    setCheckAddToCardLoading(cart.loading);
+    console.log('In product detail card loading effect');
+  }, [cart.loading]);
   const [value, setValue] = React.useState(2.5);
-  // const [cartQuant, setQuantity] = useState(1);
 
   const [ePrice, setEPrice] = useState(product.price);
   const [eQuantity, setEQuantity] = useState(product.quantity);
@@ -81,22 +71,7 @@ const ProductDetails = () => {
       setSelectedSize({});
     }
   }
-  //*qq
-  // const increaseQty = () => {
-  //   const count = document.querySelector('.toAddCount').innerText * 1;
-  //   if (count >= eQuantity) return;
-  //   const qty = count + 1;
-  //   document.querySelector('.toAddCount').innerHTML = qty;
-  //   setQuantity(qty);
-  // };
-  // const decreaseQty = () => {
-  //   const count = document.querySelector('.toAddCount').innerText * 1;
-  //   if (count <= 1) return;
-  //   const qty = count - 1;
-  //   document.querySelector('.toAddCount').innerHTML = qty;
-  //   setQuantity(qty);
-  // };
-  //*qq
+
   const featureSetting = {
     dots: true,
     infinite: true,
@@ -147,13 +122,13 @@ const ProductDetails = () => {
         ? product.priceAfterDiscount
         : price;
       item.inStock = quantity;
-      console.log('ıtem', product);
     }
 
     dispatch(addItemToCart(item));
   };
   return (
     <Fragment>
+      <WaitingDialog loading={checkAddToCardLoading} />
       {loading ? (
         <LoaderSpinner text="Getting Product.." />
       ) : (
@@ -211,7 +186,13 @@ const ProductDetails = () => {
                   <div className="info-part__stockCount-price-Container">
                     <span className="h-Txt">Price:</span>
                     <span className="h-val">
-                      {ePrice ? ePrice : product.price}
+                      {currs?.length > 0 &&
+                        (ePrice
+                          ? realPrice(selectedCurrency, currs, ePrice)
+                          : realPrice(selectedCurrency, currs, product.price))}
+                      {/* {ePrice
+                        ? realPrice(selectedCurrency, currs, ePrice)
+                        : realPrice(selectedCurrency, currs, product.price)} */}
                     </span>
                   </div>
                   <div className="info-part__stockCount-price-Container">

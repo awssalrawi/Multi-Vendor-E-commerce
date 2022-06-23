@@ -2,10 +2,16 @@ import {
   ADD_TO_CART,
   REMOVE_ITEM_CART,
   DECREASE_QTY,
-  GET_CART_ITEMS_DB,
+  GET_CART_ITEMS_DB_REQUEST,
+  GET_CART_ITEMS_DB_SUCCESS,
+  GET_CART_ITEMS_DB_FAIL,
   GET_CART_ITEMS_LOCAL,
-  CURR_SUCCESS,
-  CURR_FAIL,
+  CLEAR_ERRORS,
+  ADD_TO_CART_REQUEST,
+  ADD_TO_CART_SUCCESS,
+  ADD_TO_CART_FAIL,
+  REMOVE_ITEM_DB_REQUEST,
+  DECREASE_QTY_DB_REQUEST,
 } from '../constants/cartConstant';
 
 // let initialState = {
@@ -15,6 +21,9 @@ import {
 // };
 let initialState = {
   cartItems: [],
+  error: null,
+  message: null,
+  loading: false,
 };
 
 // const addItemToCartConditions = (cartItems, cartItemToAdd) => {
@@ -76,7 +85,6 @@ export const cartReducer = (state = initialState, action) => {
       return {
         ...state,
         cartItems: action.payload,
-        // cartItems: addItemToCartConditions(state.cartItems, action.payload),
       };
     case REMOVE_ITEM_CART:
       return {
@@ -88,16 +96,55 @@ export const cartReducer = (state = initialState, action) => {
         ...state,
         cartItems: action.payload,
       };
-    case GET_CART_ITEMS_DB:
+    case ADD_TO_CART_REQUEST:
+    case REMOVE_ITEM_DB_REQUEST:
+    case DECREASE_QTY_DB_REQUEST:
       return {
         ...state,
+        loading: true,
+      };
+    case ADD_TO_CART_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+      };
+    case ADD_TO_CART_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    case GET_CART_ITEMS_DB_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case GET_CART_ITEMS_DB_SUCCESS:
+      return {
+        ...state,
+        loading: false,
         cartItems: action.payload,
+      };
+    case GET_CART_ITEMS_DB_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
       };
     case GET_CART_ITEMS_LOCAL:
       return {
         ...state,
         cartItems: action.payload,
       };
+
+    case CLEAR_ERRORS:
+      return {
+        error: null,
+        ...state,
+        loading: false,
+      };
+
     default:
       return state;
   }

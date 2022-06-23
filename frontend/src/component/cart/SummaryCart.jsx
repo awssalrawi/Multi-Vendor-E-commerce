@@ -1,15 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
+import {
+  realPrice,
+  designPrice,
+  convertToUsd,
+} from '../../assests/currencyControl';
+import { useSelector, useDispatch } from 'react-redux';
 import './styles/summary-cart.scss';
 
-import { useSelector } from 'react-redux';
-
-const SummaryCart = () => {
+const SummaryCart = ({ summaryObj }) => {
+  const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
-
+  const { isAuthenticated } = useSelector((state) => state.auth);
   const [cartItems, setCartItems] = useState(cart.cartItems);
+  const { currs, selectedCurrency } = useSelector((state) => state.currency);
 
   useEffect(() => {
     setCartItems(cart.cartItems);
+    if (cart.cartItems?.length > 0) {
+      summaryObj(sendSummaryInfoToSteps(cart.cartItems));
+      console.log('Iam is use Effect inside summary card');
+    }
   }, [cart.cartItems]);
 
   const calTotalItemsInCart = (cartItems) => {
@@ -19,25 +29,58 @@ const SummaryCart = () => {
   };
 
   const calTotalPrice = (cartItems) => {
-    return cartItems
-      .reduce((acc, item) => acc + item.cartQuant * item.price, 0)
-      .toFixed(1);
+    // (priceText.replace(/\D/g, '') * 1)
+    // realPrice(selectedCurrency, currs, ePrice)
+    return cartItems.reduce(
+      (acc, item) =>
+        acc +
+        item.cartQuant *
+          (realPrice(selectedCurrency, currs, item.price).replace(/\D/g, '') *
+            1),
+      0
+    );
   };
 
   const catTotalDiscount = (cartItems) => {
-    let discount;
+    let totalItems;
+
+    let point = 0.005;
     if (cartItems.length > 0) {
-      discount =
-        (cartItems.reduce((acc, item) => acc + item.cartQuant * 1, 0) - 1) * 20;
+      totalItems =
+        cartItems.reduce((acc, item) => acc + item.cartQuant * 1, 0) - 1;
     } else {
-      discount = 0;
+      totalItems = 0;
     }
-    return discount;
+    return totalItems * point * 100;
   };
 
   const calFinalPrice = (cartItems) => {
-    return calTotalPrice(cartItems) - catTotalDiscount(cartItems);
+    return (
+      calTotalPrice(cartItems) -
+      (calTotalPrice(cartItems) * catTotalDiscount(cartItems)) / 100
+    );
   };
+
+  const sendSummaryInfoToSteps = (cartItems) => ({
+    totalItemInCart: calTotalItemsInCart(cartItems),
+    totalPrice: calTotalPrice(cartItems),
+    discountPrice: catTotalDiscount(cartItems),
+    finalPriceText: designPrice(selectedCurrency, calFinalPrice(cartItems)),
+    finalPriceNumber:
+      designPrice(selectedCurrency, calFinalPrice(cartItems)).replace(
+        /\D/g,
+        ''
+      ) * 1,
+    currency: selectedCurrency,
+    priceInDollar: convertToUsd(
+      selectedCurrency,
+      currs,
+      designPrice(selectedCurrency, calFinalPrice(cartItems)).replace(
+        /\D/g,
+        ''
+      ) * 1
+    ),
+  });
 
   return (
     <div className="summary-side">
@@ -52,20 +95,23 @@ const SummaryCart = () => {
       <div className="summary-side__row">
         <span className="ss-item-txt">Total Price:</span>
         <span className="ss-item-val">
-          {cartItems && calTotalPrice(cartItems)}
+          {cartItems &&
+            `${calTotalPrice(cartItems).toLocaleString(
+              'us-US'
+            )} ${selectedCurrency}`}
         </span>
       </div>
       <div className="summary-side__row">
         <span className="ss-item-txt">Discount </span>
         <span className="ss-item-val">
-          {cartItems && catTotalDiscount(cartItems)}
+          {cartItems && `${catTotalDiscount(cartItems).toFixed(1)} %`}
         </span>
       </div>
       <hr />
       <div className="summary-side__row">
         <span className="ss-item-txt">Final Price </span>
         <span className="ss-item-val">
-          {cartItems && calFinalPrice(cartItems)}
+          {cartItems && designPrice(selectedCurrency, calFinalPrice(cartItems))}
         </span>
       </div>
     </div>

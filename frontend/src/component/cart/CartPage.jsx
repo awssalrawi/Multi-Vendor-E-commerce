@@ -16,8 +16,9 @@ import {
   decreaseQtyFormCart,
   getMyCartItems,
 } from '../../redux/actions/cartAction';
-
+import { realPrice, designPrice } from '../../assests/currencyControl';
 import ButtonMat from '../../generalComponent/ButtonMat';
+import WaitingDialog from '../utilis/WaitingDialog';
 const dimi = [
   {
     name: 'X box series x',
@@ -90,7 +91,9 @@ const CartPage = () => {
   const cart = useSelector((state) => state.cart);
   const { isAuthenticated } = useSelector((state) => state.auth);
   const [cartItems, setCartItems] = useState(cart.cartItems);
+  const { currs, selectedCurrency } = useSelector((state) => state.currency);
 
+  const [processLoading, setProcessLoading] = useState(false);
   useEffect(() => {
     if (isAuthenticated) {
       dispatch(getMyCartItems());
@@ -100,6 +103,9 @@ const CartPage = () => {
     setCartItems(cart.cartItems);
   }, [cart.cartItems]);
 
+  useEffect(() => {
+    setProcessLoading(cart.loading);
+  }, [cart.loading]);
   const removeItem = (item) => {
     dispatch(removeItemToCart(item));
   };
@@ -131,24 +137,36 @@ const CartPage = () => {
   };
 
   const calTotalPrice = (cartItems) => {
-    return cartItems
-      .reduce((acc, item) => acc + item.cartQuant * item.price, 0)
-      .toFixed(1);
+    // (priceText.replace(/\D/g, '') * 1)
+    // realPrice(selectedCurrency, currs, ePrice)
+    return cartItems.reduce(
+      (acc, item) =>
+        acc +
+        item.cartQuant *
+          (realPrice(selectedCurrency, currs, item.price).replace(/\D/g, '') *
+            1),
+      0
+    );
   };
 
   const catTotalDiscount = (cartItems) => {
-    let discount;
+    let totalItems;
+
+    let point = 0.005;
     if (cartItems.length > 0) {
-      discount =
-        (cartItems.reduce((acc, item) => acc + item.cartQuant * 1, 0) - 1) * 20;
+      totalItems =
+        cartItems.reduce((acc, item) => acc + item.cartQuant * 1, 0) - 1;
     } else {
-      discount = 0;
+      totalItems = 0;
     }
-    return discount;
+    return totalItems * point * 100;
   };
 
   const calFinalPrice = (cartItems) => {
-    return calTotalPrice(cartItems) - catTotalDiscount(cartItems);
+    return (
+      calTotalPrice(cartItems) -
+      (calTotalPrice(cartItems) * catTotalDiscount(cartItems)) / 100
+    );
   };
 
   const navigateToCheckout = () => {
@@ -156,9 +174,11 @@ const CartPage = () => {
   };
   return (
     <div className="cart-page">
+      <WaitingDialog loading={processLoading} />
+
       <div className="cartInfo">
         <div className="items-side">
-          {cartItems?.length > 0 &&
+          {cartItems?.length > 0 ? (
             createSpreadShop(cartItems).map((shop, i) => (
               <div className="cg-shop-container" key={i}>
                 <div className="cg-seller-info">
@@ -206,7 +226,9 @@ const CartPage = () => {
                             <Add className="item-quant__btn-icon" />
                           </IconButton>
                         </div>
-                        <div className="item-price">{item.price}</div>
+                        <div className="item-price">
+                          {realPrice(selectedCurrency, currs, item.price)}
+                        </div>
                         <IconButton
                           className="item-remove"
                           onClick={() => removeItem(item)}
@@ -218,7 +240,17 @@ const CartPage = () => {
                   </Fragment>
                 ))}
               </div>
-            ))}
+            ))
+          ) : (
+            <div className="no-item-show">
+              <span className="no-item-show__text">
+                There is no item in your card!!
+              </span>
+              <Link className="no-item-show__link" to="/">
+                Click here to see Product 🤓🤓🤓
+              </Link>
+            </div>
+          )}
         </div>
         <div className="summary-side">
           <span className="ss-header">Order Summary</span>
@@ -232,28 +264,33 @@ const CartPage = () => {
           <div className="summary-side__row">
             <span className="ss-item-txt">Total Price:</span>
             <span className="ss-item-val">
-              {cartItems && calTotalPrice(cartItems)}
+              {cartItems &&
+                `${calTotalPrice(cartItems).toLocaleString(
+                  'us-US'
+                )} ${selectedCurrency}`}
             </span>
           </div>
           <div className="summary-side__row">
             <span className="ss-item-txt">Discount </span>
             <span className="ss-item-val">
-              {cartItems && catTotalDiscount(cartItems)}
+              {cartItems && `${catTotalDiscount(cartItems).toFixed(1)} %`}
             </span>
           </div>
           <hr />
           <div className="summary-side__row">
             <span className="ss-item-txt">Final Price </span>
             <span className="ss-item-val">
-              {cartItems && calFinalPrice(cartItems)}
+              {cartItems &&
+                designPrice(selectedCurrency, calFinalPrice(cartItems))}
             </span>
           </div>
           <div className="summary-side__btn">
             <ButtonMat
-              name="Check"
+              name="Place Order"
               icon={<OpenInNewOutlined fontSize="large" />}
               className="ss-mtui-btn"
               onClick={navigateToCheckout}
+              disabled={cartItems?.length > 0 ? false : true}
             />
           </div>
         </div>

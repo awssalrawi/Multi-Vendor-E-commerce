@@ -1,0 +1,32 @@
+@use '../../../sass/abstracts/' as *;
+
+.waiting-spinner-text {
+  font-size: $mainFontSize;
+  color: $colorGreen;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 4rem;
+  background-color: #f8f8f8;
+}
+
+.spinner-container {
+  width: 15rem;
+  height: 15rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8f8f8;
+}
+.waiting-spinner-logo {
+  font-family: cursive;
+  letter-spacing: 2px;
+  display: flex;
+  height: 3rem;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: bold;
+  color: $colorOrng-D;
+  background-color: #f8f8f8;
+}

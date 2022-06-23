@@ -23,6 +23,7 @@ import {
   LocalMallOutlined,
   PersonOutlineOutlined,
 } from '@mui/icons-material';
+import { ShoppingCartOutlined } from '@material-ui/icons';
 
 const Header = () => {
   const { loading, user, isAuthenticated } = useSelector((state) => state.auth);
@@ -54,7 +55,8 @@ const Header = () => {
     <Fragment>
       <div className="header header-phone">
         <Link to="/" className="link">
-          <img src="./logo.png" alt="logo" className="logo" />
+          {/* <img src="./logo.png" alt="logo" className="logo" /> */}
+          <span className="text-logo">Ltreda</span>
         </Link>
         <form action="#" className="search">
           <input
@@ -66,18 +68,7 @@ const Header = () => {
             <i className="fa-solid fa-magnifying-glass"></i>
           </button>
         </form>
-        <div className="currency-select-container">
-          <select name="currency" id="currency">
-            <option value="">USD</option>
-            <option value="">IQD</option>
-          </select>
 
-          <select name="language" id="language" className="language">
-            <option value="">عربي</option>
-            <option value="">Türkçe</option>
-            <option value="">English</option>
-          </select>
-        </div>
         <nav className="user-nav" id="user-nav">
           <Link className="user-nav__icon-box" to="/cart">
             <CartIcon className="cart-icon" />
@@ -184,6 +175,14 @@ const Header = () => {
                   }}
                 >
                   <MenuItem>
+                    <Link className="link centered-flex" to="/my-orders">
+                      <ListItemIcon>
+                        <LocalMallOutlined fontSize="small" />
+                      </ListItemIcon>
+                      My Orders
+                    </Link>
+                  </MenuItem>
+                  <MenuItem>
                     <Link className="link centered-flex" to="/me">
                       <ListItemIcon>
                         <PersonOutlineOutlined fontSize="small" />
@@ -194,7 +193,7 @@ const Header = () => {
                   {/* <Divider /> */}
                   <MenuItem>
                     <ListItemIcon>
-                      <LocalMallOutlined fontSize="small" />
+                      <ShoppingCartOutlined fontSize="small" />
                     </ListItemIcon>
                     My Cart
                   </MenuItem>

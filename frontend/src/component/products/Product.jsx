@@ -3,18 +3,21 @@ import { Link } from 'react-router-dom';
 import './style/product.scss';
 
 import Rating from '@material-ui/lab/Rating';
-
+import { useSelector } from 'react-redux';
 import Box from '@material-ui/core/Box';
+import { realPrice } from '../../assests/currencyControl';
 
 const Product = ({ products }) => {
   // const { name, price,  cardPicture, shop } = products;
   const [value, setValue] = React.useState(2.5);
+  const { currs, selectedCurrency } = useSelector((state) => state.currency);
   return (
     <Fragment>
       <div className="product">
         <div className="product__container">
           {/*//? Job Place */}
           {products &&
+            currs.length > 0 &&
             products.map((product) => {
               const { name, price, cardPicture, shop } = product;
               return (
@@ -48,7 +51,9 @@ const Product = ({ products }) => {
                           ).toFixed(0)}%`}</span>
                         </Fragment>
                       ) : (
-                        <span className="item__price-dis">{price}</span>
+                        <span className="item__price-dis">
+                          {realPrice(selectedCurrency, currs, price)}
+                        </span>
                       )}
                     </div>
                     <div className="product__item__review">

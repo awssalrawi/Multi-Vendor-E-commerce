@@ -5,6 +5,7 @@ import { IconButton } from '@material-ui/core';
 import { Add, RemoveRounded } from '@material-ui/icons';
 import { useSelector, useDispatch } from 'react-redux';
 import { getMyCartItems } from '../../redux/actions/cartAction';
+import { realPrice } from '../../assests/currencyControl';
 
 const dimi = [
   {
@@ -77,7 +78,7 @@ const DisplaySelectedItems = () => {
   const cart = useSelector((state) => state.cart);
   const { isAuthenticated } = useSelector((state) => state.auth);
   const [cartItems, setCartItems] = useState(cart.cartItems);
-
+  const { currs, selectedCurrency } = useSelector((state) => state.currency);
   useEffect(() => {
     if (isAuthenticated) {
       dispatch(getMyCartItems());
@@ -116,7 +117,11 @@ const DisplaySelectedItems = () => {
               <div className="item-quant">
                 <span className="value">{`${item.cartQuant} Item`}</span>
               </div>
-              <div className="item-price">{`${item.cartQuant} x ${item.price}`}</div>
+              <div className="item-price">{`${item.cartQuant} x ${realPrice(
+                selectedCurrency,
+                currs,
+                item.price
+              )}`}</div>
             </div>
           </Fragment>
         ))}

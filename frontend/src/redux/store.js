@@ -13,6 +13,8 @@ import {
 } from './reducers/productReducer';
 
 import { cartReducer } from './reducers/cartReducer';
+import { currencyReducer } from './reducers/currencyReducer';
+import { userOrderReducer } from './reducers/orderReducer';
 const reducer = combineReducers({
   auth: authReducer,
   category: categoryReducer,
@@ -22,6 +24,8 @@ const reducer = combineReducers({
   productsManagement: productsManagementReducer,
   cart: cartReducer,
   userInfo: userInfoReducer,
+  currency: currencyReducer,
+  userOrder: userOrderReducer,
 });
 
 const store = configureStore({

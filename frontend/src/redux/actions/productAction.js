@@ -113,7 +113,8 @@ export const cusGetSingleProductDetails = (id) => async (dispatch) => {
     console.log(error);
     dispatch({
       type: GET_CUS_PRODUCT_BY_ID_FAIL,
-      payload: error.response.data.message,
+      payload: `error.response.data.message,`,
+      // payload: error.response.data.message,
     });
   }
 };

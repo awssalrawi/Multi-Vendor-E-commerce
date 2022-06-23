@@ -69,3 +69,21 @@ a {
   background-color: rgba(0, 0, 0, 0.7);
   border-radius: 20px;
 }
+
+.topHeader {
+  max-height: 20px;
+  font-size: 14px;
+  width: 100%;
+  background-color: #eee;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  .language-selector {
+    margin: 0 10px;
+    button {
+      margin: 0 5px;
+      font-size: 14px;
+    }
+  }
+}

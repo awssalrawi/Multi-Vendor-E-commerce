@@ -9,5 +9,37 @@
 
   .checkout-summary {
     flex: 1;
+
+    .buy-order-btn {
+      margin: 5px 0;
+      width: 100%;
+      background-color: #26b724;
+    }
+  }
+}
+.payment-method-select {
+  display: flex;
+  flex-direction: column;
+  margin: 0.5rem 0;
+  .cos-payment-method {
+    display: flex;
+    align-items: center;
+    margin: 0.5rem 0;
+    .cos-pay-on-door {
+      margin-right: 10px;
+      width: 1.5rem;
+      height: 1.5rem;
+      accent-color: #1f9f42;
+    }
+    .text-pay-door {
+      font-size: $mainTextSize;
+      font-weight: 500;
+    }
+
+    .text-pay-bank {
+      color: #777;
+      font-size: $mainTextSize;
+      font-weight: 500;
+    }
   }
 }

@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-
+import React, { useEffect, useState } from 'react';
 import './App.scss';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './component/layout/Home';
@@ -46,9 +45,19 @@ import CartPage from './component/cart/CartPage';
 import { useSelector } from 'react-redux';
 import { updateCart } from './redux/actions/cartAction';
 import CheckoutSteps from './component/cart/CheckoutSteps';
+import UserOrders from './component/order/UserOrders';
+
+import { useTranslation } from 'react-i18next';
+import {
+  getCurrencyConst,
+  selectedCurrency,
+} from './redux/actions/currencyAction';
+
+import OrderSuccess from './component/cart/OrderSuccess';
+
 function App() {
   const { isAuthenticated } = useSelector((state) => state.auth);
-
+  const { t, i18n } = useTranslation();
   useEffect(() => {
     store.dispatch(updateCart());
   }, [isAuthenticated]);
@@ -59,10 +68,43 @@ function App() {
     }
     store.dispatch(getAllCategories());
     store.dispatch(adminGetAllProducts());
+    store.dispatch(getCurrencyConst());
   }, []);
+
+  const [selectCurrency, setSelectCurrency] = useState('IQD');
+
+  useEffect(() => {
+    store.dispatch(selectedCurrency(selectCurrency));
+    console.log('I called inside appjs currency effect');
+  }, [selectCurrency]);
 
   return (
     <Router>
+      <div className="topHeader">
+        <div className="currency-select-container">
+          <select
+            name="currency"
+            id="currency"
+            onChange={(e) => setSelectCurrency(e.target.value)}
+          >
+            <option value="IQD">IQD</option>
+            <option value="USD">USD</option>
+            <option value="TRY">TRY</option>
+          </select>
+        </div>
+        <div className="language-selector">
+          <button className="langBtn" onClick={() => i18n.changeLanguage('tr')}>
+            Türkçe
+          </button>
+          <button className="langBtn" onClick={() => i18n.changeLanguage('ar')}>
+            عربي
+          </button>
+          <button className="langBtn" onClick={() => i18n.changeLanguage('en')}>
+            English{' '}
+          </button>
+        </div>
+        <span className="langBtn">{t('hello')}</span>
+      </div>
       <Header />
       <ToastContainer
         position={toast.POSITION.TOP_CENTER}
@@ -119,6 +161,8 @@ function App() {
         <Route element={<IfLoggedIn />}>
           <Route exact path="/me" element={<MyProfile />} />
           <Route path="/place-order" element={<CheckoutSteps />} />
+          <Route path="/order-success" element={<OrderSuccess />} />
+          <Route path="/my-orders" element={<UserOrders />} />
         </Route>
       </Routes>
     </Router>

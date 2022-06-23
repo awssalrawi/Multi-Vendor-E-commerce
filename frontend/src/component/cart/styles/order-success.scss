@@ -1,0 +1,33 @@
+@use '../../../sass/abstracts' as *;
+
+.order-success {
+  height: 80vh;
+  width: 100%;
+  //  background-color: rgb(219, 153, 153);
+  display: flex;
+  align-items: center;
+
+  &__container {
+    flex: 1;
+    max-width: 80%;
+    margin: auto;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+
+    .success-png {
+      margin: 5px 0;
+    }
+    .success-text {
+      max-width: 90%;
+
+      &__content {
+        font-size: 1.1rem;
+        font-weight: 500;
+        color: #3888d8;
+      }
+    }
+  }
+}
