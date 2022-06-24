@@ -2,12 +2,13 @@
 # dependencies
 /node_modules/
 /frontend/node_modules/
+/admin-app/node_modules/
 /frontend/.env
+/backend/uploads
 
 
 # production
 /frontend/build
-/backend/uploads
 # misc
 /backend/.env
 /frontend/.env.local
