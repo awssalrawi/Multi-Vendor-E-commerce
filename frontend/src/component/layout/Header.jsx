@@ -112,13 +112,13 @@ const Header = () => {
                       {user.picture ? (
                         <Fragment>
                           <img
-                            src={`${user.picture}`}
+                            src={user.picture}
                             alt="user avatar"
                             className="user-nav__user-photo"
                           />
-                          <span className="user-nav__user-name">
+                          {/* <span className="user-nav__user-name">
                             {splitName(user.name)}
-                          </span>
+                          </span> */}
                         </Fragment>
                       ) : (
                         <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
@@ -204,6 +204,14 @@ const Header = () => {
                         <Settings fontSize="small" />
                       </ListItemIcon>
                       Dashboard
+                    </Link>
+                  </MenuItem>
+                  <MenuItem>
+                    <Link className="link centered-flex" to="/s-d">
+                      <ListItemIcon>
+                        <Settings fontSize="small" />
+                      </ListItemIcon>
+                      Seller Dashboard
                     </Link>
                   </MenuItem>
                   {/* <Divider /> */}

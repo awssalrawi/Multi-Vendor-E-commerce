@@ -16,12 +16,13 @@ import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
 import Chip from '@mui/material/Chip';
 import IconButton from '@mui/material/IconButton';
+
 import MenuIcon from '@mui/icons-material/Menu';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import Logo from './slideBar-files/Logo.js';
-import navbarList from './slideBar-files/navList';
-import StyledAvatar from './slideBar-files/StyledAvatar';
-import { Link, Outlet } from 'react-router-dom';
+
+import Logo from './Logo.js';
+import navbarList from './navList';
+import StyledAvatar from './StyledAvatar';
 
 const drawerWidthOpen = 240;
 const paddingIconButton = 10;
@@ -30,7 +31,7 @@ const iconFontSize = 20;
 const drawerWidthClose =
   (paddingIconButton + marginIconButton) * 2 + iconFontSize;
 
-export default function SellerDashbord() {
+export default function SellerSlideBar() {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
   const refFocus = useRef();
@@ -68,10 +69,9 @@ export default function SellerDashbord() {
             marginBottom: '9px',
           }}
         >
-          {/* <Logo /> */}
-          <span className="ltredaLogo">Ltreda</span>
+          <Logo />
         </Box>
-        {/* <Typography
+        <Typography
           variant="h1"
           noWrap={true}
           gutterBottom
@@ -86,7 +86,7 @@ export default function SellerDashbord() {
           }}
         >
           MuiMakeStyles
-        </Typography> */}
+        </Typography>
 
         <Button
           onClick={toogleOpen}
@@ -236,11 +236,6 @@ export default function SellerDashbord() {
             )}
           </>
         ))}
-
-        <Link to="/s-d/sel-prod" style={{ color: 'wheat' }}>
-          Click here
-        </Link>
-
         <Divider variant="middle" light={true} />
       </List>
 
@@ -302,49 +297,64 @@ export default function SellerDashbord() {
   );
 
   return (
-    <div style={{ height: '100%' }}>
-      <Switch checked={open} onChange={() => setOpen((prevOpen) => !prevOpen)}>
-        switch
-      </Switch>
-      <Box sx={{ display: 'flex' }}>
-        <Drawer
-          variant="permanent"
-          open={open}
-          sx={{
+    <Box sx={{ display: 'flex' }}>
+      <Drawer
+        variant="permanent"
+        open={open}
+        sx={{
+          width: open
+            ? { xs: '0px', sm: drawerWidthClose }
+            : { xs: drawerWidthClose, sm: drawerWidthOpen },
+          transition: theme.transitions.create('width', {
+            easing: theme.transitions.easing.sharp,
+            duration: open
+              ? theme.transitions.duration.leavingScreen
+              : theme.transitions.duration.enteringScreen,
+          }),
+          '& .MuiDrawer-paper': {
+            justifyContent: 'space-between',
+            overflowX: 'hidden',
             width: open
               ? { xs: '0px', sm: drawerWidthClose }
               : { xs: drawerWidthClose, sm: drawerWidthOpen },
+            borderRight: '0px',
+            borderRadius: '0px 16px 16px 0px',
+            boxShadow: theme.shadows[8],
+            backgroundColor: open ? '#11101D' : '#11101D',
             transition: theme.transitions.create('width', {
               easing: theme.transitions.easing.sharp,
               duration: open
                 ? theme.transitions.duration.leavingScreen
                 : theme.transitions.duration.enteringScreen,
             }),
-            '& .MuiDrawer-paper': {
-              justifyContent: 'space-between',
-              overflowX: 'hidden',
-              width: open
-                ? { xs: '0px', sm: drawerWidthClose }
-                : { xs: drawerWidthClose, sm: drawerWidthOpen },
-              borderRight: '0px',
-              borderRadius: '0px 16px 16px 0px',
-              boxShadow: theme.shadows[8],
-              backgroundColor: open ? '#11101D' : '#11101D',
-              transition: theme.transitions.create('width', {
-                easing: theme.transitions.easing.sharp,
-                duration: open
-                  ? theme.transitions.duration.leavingScreen
-                  : theme.transitions.duration.enteringScreen,
-              }),
-            },
-          }}
+          },
+        }}
+      >
+        {drawerContent}
+      </Drawer>
+      <Box
+        component="main"
+        sx={{
+          backgroundColor: 'lightblue',
+          padding: '8px',
+          margin: '6px 14px',
+        }}
+      >
+        <Typography>
+          Lorem ipsum sir dolor Ullamco veniam consequat mollit cupidatat
+          voluptate sint voluptate enim laborum Lorem sint dolore. Sit sit aute
+          nulla aute dolore duis in sit qui in exercitation cupidatat ea dolore.
+          Culpa sunt pariatur officia cupidatat tempor consectetur ea commodo
+          excepteur veniam tempor. Consectetur duis veniam eiusmod id ipsum
+          velit irure. Sint sint ipsum esse occaecat. officia.
+        </Typography>
+        <Switch
+          checked={open}
+          onChange={() => setOpen((prevOpen) => !prevOpen)}
         >
-          {drawerContent}
-        </Drawer>
-        <div className="seller-content-pages">
-          <Outlet />
-        </div>
+          switch
+        </Switch>
       </Box>
-    </div>
+    </Box>
   );
 }

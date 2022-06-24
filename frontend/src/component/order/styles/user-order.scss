@@ -71,6 +71,21 @@
             margin-left: 3px;
           }
         }
+        .order-item-status {
+          font-weight: 600;
+        }
+        .approved {
+          background-color: #e5faf2;
+          color: #3bb077;
+        }
+        .pending {
+          background-color: #ebf1fe;
+          color: #2a7ade;
+        }
+        .declined {
+          background-color: #fff0f1;
+          color: #d95087;
+        }
       }
     }
   }

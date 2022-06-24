@@ -66,7 +66,7 @@ const UserOrders = () => {
                       {order.totalAmountText}
                     </span>
                   </div>
-                  <span className="order-status">{order.orderStatus}</span>
+                  <span className="order-status">pending for now</span>
                 </div>
                 {order.items.length > 0 &&
                   order.items.map((item, index) => (
@@ -85,6 +85,17 @@ const UserOrders = () => {
                       </div>
                       <span className="order-price">{`${item.purchasedQty} x ${item.payedPrice}`}</span>
                       <span className="order-seller">{item.shop}</span>
+                      <span
+                        className={`order-item-status ${
+                          item.itemStatus === 'pending'
+                            ? 'pending'
+                            : item.itemStatus === 'Delivered to Ltreda'
+                            ? 'approved'
+                            : 'declined'
+                        }`}
+                      >
+                        {item.itemStatus}
+                      </span>
                     </div>
                   ))}
               </div>

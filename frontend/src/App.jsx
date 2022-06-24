@@ -54,6 +54,8 @@ import {
 } from './redux/actions/currencyAction';
 
 import OrderSuccess from './component/cart/OrderSuccess';
+import SellerDashbord from './component/seller/SellerDashbord';
+import SellerProducts from './component/seller/product/SellerProducts';
 
 function App() {
   const { isAuthenticated } = useSelector((state) => state.auth);
@@ -157,6 +159,9 @@ function App() {
           />
 
           <Route path="create-product" element={<AdminCreateProduct />} />
+        </Route>
+        <Route path="s-d" element={<SellerDashbord />}>
+          <Route path="sel-prod" element={<SellerProducts />} />
         </Route>
         <Route element={<IfLoggedIn />}>
           <Route exact path="/me" element={<MyProfile />} />

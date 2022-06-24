@@ -27,6 +27,11 @@ const orderSchema = new mongoose.Schema(
         shop: { type: mongoose.Schema.Types.String, ref: 'Shop' },
         specific: String,
         payedPiceInDollar: Number,
+        itemStatus: {
+          type: String,
+          default: 'pending',
+          enum: ['pending', 'Delivered to Ltreda', 'Cancelled', 'Refund'],
+        },
       },
     ],
     paymentStatus: {
@@ -34,11 +39,22 @@ const orderSchema = new mongoose.Schema(
       enum: ['Not Paid yet', 'Paid', 'Cancelled', 'Refund'],
       default: 'Not Paid yet',
     },
-    orderStatus: {
-      type: String,
-      default: 'pending',
-      enum: ['pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled'],
-    },
+    orderStatus: [
+      {
+        type: {
+          type: String,
+          enum: ['ordered', 'packed', 'shipped', 'delivered'],
+          default: 'ordered',
+        },
+        date: {
+          type: Date,
+        },
+        isCompleted: {
+          type: Boolean,
+          default: false,
+        },
+      },
+    ],
     receivedAt: Date,
   },
   { timestamps: true }

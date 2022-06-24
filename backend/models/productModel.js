@@ -59,6 +59,7 @@ const productSchema = new mongoose.Schema(
     category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' },
 
     shop: { type: mongoose.Schema.Types.String, ref: 'Shop' },
+    location: String,
     updatedAt: Date,
 
     availableSpecific: [

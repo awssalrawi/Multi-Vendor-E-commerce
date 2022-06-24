@@ -27,6 +27,7 @@ const ShopSchema = new mongoose.Schema(
         product: { type: mongoose.Schema.Types.ObjectId, ref: 'Order' },
       },
     ],
+    location: String,
   },
   { timestamps: true }
 );
