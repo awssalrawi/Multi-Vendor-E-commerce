@@ -89,7 +89,7 @@ const UserOrders = () => {
                         className={`order-item-status ${
                           item.itemStatus === 'pending'
                             ? 'pending'
-                            : item.itemStatus === 'Delivered to Ltreda'
+                            : item.itemStatus === 'shipped'
                             ? 'approved'
                             : 'declined'
                         }`}

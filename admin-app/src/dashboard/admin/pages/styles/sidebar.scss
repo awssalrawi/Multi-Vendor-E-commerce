@@ -1,0 +1,64 @@
+@use '../../../../sass/abstracts/' as *;
+
+.sidebar {
+  flex: 1;
+  // height: calc(100vh - 50px);
+  background-color: rgb(251, 251, 255);
+  position: sticky;
+  top: 50px;
+  z-index: 1000;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  .sidebarWrapper {
+    padding: 20px;
+    color: #555;
+    font-size: $mainTextSize;
+
+    .sidebarMenu {
+      margin-bottom: 3px;
+
+      .sidebarTitle {
+        color: rgb(187, 186, 186);
+        font-size: $mainTextSize;
+      }
+
+      .sidebarList {
+        list-style: none;
+        padding: 5px;
+      }
+      .sidebarListItem {
+        padding: 5px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        border-radius: 10px;
+      }
+
+      .sidebarListItem:active,
+      .sidebarListItem:hover {
+        background-color: rgb(240, 240, 255);
+      }
+
+      .sidebarIcon {
+        margin-right: 5px;
+        color: black;
+      }
+      .page-side-link {
+        width: 100%;
+        color: inherit;
+        display: flex;
+        align-items: center;
+        &:hover {
+          color: #373737;
+        }
+      }
+
+      .activePage {
+        color: $textColor;
+        font-weight: bold;
+        font-size: 0.9rem;
+        border-bottom: 1px solid #ff4d21;
+      }
+    }
+  }
+}

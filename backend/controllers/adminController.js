@@ -4,6 +4,10 @@ const Category = require('./../models/categoryModel');
 const axios = require('axios');
 const CronJob = require('node-cron');
 const Currency = require('../models/currenModel');
+const Order = require('../models/OrderModel');
+const UserAddress = require('../models/addressModel');
+const { billHtmlTemplate } = require('../utilities/assestFunctions');
+const pdf = require('html-pdf');
 exports.initialData = catchAsync(async (req, res, next) => {
   const categories = await Category.find({});
   const products = await Product.find({})
@@ -38,15 +42,77 @@ exports.getCurrency = catchAsync(async (req, res, next) => {
 });
 
 //0 0 * * * every night at midnight
+// */5 * * * * evry 5m
+// 0 9 * * * every morning
 exports.autoUpdateCurrency = catchAsync(async (req, res, next) => {
-  const scheduledUpdate = CronJob.schedule('0 * * * *', async () => {
+  const scheduledUpdate = CronJob.schedule('0 9 * * *', async () => {
     const cur = await Currency.find({});
     cur.forEach(async (item) => {
       const { data } = await axios.get(
         `https://free.currconv.com/api/v7/convert?q=${item.currency}&compact=ultra&apiKey=201ab253b42cc8a1d101`
       );
-      await Currency.findByIdAndUpdate(item._id, data);
+      const newCur = await Currency.findOneAndUpdate(
+        { _id: item._id },
+        { $set: { 'item.value': Object.values(data)[0] } }
+      );
       console.log('yes Updated', data);
+
+      console.log(newCur);
     });
   });
 });
+
+exports.adminGetAllProducts = catchAsync(async (req, res, next) => {
+  const products = await Product.find();
+
+  res.status(200).json({
+    success: true,
+    products,
+  });
+});
+
+exports.adminGetAllOrders = catchAsync(async (req, res, next) => {
+  const orders = await Order.find()
+    .sort({ _id: -1 })
+    .populate('user', 'name email');
+
+  res.status(200).json({
+    success: true,
+    orders,
+  });
+});
+
+exports.adminGetOrderDetails = catchAsync(async (req, res, next) => {
+  const order = await Order.findById(req.params.orderId)
+    .select('-__v')
+    .populate('user', 'name email')
+    .populate('items.productId', 'name cardPicture');
+
+  const userAddresses = await UserAddress.findOne({ user: order.user._id });
+
+  const addressShow = userAddresses.address.find(
+    (add) => add._id.toString() === order.addressId.toString()
+  );
+
+  const data = {
+    order,
+    addressShow,
+  };
+  res.status(200).json({
+    success: true,
+    data,
+  });
+});
+
+exports.createBillPdf = catchAsync(async (req, res, next) => {
+  pdf.create(billHtmlTemplate()).toFile('bill.pdf', (err) => {
+    if (err) {
+      res.send(Promise.reject());
+    }
+    res.send(Promise.resolve());
+  });
+});
+
+// exports.getBillPdf = catchAsync(async (req, res, next) => {
+//   res.sendFile(`${__dirname}/bill.pdf`);
+// });

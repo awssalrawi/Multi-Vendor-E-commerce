@@ -13,7 +13,7 @@ const {
 //* create new product   /api/v1/products/create
 exports.createProduct = catchAsync(async (req, res, next) => {
   console.log('subProducts', req.body);
-  const { name, price, description, category, quantity } = req.body;
+  const { name, price, description, category, quantity, currency } = req.body;
   let subProducts = {};
   let productPictures = [];
   let detailsPictures = [];
@@ -22,17 +22,7 @@ exports.createProduct = catchAsync(async (req, res, next) => {
   let availableSpecific = [];
 
   if (req.body.specification) {
-    if (req.body.specification.split(',')) {
-      const spreatedArr = req.body.specification.split(',');
-
-      specification = spreatedArr.map((item) => {
-        return { specific: item.trim() };
-      });
-    } else {
-      specification.push({
-        specific: req.body.specification,
-      });
-    }
+    specification = JSON.parse(req.body.specification);
   }
 
   if (req.body.availableSpecific) {
@@ -68,6 +58,7 @@ exports.createProduct = catchAsync(async (req, res, next) => {
     price,
     description,
     cardPicture,
+    currency,
     specification,
     availableSpecific,
     productPictures,
@@ -84,7 +75,7 @@ exports.createProduct = catchAsync(async (req, res, next) => {
   });
 });
 
-///*                /products/get-all
+//*                /products/get-all
 exports.getAllProducts = catchAsync(async (req, res, next) => {
   const products = await Product.find();
 
@@ -136,6 +127,13 @@ exports.deleteProductById = catchAsync(async (req, res, next) => {
 
 exports.updateProductById = catchAsync(async (req, res, next) => {
   const updateObj = { ...req.body };
+  if (updateObj.specification) {
+    updateObj.specification = JSON.parse(req.body.specification);
+  }
+
+  if (updateObj.subProducts) {
+    updateObj.subProducts = JSON.parse(req.body.subProducts);
+  }
   if (req.files) {
     const productBeforeUpdate = await Product.findById(req.params.productId);
     console.log(productBeforeUpdate);

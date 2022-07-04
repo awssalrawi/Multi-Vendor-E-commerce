@@ -1,0 +1,59 @@
+@use '../../../../sass/abstracts/' as *;
+.widget-sm {
+  flex: 1;
+  box-shadow: $boxShadow;
+  padding: 0.5rem;
+  margin-right: 0.5rem;
+  &__title {
+    font-size: $headerFont;
+    font-weight: $fontWeight-D;
+  }
+
+  &__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-bottom: 1px solid #bcbcbc;
+    &-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 0.5rem 0;
+      .widgetSm-img {
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+
+      .widgetSmUser {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        &-name {
+          font-weight: $fontWeight-D;
+          font-size: $mainTextSize;
+        }
+        &-title {
+          font-weight: 300;
+          font-size: $mainTextSize;
+        }
+      }
+      .widgetSm-btn {
+        display: flex;
+        align-items: center;
+        border: none;
+        border-radius: 10px;
+        padding: 5px 8px;
+        font-size: $mainTextSize;
+        background-color: #eeeef7;
+        color: #555;
+        cursor: pointer;
+        .widgetSm-icon {
+          font-size: 1rem;
+          margin-right: 2px;
+        }
+      }
+    }
+  }
+}

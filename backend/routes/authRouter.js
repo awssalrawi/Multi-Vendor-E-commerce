@@ -10,6 +10,7 @@ const {
   LogoutUser,
   googleLogin,
   facebookLogin,
+  signInSeller,
 } = require('../controllers/authController');
 const {
   userSignUpValidator,
@@ -31,6 +32,7 @@ router.post(
 router.post('/active-account', activateAccountByEmailLink);
 //*Sign in using email and password
 router.post('/signin', signInWithEmailAndPassword);
+router.post('/seller/signin', signInSeller);
 router.route('/logout').get(LogoutUser);
 router.get('/me', isAuthenticatedUser, getMyProfileData);
 

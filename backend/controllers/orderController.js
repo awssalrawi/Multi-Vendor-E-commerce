@@ -2,8 +2,27 @@ const catchAsync = require('../utilities/catchAsync');
 const AppError = require('./../utilities/appError');
 const Order = require('../models/OrderModel');
 const Cart = require('../models/cartModel');
+const Shop = require('../models/shopModel');
+const SellerOrders = require('../models/sellerOrderModel');
+
+function runUpdate(condition, updateData) {
+  return new Promise((resolve, reject) => {
+    Shop.updateOne(condition, updateData)
+      .then((result) => resolve())
+      .catch((err) => reject(err));
+  });
+}
+
+function createSellerOrder(order) {
+  return new Promise((resolve, reject) => {
+    SellerOrders.create(order)
+      .then((result) => resolve())
+      .catch((err) => reject(err));
+  });
+}
+
 exports.userAddOrder = catchAsync(async (req, res, next) => {
-  console.log('Comming body : ', req.body.order);
+  // console.log('Comming body : ', req.body.order);
   req.body.user = req.user._id;
   req.body.order.orderStatus = req.body.orderStatus = [
     {
@@ -33,6 +52,34 @@ exports.userAddOrder = catchAsync(async (req, res, next) => {
     await Cart.deleteOne({ user: req.user._id });
   }
 
+  console.log('Id that you asking for ', order._id);
+  console.log('Array that you asking for ', order);
+  let promiseArry = [];
+  let createSellerOrders = [];
+  order.items.forEach((item) => {
+    console.log('item', item.purchasedQty);
+    let selorder;
+
+    (selorder = {
+      productId: item.productId,
+      payedPrice: item.payedPrice,
+      purchasedQty: item.purchasedQty,
+      payedCurrency: item.payedCurrency,
+      shop: item.shop,
+      specific: item.specific,
+      payedPiceInDollar: item.payedPiceInDollar,
+      _id: item._id,
+      receiver: req.body.order.receiver,
+      userOrdersId: order._id,
+    }),
+      // promiseArry.push(runUpdate(condition, update));
+      createSellerOrders.push(createSellerOrder(selorder));
+  });
+
+  // await Promise.all(promiseArry);
+
+  await Promise.all(createSellerOrders);
+
   res.status(201).json({
     success: true,
     order,
@@ -40,13 +87,11 @@ exports.userAddOrder = catchAsync(async (req, res, next) => {
 });
 
 exports.userGetOrder = catchAsync(async (req, res, next) => {
-  console.log('REQUSER', req.user);
   const order = await Order.find({ user: req.user._id })
     .select(
-      '_id paymentStatus items orderStatus createdAt receivedAt receiver totalAmountText addressId'
+      '_id paymentStatus items orderStatus createdAt receivedAt receiver totalAmountText'
     )
-    .populate('items.productId', '_id name cardPicture')
-    .populate('addressId', 'name');
+    .populate('items.productId', '_id name cardPicture');
 
   if (!order) {
     return next(new AppError('There is no order found', 400));

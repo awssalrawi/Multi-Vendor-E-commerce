@@ -22,11 +22,22 @@ const ShopSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
     },
-    orders: [
-      {
-        product: { type: mongoose.Schema.Types.ObjectId, ref: 'Order' },
-      },
-    ],
+    // orders: [
+    //   {
+    //     productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
+    //     payedPrice: { type: String, required: true },
+    //     purchasedQty: { type: Number, required: true },
+    //     payedCurrency: { type: String, required: true },
+    //     specific: String,
+    //     payedPiceInDollar: Number,
+    //     notification: String,
+    //     itemStatus: {
+    //       type: String,
+    //       default: 'pending',
+    //       enum: ['pending', 'Delivered to Ltreda', 'Cancelled', 'Refund'],
+    //     },
+    //   },
+    // ],
     location: String,
   },
   { timestamps: true }

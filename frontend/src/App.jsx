@@ -157,7 +157,6 @@ function App() {
             path="categories/:categoryId"
             element={<AdminGetCategoryAndUpdate />}
           />
-
           <Route path="create-product" element={<AdminCreateProduct />} />
         </Route>
         <Route path="s-d" element={<SellerDashbord />}>

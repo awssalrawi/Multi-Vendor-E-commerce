@@ -64,7 +64,13 @@ const ProductDetails = () => {
     if (document.querySelector('.selected-item')) {
       setEPrice(item.subPrice);
       setEQuantity(item.subNumInStock);
-      setSelectedSize(item);
+      if (
+        !document
+          .querySelector('.selected-item')
+          .classList.contains('outOfStock')
+      ) {
+        setSelectedSize(item);
+      }
     } else {
       setEPrice(product.price);
       setEQuantity(product.quantity);
@@ -98,6 +104,8 @@ const ProductDetails = () => {
   const addItemToCartHandel = () => {
     const { name, _id, shop } = product;
     let item = { name, _id, shop };
+    if (product.quantity <= 0)
+      return toast.warning('There is no Product In stock left');
 
     if (product.subProducts.model.length > 1) {
       if (Object.keys(selectedSize).length === 0) {
@@ -114,7 +122,6 @@ const ProductDetails = () => {
       item.inStock = selectedSize.subNumInStock;
       item.image = product.cardPicture;
       item.cartQuant = 1;
-      console.log(item);
     } else {
       const { cardPicture, quantity, price } = product;
       item.image = cardPicture;
@@ -173,7 +180,11 @@ const ProductDetails = () => {
                       {product.subProducts.model.map((item, index) => (
                         <span
                           key={index}
-                          className="sizing"
+                          className={
+                            item.subNumInStock > 0
+                              ? 'sizing'
+                              : 'outOfStock sizing'
+                          }
                           onClick={() => handleSizeSelect(index, item)}
                         >
                           {item.name}
@@ -292,12 +303,10 @@ const ProductDetails = () => {
                     <div className="info__container">
                       {product.specification.map((c, index) => (
                         <div className="feature-item" key={index}>
-                          <p className="feature-item__title">
-                            {c.specific.split(':')[0].toUpperCase()} :
-                          </p>
+                          <p className="feature-item__title">{c.specific}</p>
                           <p className="feature-item__specific">
-                            {' '}
-                            {c.specific.split(':')[1].toUpperCase()}
+                            {/* {' '}
+                            {c.specific.split(':')[1].toUpperCase()} */}
                           </p>
                         </div>
                       ))}

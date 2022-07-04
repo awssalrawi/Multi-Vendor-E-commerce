@@ -9,7 +9,7 @@ const orderSchema = new mongoose.Schema(
     },
     addressId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'UserAddress',
+      ref: 'UserAddress.address',
       required: true,
     },
     totalAmountInDollar: {
@@ -30,7 +30,7 @@ const orderSchema = new mongoose.Schema(
         itemStatus: {
           type: String,
           default: 'pending',
-          enum: ['pending', 'Delivered to Ltreda', 'Cancelled', 'Refund'],
+          enum: ['pending', 'shipped', 'Cancelled', 'Refund'],
         },
       },
     ],

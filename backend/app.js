@@ -26,7 +26,8 @@ app.use('/public', express.static(path.join(__dirname, 'uploads'))); //*__dirnam
 app.use(morgan('tiny'));
 //app.use(cors());  allow access to api from all domains
 if (process.env.NOD_ENV === 'DEVELOPMENT') {
-  app.use(cors({ origin: 'http://127.0.0.1:3000' }));
+  // app.use(cors({ origin: 'http://127.0.0.1:3000' }));
+  app.use(cors());
 }
 app.use('/api/v1', categoryRouter);
 app.use('/api/v1', productRouter);

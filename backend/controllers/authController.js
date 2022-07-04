@@ -214,3 +214,35 @@ exports.facebookLogin = catchAsync(async (req, res, next) => {
   const newUser = await User.create({ email, name, picture, password });
   sendToken(newUser, 201, res);
 });
+
+//*Login seller
+
+exports.signInSeller = catchAsync(async (req, res, next) => {
+  const { email, password } = req.body;
+
+  const user = await User.findOne({ email }).select('+password');
+
+  if (!user || !(await user.comparePassword(password))) {
+    return next(new AppError('Incorrect email or password', 401)); //* 401 mean unauthorize
+  }
+
+  if (user.role === 'seller' || user.role === 'admin') {
+    user.password = undefined;
+    return sendToken(user, 200, res);
+  }
+
+  return next(new AppError('You are not selected as seller', 401));
+  // console.log('I came here');
+  // const token = jwt.sign({ _id: user.id }, process.env.JWT_SECRET, {
+  //   expiresIn: process.env.JWT_EXPIRES_IN,
+  // });
+
+  //const {_id,name,role} = user;
+
+  // res.status(200).json({
+  //   success: true,
+  //   token,
+  //   user,
+  // });
+});
+//*Login seller

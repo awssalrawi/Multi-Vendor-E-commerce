@@ -1,0 +1,72 @@
+@use '../../../../sass/abstracts/' as *;
+.adminproduct-table {
+  height: 100vh;
+
+  .adminProdTitleAndBtn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    &__btn {
+      width: 10rem;
+      margin-right: 2rem;
+      padding: 0.7rem 0.5rem;
+      border: none;
+      background-color: $colorGreen;
+      color: #fff;
+      border-radius: 5px;
+      font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+      font-weight: 500;
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      text-align: center;
+
+      cursor: pointer;
+      &:hover {
+        background-color: darken($color: $colorGreen, $amount: 10%);
+      }
+    }
+  }
+
+  .productListImg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &-img {
+      width: 2rem;
+      height: 2rem;
+      //  border-radius: 50%;
+      object-fit: cover;
+      margin-right: 0.5rem;
+    }
+  }
+  .iconsDisplay {
+    display: flex;
+    align-items: center;
+
+    .break-link {
+      width: fit-content;
+      height: fit-content;
+      text-decoration: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+    }
+
+    .productEdit-icon {
+      font-size: 1rem;
+      height: 1.5rem;
+      width: 1.5rem;
+      color: #42c07d;
+      cursor: pointer;
+      margin-right: 1rem;
+    }
+    .productDelete-icon {
+      font-size: 1rem;
+      height: 1.5rem;
+      width: 1.5rem;
+      color: #e03232;
+      cursor: pointer;
+    }
+  }
+}

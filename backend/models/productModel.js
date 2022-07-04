@@ -12,6 +12,14 @@ const productSchema = new mongoose.Schema(
       type: Number,
       required: [true, 'product must have a price'],
     },
+    currency: {
+      type: String,
+      required: true,
+    },
+    shippingPriceInDollar: {
+      type: Number,
+      default: 5,
+    },
     quantity: {
       type: Number,
       required: [true, 'product must have a quantity'],
@@ -62,13 +70,13 @@ const productSchema = new mongoose.Schema(
     location: String,
     updatedAt: Date,
 
-    availableSpecific: [
-      {
-        _id: false,
-        option: String,
-        inStockCount: Number,
-      },
-    ],
+    // availableSpecific: [
+    //   {
+    //     _id: false,
+    //     option: String,
+    //     inStockCount: Number,
+    //   },
+    // ],
     subProducts: {
       subName: String,
       model: [

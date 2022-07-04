@@ -1,0 +1,167 @@
+@use "../../../../sass/abstracts/" as *;
+
+.fatura {
+  width: 100%;
+  margin: 0 auto;
+  background-color: rgb(255, 255, 255);
+
+  .fatura-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+
+    border-bottom: 2px solid #777;
+    .ltreda-logo {
+      font-family: cursive;
+      .ltreda-hed {
+        font-size: 43px;
+        font-weight: bold;
+        color: orange;
+      }
+      .ltreda-com {
+        font-size: 16px;
+      }
+    }
+    .info {
+      display: flex;
+      flex-direction: column;
+      .order-info {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 5px;
+
+        &__text {
+          font-size: 14px;
+          color: #000;
+          font-weight: 500;
+          margin-bottom: 5px;
+        }
+      }
+    }
+  }
+
+  .fatura-address {
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 2px solid #777;
+    &__com {
+      display: flex;
+      flex-direction: column;
+    }
+
+    &__bill {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  .orders {
+    border-bottom: 2px solid #777;
+    .order-header {
+      margin: 0;
+    }
+    .table-content {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 5px 0;
+      font-size: 14px;
+      thead {
+        tr {
+          background-color: #f1f1f1;
+          text-align: left;
+          font-weight: 500;
+        }
+      }
+
+      th,
+      td {
+        padding: 12px 15px;
+        font-weight: 500;
+      }
+
+      tbody,
+      tr {
+        border-bottom: 1px solid #ddd;
+      }
+
+      tbody tr:nth-of-type(even) {
+        background-color: #f7f7f7;
+      }
+    }
+  }
+
+  .status {
+    border-bottom: 2px solid #777;
+    &__info {
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      .prices {
+        width: 60%;
+        padding: 2px;
+        border: 1px solid #777;
+        border-radius: 5px;
+      }
+
+      .payment {
+        display: flex;
+        flex-direction: column;
+      }
+    }
+  }
+
+  .term {
+    padding-bottom: 13px;
+    .term-turk {
+      list-style: auto;
+      font-size: 14px;
+    }
+    .term-arab {
+      list-style: persian;
+      direction: rtl;
+      font-size: 14px;
+    }
+  }
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+  margin: 5px;
+  .text-head {
+    font-size: 14px;
+    color: #000;
+    font-weight: 500;
+  }
+  .text-val {
+    font-size: 14px;
+    color: rgb(49, 49, 49);
+    font-weight: 500;
+    max-width: 180px;
+  }
+}
+
+.inline-box {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  &__head {
+    font-size: 14px;
+    font-weight: 500;
+    padding: 2px;
+  }
+  &__val {
+    font-size: 14px;
+  }
+}
+
+.section-header {
+  margin-top: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
