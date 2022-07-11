@@ -6,7 +6,7 @@ import {
 } from "../../redux/actions/orderAction";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import LoaderSpinner from "../../component/utilities/LoaderSpinner";
+import LoaderSpinner from "../../utilities/LoaderSpinner/LoaderSpinner";
 import "./styles/seller-order-details.scss";
 import ButtonMat from "../../utilities/button/ButtonMat";
 import { Update, ArrowBack } from "@material-ui/icons";

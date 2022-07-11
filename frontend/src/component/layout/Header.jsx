@@ -6,6 +6,7 @@ import { ReactComponent as ScoreIcon } from './../../assests/certificate.svg';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../redux/actions/userAction';
 import PhoneFooterNav from './PhoneFooterNav';
+import Search from './Search';
 
 //!add ne MenuItem
 import {
@@ -58,7 +59,8 @@ const Header = () => {
           {/* <img src="./logo.png" alt="logo" className="logo" /> */}
           <span className="text-logo">Ltreda</span>
         </Link>
-        <form action="#" className="search">
+        <Search />
+        {/* <form action="#" className="search">
           <input
             type="text"
             className="search__input"
@@ -67,7 +69,7 @@ const Header = () => {
           <button className="search__button">
             <i className="fa-solid fa-magnifying-glass"></i>
           </button>
-        </form>
+        </form> */}
 
         <nav className="user-nav" id="user-nav">
           <Link className="user-nav__icon-box" to="/cart">

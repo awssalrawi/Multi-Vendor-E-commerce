@@ -10,6 +10,7 @@ const {
   takeUrlFormImageFiles,
 } = require('../utilities/assestFunctions');
 
+const APIFeatures = require('../utilities/apiFeatures');
 //* create new product   /api/v1/products/create
 exports.createProduct = catchAsync(async (req, res, next) => {
   console.log('subProducts', req.body);
@@ -77,19 +78,30 @@ exports.createProduct = catchAsync(async (req, res, next) => {
 
 //*                /products/get-all
 exports.getAllProducts = catchAsync(async (req, res, next) => {
-  const products = await Product.find();
+  // const products = await Product.find();
 
+  const features = new APIFeatures(Product.find(), req.query)
+    .search()
+
+    .filter()
+    .sort()
+    .limitFields()
+    .pagination();
+
+  const products = await features.query;
   res.status(200).json({
     success: true,
+    result: products.length,
     products,
   });
 });
 
 //*To Get products by category Name we need slug in category
 exports.getProductsBySlug = catchAsync(async (req, res, next) => {
-  const category = await Category.findOne({ slug: req.params.slug }).select(
-    '_id'
-  );
+  const category = await Category.findOne({
+    slug: req.params.slug,
+  }).select('name');
+
   const products = await Product.find({ category: category._id });
 
   res.status(200).json({
@@ -103,6 +115,22 @@ exports.getProductsBySlug = catchAsync(async (req, res, next) => {
   });
 });
 
+//*Get Store page with its own product
+exports.getShopAndItsProduct = catchAsync(async (req, res, next) => {
+  console.log('params', req.params);
+  const shop = await Shop.findOne({ slug: req.params.slug }).select(
+    '_id shopImage'
+  );
+  const products = await Product.find({ shop: req.params.slug });
+
+  res.status(200).json({
+    success: true,
+    info: {
+      shop,
+      products,
+    },
+  });
+});
 //*delete product by id /api/v1/products/id
 exports.deleteProductById = catchAsync(async (req, res, next) => {
   const product = await Product.findByIdAndDelete(req.params.productId);

@@ -1,17 +1,24 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
+import { Link } from 'react-router-dom';
 import './styles/categoryinsideslider.scss';
-const CategoryInsideSlider = () => {
+const CategoryInsideSlider = ({ category }) => {
+  const [load, setLoad] = useState(false);
+  const onLoadedImage = () => {
+    setLoad(true);
+  };
   return (
-    <div className="cat-card">
+    <Link className="cat-card" to={`/${category.slug}`}>
       <div className="cat-pictures">
         <img
           className="catImageShow"
-          src="./img/house-6.jpeg"
+          src={category.categoryImage}
           alt="Category Show"
+          onLoad={onLoadedImage}
         />
+        {!load && <div className="prod-no-img">Loading</div>}
       </div>
-      <p className="cat-name">Shorts</p>
-    </div>
+      <p className="cat-name">{category.name}</p>
+    </Link>
   );
 };
 

@@ -1,0 +1,61 @@
+@use '../../sass/abstracts/' as *;
+.pro-list {
+  display: flex;
+  flex-direction: column;
+
+  .list-card {
+    display: flex;
+    padding: 3px;
+    border: 1px solid #777;
+    border-radius: 5px;
+    width: 90%;
+    margin-bottom: 5px;
+    .card-fig {
+      // max-height: 10rem;
+      // max-width: 10rem;
+      // margin-right: 3px;
+      width: 12rem;
+
+      border-radius: 4px;
+
+      &__img {
+        // object-fit: contain;
+        // width: 100%;
+        // height: auto;
+        // display: flex;
+        // align-items: center;
+        // justify-content: center;
+        width: 100%;
+        object-fit: contain;
+        overflow: hidden;
+        outline: none;
+      }
+    }
+    .card-content {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      font-weight: 500;
+      margin-left: 10px;
+      &__text {
+        font-size: $mainTextSize;
+        width: 100%;
+
+        word-wrap: break-word;
+      }
+      &__price {
+        font-size: $mainTextSize;
+
+        color: $colorRed-D;
+      }
+      &__Shipping {
+        font-size: $subTextSize;
+      }
+      &__store {
+        font-size: $subTextSize;
+        color: #777;
+        text-decoration: underline;
+      }
+    }
+  }
+}

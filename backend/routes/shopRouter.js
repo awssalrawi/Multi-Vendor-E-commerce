@@ -30,12 +30,12 @@ const storage = multer.diskStorage({
   },
 });
 const upload = multer({ storage: storage });
-router.use(isAuthenticatedSeller, restrictTo('admin', 'seller'));
+router.use(isAuthenticatedSeller, restrictTo('seller'));
 router.get('/notification-turnoff', getOrderAndTurnNotifications);
 router.post('/create-shop', upload.single('shopImage'), CreateShop);
 
 router.put('/update-shop', upload.single('shopImage'), updateShop);
-
+router.get('/getorders', sellerGetOrders);
 router.get('/products', getSellerProducts);
 router
   .route('/products/:productId')
@@ -49,7 +49,7 @@ router
   )
   .delete(sellerDeleteProductById);
 router.get('/get-my-data', getSellerInfo);
-router.get('/getorders', sellerGetOrders);
+
 router
   .route('/getorder-details/:orderId')
   .get(getOrderAndTurnNotifications)

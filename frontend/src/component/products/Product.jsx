@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './style/product.scss';
 
@@ -11,6 +11,11 @@ const Product = ({ products }) => {
   // const { name, price,  cardPicture, shop } = products;
   const [value, setValue] = React.useState(2.5);
   const { currs, selectedCurrency } = useSelector((state) => state.currency);
+
+  const [load, setLoad] = useState(false);
+  const onLoadedImage = () => {
+    setLoad(true);
+  };
   return (
     <Fragment>
       <div className="product">
@@ -27,15 +32,20 @@ const Product = ({ products }) => {
                   key={product._id}
                   state={product}
                 >
-                  <img
-                    src={
-                      cardPicture
-                        ? cardPicture
-                        : 'https://cdn.dribbble.com/users/844846/screenshots/2855815/no_image_to_show_.jpg'
-                    }
-                    alt="product"
-                    className="product__item__img"
-                  />
+                  <div className="product__item__img-container">
+                    {!load && <div className="prod-no-img">Loading</div>}
+                    <img
+                      src={
+                        cardPicture
+                          ? cardPicture
+                          : 'https://cdn.dribbble.com/users/844846/screenshots/2855815/no_image_to_show_.jpg'
+                      }
+                      alt="product"
+                      className="product-image"
+                      onLoad={onLoadedImage}
+                    />
+                    {/* <div className="prod-no-img"></div> */}
+                  </div>
                   <div className="product__item__details">
                     <span className="product__item__name">{name}</span>
 
@@ -58,7 +68,12 @@ const Product = ({ products }) => {
                     </div>
                     <div className="product__item__review">
                       <Box component="fieldset" borderColor="transparent">
-                        <Rating name="read-only" value={value} readOnly />
+                        <Rating
+                          name="read-only"
+                          value={value}
+                          readOnly
+                          size="small"
+                        />
                       </Box>
                       <span className="product-review-number">(134)</span>
                     </div>

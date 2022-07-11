@@ -2,7 +2,7 @@ import React, { Fragment, useState } from "react";
 import "./admin-category.scss";
 import "react-checkbox-tree/lib/react-checkbox-tree.css";
 import { useSelector } from "react-redux";
-import LoaderSpinner from "../../../component/utilities/LoaderSpinner";
+import LoaderSpinner from "../../../utilities/LoaderSpinner/LoaderSpinner";
 import { Link, useNavigate } from "react-router-dom";
 import CheckboxTree from "react-checkbox-tree";
 

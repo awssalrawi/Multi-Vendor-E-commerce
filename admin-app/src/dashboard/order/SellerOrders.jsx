@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import DataList from "../../utilities/datagrid/DataList";
 import { Link } from "react-router-dom";
 import { VisibilityOutlined } from "@material-ui/icons";
-import LoaderSpinner from "../../component/utilities/LoaderSpinner";
+import LoaderSpinner from "../../utilities/LoaderSpinner/LoaderSpinner";
 import { sellerOrders } from "../../redux/actions/orderAction";
 
 const SellerOrders = () => {
@@ -79,7 +79,7 @@ const SellerOrders = () => {
 
   useEffect(() => {
     dispatch(sellerOrders());
-  }, [dispatch]);
+  }, []);
   return (
     <Fragment>
       {loading ? (

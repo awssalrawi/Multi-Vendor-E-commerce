@@ -46,8 +46,9 @@ import { useSelector } from 'react-redux';
 import { updateCart } from './redux/actions/cartAction';
 import CheckoutSteps from './component/cart/CheckoutSteps';
 import UserOrders from './component/order/UserOrders';
-
+import StorePage from './page/StorePage';
 import { useTranslation } from 'react-i18next';
+import SearchProduct from './page/SearchProduct';
 import {
   getCurrencyConst,
   selectedCurrency,
@@ -120,6 +121,7 @@ function App() {
       />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/search/:keyword" element={<SearchProduct />} />
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/activate" element={<LoaderSpinner />} />
         {/* <Route exact path="/activate" element={<ActivateAccountMs />} /> */}
@@ -135,7 +137,7 @@ function App() {
         <Route path="/:slug" element={<ProductsListPage />} />
         <Route path="/test" element={<CategoryShow />} />
         <Route path="/cart" element={<CartPage />} />
-
+        <Route path="store/:shopname" element={<StorePage />} />
         {/* <Route path="/admin/dashboard" element={<AdminDashboard />} /> */}
 
         {/* <Route exact path="/me" element={<MyProfile />} /> */}
@@ -153,6 +155,7 @@ function App() {
           <Route path="viewproducts" element={<AdminShowProducts />} />
           <Route path="create-category" element={<AdminCreateCategory />} />
           <Route path="page" element={<Page />} />
+
           <Route
             path="categories/:categoryId"
             element={<AdminGetCategoryAndUpdate />}

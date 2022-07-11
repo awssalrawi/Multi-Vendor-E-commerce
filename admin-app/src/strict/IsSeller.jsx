@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 //import { isAuthenticated } from './helperCourse';
 import { useSelector } from "react-redux";
-import Login from "../component/auth/Login";
+import Login from "../components/auth/Login";
 
 const IsSeller = () => {
   const [seller, setSeller] = useState(false);

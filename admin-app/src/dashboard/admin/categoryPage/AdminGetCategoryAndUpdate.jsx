@@ -9,7 +9,7 @@ import {
   clearErrors,
 } from "../../../redux/actions/categoryAction";
 import { toast } from "react-toastify";
-import LoaderSpinner from "../../../component/utilities/LoaderSpinner";
+import LoaderSpinner from "../../../utilities/LoaderSpinner/LoaderSpinner";
 import {
   Button,
   Dialog,

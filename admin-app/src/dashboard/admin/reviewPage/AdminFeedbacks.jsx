@@ -1,14 +1,10 @@
-import React from 'react'
+import React from "react";
 
 const AdminFeedbacks = () => {
-  return (
-    <div>AdminFeedbacks</div>
-  )
-}
+  return <div>AdminFeedbacks</div>;
+};
 
-export default AdminFeedbacks
-
-
+export default AdminFeedbacks;
 
 // import React from 'react';
 // import { alpha, styled } from '@mui/material/styles';

@@ -239,7 +239,9 @@ const ProductDetails = () => {
 
                 <div className="info-part__sold-by">
                   <p className="sold-text">Sold By:</p>
-                  <p className="seller-store">{product.shop}</p>
+                  <Link className="seller-store" to={`/store/${product.shop}`}>
+                    {product.shop}
+                  </Link>
                 </div>
 
                 <div className="info-part__rating-review">

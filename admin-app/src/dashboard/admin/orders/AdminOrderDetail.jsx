@@ -13,7 +13,7 @@ import { useNavigate, Link } from "react-router-dom";
 
 import ButtonMat from "../../../utilities/button/ButtonMat";
 import "./styles/admin-order-detail.scss";
-import LoaderSpinner from "../../../component/utilities/LoaderSpinner";
+import LoaderSpinner from "../../../utilities/LoaderSpinner/LoaderSpinner";
 import { adminUpdateOrderStatus } from "../../../redux/actions/orderAction";
 
 //import { PDFDownloadLink } from "@react-pdf/renderer";

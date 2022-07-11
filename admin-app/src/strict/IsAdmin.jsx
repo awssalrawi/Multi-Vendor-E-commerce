@@ -2,9 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Outlet, useNavigate, Navigate } from "react-router-dom";
 //import { isAuthenticated } from './helperCourse';
 import { useSelector, useDispatch } from "react-redux";
-import Login from "../component/auth/Login";
-import { logout } from "../redux/actions/authAction";
-import SellerDashboard from "../dashboard/SellerDashboard";
 
 const IsAdmin = () => {
   // const navigate = useNavigate();

@@ -10,6 +10,7 @@ import {
   getProductsBySlugReducer,
   productsManagementReducer,
   cusProductsReducer,
+  storePageReducer,
 } from './reducers/productReducer';
 
 import { cartReducer } from './reducers/cartReducer';
@@ -26,6 +27,7 @@ const reducer = combineReducers({
   userInfo: userInfoReducer,
   currency: currencyReducer,
   userOrder: userOrderReducer,
+  storePage: storePageReducer,
 });
 
 const store = configureStore({

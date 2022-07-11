@@ -1,0 +1,12 @@
+/* // @import url('https://fonts.googleapis.com/css2?family=Poppins:ital@1&display=swap');
+// @import url('//netdna.bootstrapcdn.com/twitter-bootstrap/2.0.4/css/bootstrap-combined.min.css');
+// @use './assets/css/bootstrap.css';
+// @use './assets/css/ui.css';
+// @use './assets/css/responsive.css';
+@use './assets/css' as *;
+// <link href="./assets/css/bootstrap.css" rel="stylesheet" />
+// <link href="./assets/css/ui.css" rel="stylesheet" />
+// <link href="./assets/css/responsive.css" rel="stylesheet" />
+
+// <link href="./assets/css/all.min.css" rel="stylesheet" /> */
+@import './assets/css/all.min.css';

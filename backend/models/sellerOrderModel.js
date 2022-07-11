@@ -14,7 +14,7 @@ const sellerOrdersSchema = new mongoose.Schema(
     itemStatus: {
       type: String,
       default: 'pending',
-      enum: ['pending', 'shipped', 'Cancelled', 'Refund'],
+      enum: ['pending', 'shipped', 'cancelled', 'refund'],
     },
     _id: {
       type: mongoose.Schema.Types.ObjectId,

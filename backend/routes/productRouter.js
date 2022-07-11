@@ -10,6 +10,7 @@ const {
   deleteProductById,
   updateProductById,
   getProductDetailsById,
+  getShopAndItsProduct,
 } = require('../controllers/productController');
 const {
   restrictTo,
@@ -36,6 +37,7 @@ router.post(
   ]),
   createProduct
 );
+
 router.get('/products/get-all', getAllProducts);
 router
   .route('/products/:productId')
@@ -50,6 +52,6 @@ router
     updateProductById
   )
   .get(getProductDetailsById);
-
-router.get('/products/:slug', getProductsBySlug);
+router.get('/products-cat/:slug', getProductsBySlug);
+router.get('/products-stor/:slug', getShopAndItsProduct);
 module.exports = router;

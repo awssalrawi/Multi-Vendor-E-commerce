@@ -1,17 +1,27 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import React, { Fragment, useState, useEffect } from 'react';
+
+import { useSelector, useDispatch } from 'react-redux';
+import LoaderSpinner from '../utilis/LoaderSpinner';
 import { getProductsBySlug } from '../../redux/actions/productAction';
-const ProductsListPage = () => {
-  const dispatch = useDispatch();
+import { useParams } from 'react-router-dom';
+import CatPage from '../../page/CatPage';
+function ProductsListPage() {
   const params = useParams();
+  const dispatch = useDispatch();
+  console.log(params);
 
   useEffect(() => {
-    console.log(params);
     dispatch(getProductsBySlug(params.slug));
   }, []);
-
-  return <div>ProductsPage</div>;
-};
+  // const { products, loading } = useSelector(
+  //   (state) => state.productsManagement
+  // );
+  const { products, loading } = useSelector((state) => state.getProductsBySlug);
+  return (
+    <Fragment>
+      {loading ? <LoaderSpinner /> : <CatPage products={products} />}
+    </Fragment>
+  );
+}
 
 export default ProductsListPage;

@@ -86,4 +86,39 @@ a {
       font-size: 14px;
     }
   }
+
+  button {
+    border: none;
+    &:active {
+      border: none;
+    }
+    &:focus {
+      border: none;
+    }
+    &::after {
+      border: none;
+    }
+    &::before {
+      border: none;
+    }
+    &:not(:disabled) {
+      border: none;
+    }
+  }
+}
+button:not(:disabled),
+[type='button']:not(:disabled) {
+  border: none;
+  &:active {
+    border: none;
+  }
+  &:focus {
+    border: none;
+  }
+  &::after {
+    border: none;
+  }
+  &::before {
+    border: none;
+  }
 }

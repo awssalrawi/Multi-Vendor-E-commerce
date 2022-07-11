@@ -118,13 +118,34 @@ const simpleProd = {
 
   // prevArrow: true,
 };
+
 const Home = () => {
   const { products } = useSelector((state) => state.productsManagement);
+  const { categories } = useSelector((state) => state.category);
+
+  const createCategoryList = (categories, options = []) => {
+    for (let category of categories) {
+      if (category.categoryImage.length > 0) {
+        options.push({
+          value: category._id,
+          name: category.name,
+          categoryImage: category.categoryImage,
+          slug: category.slug,
+        });
+      }
+      //console.log(category.categoryImage.length);
+      if (category.children.length > 0) {
+        createCategoryList(category.children, options);
+      }
+    }
+
+    return options;
+  };
 
   return (
     <Fragment>
       <PhoneHeaderHome />
-      <CategoryHeader />
+      <CategoryHeader categories={categories} />
       <div className="home-feature">
         <Slider {...featureSetting}>
           <div className="home-feature__content">
@@ -154,12 +175,10 @@ const Home = () => {
           </Link>
         </div>
         <Slider {...settings1}>
-          <CategoryInsideSlider />
-          <CategoryInsideSlider />
-          <CategoryInsideSlider />
-          <CategoryInsideSlider />
-          <CategoryInsideSlider />
-          <CategoryInsideSlider />
+          {categories.length > 0 &&
+            createCategoryList(categories).map((category, i) => (
+              <CategoryInsideSlider category={category} key={i} />
+            ))}
         </Slider>
       </div>
       <div className="categories-slider">

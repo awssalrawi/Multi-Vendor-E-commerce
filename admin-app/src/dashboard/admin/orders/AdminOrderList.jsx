@@ -4,7 +4,7 @@ import { adminGetOrders } from "../../../redux/actions/orderAction";
 import DataList from "../../../utilities/datagrid/DataList";
 import { Link } from "react-router-dom";
 import { VisibilityOutlined } from "@material-ui/icons";
-import LoaderSpinner from "../../../component/utilities/LoaderSpinner";
+import LoaderSpinner from "../../../utilities/LoaderSpinner/LoaderSpinner";
 import { toast } from "react-toastify";
 import { clearErrors, clearMessage } from "../../../redux/actions/orderAction";
 const AdminOrderList = () => {

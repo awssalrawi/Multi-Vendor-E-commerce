@@ -114,11 +114,27 @@
             font-weight: 500;
           }
           .item-remove {
+            &:active {
+              background-color: inherit !important;
+              border: none !important;
+            }
+            &::before {
+              border: none !important;
+            }
+            &::after {
+              border: none !important;
+            }
             &-icon {
               font-size: 1rem;
               height: 1.5rem;
               width: 1.5rem;
               color: #e03232;
+              &::before {
+                border: none !important;
+              }
+              &::after {
+                border: none !important;
+              }
             }
             &:hover {
               background-color: inherit;

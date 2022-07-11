@@ -18,6 +18,9 @@ import {
   GET_CUS_PRODUCT_BY_ID_REQUEST,
   GET_CUS_PRODUCT_BY_ID_SUCCESS,
   GET_CUS_PRODUCT_BY_ID_FAIL,
+  GET_SHOP_PRODUCT_REQUEST,
+  GET_SHOP_PRODUCT_SUCCESS,
+  GET_SHOP_PRODUCT_FAIL,
   CLEAR_ERRORS,
 } from './../constants/productConstant';
 
@@ -45,9 +48,10 @@ export const getProductsBySlug = (slug) => async (dispatch) => {
   try {
     dispatch({ type: GET_PRODUCTS_BY_SLUG_REQUEST });
 
-    const { data } = await axios.get(`/api/v1/products/${slug}`);
+    const { data } = await axios.get(`/api/v1/products-cat/${slug}`);
     dispatch({ type: GET_PRODUCTS_BY_SLUG_SUCCESS, payload: data });
   } catch (error) {
+    console.log(error);
     dispatch({
       type: GET_PRODUCTS_BY_SLUG_FAIL,
       payload: error.response.data.message,
@@ -119,6 +123,21 @@ export const cusGetSingleProductDetails = (id) => async (dispatch) => {
   }
 };
 
+export const cusGetShopProduct = (slug) => async (dispatch) => {
+  try {
+    dispatch({ type: GET_SHOP_PRODUCT_REQUEST });
+
+    const { data } = await axios.get(`/api/v1/products-stor/${slug}`);
+    console.log(data);
+    dispatch({ type: GET_SHOP_PRODUCT_SUCCESS, payload: data.info });
+  } catch (error) {
+    console.log(error);
+    dispatch({
+      type: GET_SHOP_PRODUCT_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
 export const clearErrors = () => (dispatch) => {
   dispatch({ type: CLEAR_ERRORS });
 };

@@ -29,10 +29,25 @@
   // background-color: #eee;
   .cat-pictures {
     display: flex;
+    max-height: 10rem;
 
     .catImageShow {
-      width: 100%;
+      object-fit: contain;
+      width: 16rem;
+      height: auto;
       border-radius: 0.8rem;
+    }
+    .prod-no-img {
+      height: 10rem;
+      width: 100%;
+      // position: absolute;
+      // top: 0;
+      // left: 0;
+      background-color: rgb(255, 255, 255);
+      display: flex;
+      align-items: center;
+
+      justify-content: center;
     }
   }
   .cat-name {

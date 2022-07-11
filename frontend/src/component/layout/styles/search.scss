@@ -1,0 +1,43 @@
+@use '../../../sass/abstracts/' as *;
+.search {
+  flex: 0 0 40%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &__input {
+    font-family: $mainFontFamily; //*inside input doesn't inherit automatically
+    font-size: $mainFontSize;
+    color: #000000;
+    background-color: #eee;
+    border: none;
+    padding: 0.5rem 1.2rem;
+    border-radius: 4rem;
+    width: 90%;
+    transition: all 0.2s;
+    margin-right: -2rem;
+    &:focus {
+      outline: none;
+      width: 100%;
+      background-color: #f0eeee;
+    }
+    &::-webkit-input-placeholder {
+      //*only work with chrome and safari
+      font-weight: 100;
+      color: #ccc;
+    }
+  }
+  &__input:focus + &__button {
+    background-color: #f0eeee;
+  }
+  &__button {
+    border: none;
+    background-color: #eee;
+    border-radius: 100px;
+    &:focus {
+      outline: none;
+    }
+    &:active {
+      transform: translateY(2px);
+    }
+  }
+}

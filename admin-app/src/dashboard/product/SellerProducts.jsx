@@ -8,7 +8,7 @@ import {
   clearErrors,
   clearMessage,
 } from "../../redux/actions/productAction";
-import LoaderSpinner from "../../component/utilities/LoaderSpinner";
+import LoaderSpinner from "../../utilities/LoaderSpinner/LoaderSpinner";
 import { toast } from "react-toastify";
 import { Fragment } from "react";
 const SellerProducts = () => {
