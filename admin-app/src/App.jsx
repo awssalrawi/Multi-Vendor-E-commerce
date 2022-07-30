@@ -50,7 +50,7 @@ import HomeScreen from "./screens/HomeScreen";
 import OrderScreen from "./screens/OrderScreen";
 import OrderDetailmain from "./components/orders/OrderDetailmain";
 import MainProducts from "./components/products/MainProducts";
-import SellerUpdateProduct from "./components/products/SellerUpdateProduct";
+import SellerUpdateProduct from "./dashboard/product/SellerUpdateProduct";
 
 //*Design pro
 
@@ -80,31 +80,7 @@ function App() {
 
   return (
     <Router>
-      {/* <div className="topHeader">
-        <div className="currency-select-container">
-          <select
-            name="currency"
-            id="currency"
-            onChange={(e) => setSelectCurrency(e.target.value)}
-          >
-            <option value="IQD">IQD</option>
-            <option value="USD">USD</option>
-            <option value="TRY">TRY</option>
-          </select>
-        </div>
-        <div className="language-selector">
-          <button className="langBtn" onClick={() => i18n.changeLanguage("tr")}>
-            Türkçe
-          </button>
-          <button className="langBtn" onClick={() => i18n.changeLanguage("ar")}>
-            عربي
-          </button>
-          <button className="langBtn" onClick={() => i18n.changeLanguage("en")}>
-            English{" "}
-          </button>
-        </div>
-        <span className="langBtn">{t("hello")}</span>
-      </div> */}
+    
 
       <ToastContainer
         position={toast.POSITION.TOP_CENTER}
@@ -125,7 +101,7 @@ function App() {
             {/* <Route path="/" element={<HomeScreen />}> */}
             <Route path="" element={<HomeScreen />} />
 
-            <Route exact path="seller-orders" element={<OrderScreen />} />
+            <Route path="seller-orders" element={<OrderScreen />} />
             {/* <Route exact path="seller-orders" element={<OrderScreen />} /> */}
             {/* <Route path={"sel-orders"} element={<OrderScreen />} /> */}
             <Route path="seller-products" element={<MainProducts />} />

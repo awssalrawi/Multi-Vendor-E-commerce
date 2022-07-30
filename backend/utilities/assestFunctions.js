@@ -34,3 +34,9 @@ exports.deleteSingleImageFromStorage = (imageUrl) => {
     );
   });
 };
+
+exports.takeUrlFormImageFiles = (arrayOfFiles) => {
+  return arrayOfFiles.map((file) => ({
+    img: `${process.env.SERVER_API}/public/${file.filename}`,
+  }));
+};

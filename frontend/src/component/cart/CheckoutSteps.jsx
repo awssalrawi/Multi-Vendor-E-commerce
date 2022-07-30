@@ -89,10 +89,31 @@ export default function CheckoutSteps() {
   const handleClose = () => {
     setOpen(false);
   };
+  console.log('assss', addressData);
+
+  const showAddressField = (addressDetail, city, state = null, country) => {
+    let address = ' ';
+    if (addressDetail.slice(-1) !== '.') {
+      address = `${addressDetail}.${state ? state : null}.${city}. ${country}`;
+    } else {
+      address = `${addressDetail} ${state ? state : null}. ${city}. ${country}`;
+    }
+
+    return address;
+  };
 
   const handleSubmitOrder = () => {
     const makeOrder = {
-      addressId: userAddressData._id,
+      address: {
+        receiver: addressData.activeAddress.name,
+        phoneNo: addressData.activeAddress.phoneNumber,
+        addressDetail: showAddressField(
+          addressData.activeAddress.addressDetail,
+          addressData.activeAddress.city,
+          addressData.activeAddress.state,
+          addressData.activeAddress.country
+        ),
+      },
       totalAmountInDollar: summaryObject.priceInDollar * 1,
       totalAmountText: summaryObject.finalPriceText,
       receiver: userAddressData.name,
@@ -122,6 +143,8 @@ export default function CheckoutSteps() {
       });
   };
   //*Model
+
+  // const handleSubmitOrder = () => {};
   const handleNext = (index) => {
     if (index === 0) {
       console.log('I am inside addresses select index');

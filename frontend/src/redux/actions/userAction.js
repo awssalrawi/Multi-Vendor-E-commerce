@@ -46,7 +46,7 @@ export const login = (email, password) => async (dispatch) => {
       { email, password },
       config
     );
-    console.log(data);
+
     dispatch({ type: LOGIN_SUCCESS, payload: data.user });
     dispatch({ type: GET_TOKEN_FROM_COOKIE, payload: data.token });
     localStorage.setItem('authTokenReload', data.token);
@@ -57,16 +57,25 @@ export const login = (email, password) => async (dispatch) => {
 };
 
 export const getMyProfileData = () => async (dispatch) => {
-  try {
-    dispatch({ type: LOAD_PROFILE_REQUEST });
+  if (localStorage.getItem('ltredaUser')) {
+    dispatch({
+      type: LOGIN_SUCCESS,
+      payload: JSON.parse(localStorage.getItem('ltredaUser')),
+    });
+  } else {
+    try {
+      dispatch({ type: LOAD_PROFILE_REQUEST });
 
-    const { data } = await axios.get('/api/v1/user/me');
-
-    dispatch({ type: LOAD_PROFILE_SUCCESS, payload: data.user });
-  } catch (error) {
-    console.log('Login action error', error);
-    dispatch({ type: LOAD_PROFILE_FAIL });
-    // dispatch({ type: LOAD_PROFILE_FAIL, payload: error.response.data.message });
+      const { data } = await axios.get('/api/v1/user/me');
+      console.log('jsonstew', JSON.stringify(data.user));
+      dispatch({ type: LOAD_PROFILE_SUCCESS, payload: data.user });
+      localStorage.setItem('ltredaUser', JSON.stringify(data.user));
+      console.log('ltetetetea', JSON.parse(localStorage.getItem('ltredaUser')));
+    } catch (error) {
+      console.log('Login action error', error);
+      dispatch({ type: LOAD_PROFILE_FAIL });
+      // dispatch({ type: LOAD_PROFILE_FAIL, payload: error.response.data.message });
+    }
   }
 };
 
@@ -75,17 +84,19 @@ export const logout = () => async (dispatch) => {
     await axios.get('/api/v1/user/logout');
     dispatch({ type: LOGOUT_SUCCESS });
     localStorage.removeItem('authTokenReload');
+    localStorage.removeItem('ltredaUser');
   } catch (error) {
+    console.log(error);
     dispatch({ type: LOGOUT_FAIL, payload: error.message });
   }
 };
 
 //!google and facebook
-export const SignWithGoogle = (response) => async (dispatch) => {
+export const SignWithGoogle = (info) => async (dispatch) => {
   try {
     dispatch({ type: GOOGLE_SIGN_REQUEST });
 
-    const tokenId = response.tokenId;
+    // const tokenId = response.tokenId;
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -93,12 +104,14 @@ export const SignWithGoogle = (response) => async (dispatch) => {
     };
     const { data } = await axios.post(
       '/api/v1/user/google-login',
-      { tokenId },
+      info,
       config
     );
     dispatch({ type: GOOGLE_SIGN_SUCCESS, payload: data.user });
     localStorage.setItem('authTokenReload', data.token);
+    localStorage.setItem('ltredaUser', JSON.stringify(data.user));
   } catch (error) {
+    console.log(error);
     dispatch({ type: GOOGLE_SIGN_FAIL, payload: error.response.data.message });
   }
 };
@@ -111,16 +124,16 @@ export const signWithFacebook = (response) => async (dispatch) => {
         'Content-Type': 'application/json',
       },
     };
-    const { userID, accessToken } = response;
 
     const { data } = await axios.post(
       '/api/v1/user/facebook-login',
-      { userID, accessToken },
+      response,
       config
     );
-
+    localStorage.setItem('ltredaUser', JSON.stringify(data.user));
     dispatch({ type: FACEBOOK_SIGN_SUCCESS, payload: data.user });
   } catch (error) {
+    console.log(error);
     dispatch({
       type: FACEBOOK_SIGN_FAIL,
       payload: error.response.data.message,

@@ -15,6 +15,22 @@ const shopRouter = require('./routes/shopRouter');
 const addressRouter = require('./routes/addressRouter');
 const orderRouter = require('./routes/orderRouter');
 const { autoUpdateCurrency } = require('./controllers/adminController');
+const reviewRouter = require('./routes/reviewRouter');
+//*new google auth
+const passport = require('passport');
+const cookieSession = require('cookie-session');
+const passportSetup = require('./utilities/passport');
+app.use(
+  cookieSession({
+    name: 'session',
+    keys: ['awssalrawi'],
+    maxAge: 24 * 1000 * 60 * 60,
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+//*new google auth
 env.config({ path: 'backend/.env' });
 app.use(express.json());
 app.use(bodyParser.json());
@@ -33,11 +49,13 @@ app.use('/api/v1', categoryRouter);
 app.use('/api/v1', productRouter);
 app.use('/api/v1', cartRouter);
 app.use('/api/v1/user', authRouter);
+
 app.use('/api/v1', adminRouter);
-app.use('/api/v1/seller', shopRouter);
+app.use('/api/v1', reviewRouter);
 app.use('/api/v1/', addressRouter);
 app.use('/api/v1/', orderRouter);
 
+app.use('/api/v1/seller', shopRouter);
 autoUpdateCurrency();
 
 app.use(globalErrorHandler);

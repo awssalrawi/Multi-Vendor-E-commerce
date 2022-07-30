@@ -4,7 +4,20 @@ const Order = require('../models/OrderModel');
 const Cart = require('../models/cartModel');
 const Shop = require('../models/shopModel');
 const SellerOrders = require('../models/sellerOrderModel');
+//*Notification Tutorial
+const webpush = require('web-push');
 
+const publicVapidKey =
+  'BBgM6MCz_oKjICkfCBLmPgJj7aPB9DC2QdyTggSmVl8kli-UM3cDhFPfn57LDZsieykn-DGNZc43o6K6Ovh55Ac';
+const privateVapidKey = 'fXbczeOVxaAXtwgj4m438cxgp0y5Tlqrgr9gc6vFrbY';
+webpush.setVapidDetails(
+  'mailto:awss.alrawi@gmail.com',
+  publicVapidKey,
+  privateVapidKey
+);
+//*Subscribe Route
+
+//*Notification Tutorial
 function runUpdate(condition, updateData) {
   return new Promise((resolve, reject) => {
     Shop.updateOne(condition, updateData)
@@ -52,12 +65,9 @@ exports.userAddOrder = catchAsync(async (req, res, next) => {
     await Cart.deleteOne({ user: req.user._id });
   }
 
-  console.log('Id that you asking for ', order._id);
-  console.log('Array that you asking for ', order);
   let promiseArry = [];
   let createSellerOrders = [];
   order.items.forEach((item) => {
-    console.log('item', item.purchasedQty);
     let selorder;
 
     (selorder = {
@@ -84,6 +94,19 @@ exports.userAddOrder = catchAsync(async (req, res, next) => {
     success: true,
     order,
   });
+});
+
+exports.handleNotification = catchAsync(async (req, res, next) => {
+  const { subscription, title, message } = req.body;
+  const payload = JSON.stringify({ title: 'Push Test' });
+
+  //*Pass object into send notification
+
+  webpush.sendNotification(subscription, payload).catch((err) => {
+    console.log(err);
+  });
+
+  res.status(200).json({ message: 'Push Test' });
 });
 
 exports.userGetOrder = catchAsync(async (req, res, next) => {

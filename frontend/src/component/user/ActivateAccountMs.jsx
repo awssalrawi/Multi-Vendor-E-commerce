@@ -1,5 +1,5 @@
-import React, { Fragment } from "react";
-import "./style/activate-accountMs.scss";
+import React, { Fragment } from 'react';
+import './style/activate-accountMs.scss';
 const ActivateAccountMs = () => {
   return (
     <Fragment>

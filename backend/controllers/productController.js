@@ -13,8 +13,16 @@ const {
 const APIFeatures = require('../utilities/apiFeatures');
 //* create new product   /api/v1/products/create
 exports.createProduct = catchAsync(async (req, res, next) => {
-  console.log('subProducts', req.body);
-  const { name, price, description, category, quantity, currency } = req.body;
+  const {
+    name,
+    price,
+    description,
+    category,
+    inStockCount,
+    currency,
+    foundInTurkey,
+    foundInIraq,
+  } = req.body;
   let subProducts = {};
   let productPictures = [];
   let detailsPictures = [];
@@ -60,12 +68,14 @@ exports.createProduct = catchAsync(async (req, res, next) => {
     description,
     cardPicture,
     currency,
+    foundInIraq,
+    foundInTurkey,
     specification,
     availableSpecific,
     productPictures,
     detailsPictures,
     category,
-    quantity,
+    inStockCount,
     subProducts,
     shop: shop.slug,
   });
@@ -79,7 +89,7 @@ exports.createProduct = catchAsync(async (req, res, next) => {
 //*                /products/get-all
 exports.getAllProducts = catchAsync(async (req, res, next) => {
   // const products = await Product.find();
-
+  // const page = 3;
   const features = new APIFeatures(Product.find(), req.query)
     .search()
 
@@ -200,7 +210,9 @@ exports.updateProductById = catchAsync(async (req, res, next) => {
 });
 
 exports.getProductDetailsById = catchAsync(async (req, res, next) => {
-  const product = await Product.findById(req.params.productId);
+  const product = await Product.findById(req.params.productId).populate(
+    'reviews'
+  );
 
   if (!product)
     return next(new AppError('there is no product with this id', 404));

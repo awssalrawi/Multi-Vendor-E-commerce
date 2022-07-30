@@ -2,16 +2,20 @@ import React, { Fragment, useState, useEffect } from 'react';
 import './style/login.scss';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearErrors, login } from '../../redux/actions/userAction';
+import {
+  SignWithGoogle,
+  clearErrors,
+  login,
+} from '../../redux/actions/userAction';
 import { toast } from 'react-toastify';
-// import PageTitle from '../utilis/PageTitle';
 import LoaderSpinner from '../utilis/LoaderSpinner';
-import GoogleSign from './GoogleSign';
-// import FacebookSign from './FacebookSign';
 import { EmailOutlined, LockOutlined } from '@material-ui/icons';
+import FacebookSign from './FacebookSign';
+import jwt_decode from 'jwt-decode';
+import GoogleSign from './GoogleSign';
+//*facebook try
 
-//import { clear } from "google-auth-library/build/src/auth/envDetect";
-
+//*facebook try
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -30,28 +34,44 @@ const Login = () => {
       dispatch(clearErrors());
     }
   }, [dispatch, navigate, error, isAuthenticated]);
+  //*try new google
+  // function handleCallbackResponse(response) {
+  //   console.log('NewwXresponse', response.credential);
 
+  //   // const dat = jwt_decode(response.credential);
+  //   dispatch(SignWithGoogle(jwt_decode(response.credential)));
+  //   //console.log('dat', dat);
+  // }
+  // useEffect(() => {
+  //   /* global google */
+  //   google.accounts.id.initialize({
+  //     client_id:
+  //       '618592498649-bb95matoc7cp797mac74tpkp2epuf52f.apps.googleusercontent.com',
+  //     callback: handleCallbackResponse,
+  //     auto_select: true,
+  //   });
+  // }, []);
+  // //google.accounts.id.prompt();
+
+  // google.accounts.id.renderButton(
+  //   document.getElementById('signGoogleDiv'),
+
+  //   {
+  //     theme: 'outline',
+  //     text: 'continue_with',
+  //     // theme: 'outline',
+  //     type: 'standard',
+  //     // type: 'icon',
+  //     size: 'medium',
+  //     width: '220px',
+  //   }
+  // );
+  // //*try new google
   const submitHandler = (e) => {
-    console.log(typeof email);
     e.preventDefault();
     dispatch(login(email, password));
   };
 
-  //* show and hide password functions
-  function showHidePassword() {
-    const passwordShowHide = document.querySelector('.icon-passShow');
-    const passwordFields = document.querySelectorAll('.passwords');
-
-    passwordFields.forEach((field) => {
-      if (field.type === 'password') {
-        field.type = 'text';
-        passwordShowHide.classList.replace('uil-eye-slash', 'uil-eye');
-      } else {
-        field.type = 'password';
-        passwordShowHide.classList.replace('uil-eye', 'uil-eye-slash');
-      }
-    });
-  }
   return (
     <Fragment>
       {/* <PageTitle title="Login" /> */}
@@ -94,10 +114,6 @@ const Login = () => {
                     className="login-icons icon-left"
                     fontSize="medium"
                   />
-                  <i
-                    className="login-icons uil uil-eye-slash icon-passShow"
-                    onClick={showHidePassword}
-                  ></i>
                 </div>
                 <div className="check-pass">
                   <Link to="/forgotpassword" className="check__forgot">
@@ -125,9 +141,14 @@ const Login = () => {
                 </div>
               </form>
 
-              <div className="google-facebook-login design-same">
-                <GoogleSign text="Sign in with Google" />
-                {/* <FacebookSign text="Sign in with Facebook" /> */}
+              <div className="google-facebook-login">
+                <div className="goog-box">
+                  {/* <div id="signGoogleDiv"></div> */}
+                  <GoogleSign />
+                </div>
+                <div className="goog-box">
+                  <FacebookSign />
+                </div>
               </div>
             </div>
           </div>

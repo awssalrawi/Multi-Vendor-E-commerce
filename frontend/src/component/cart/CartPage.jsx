@@ -16,15 +16,24 @@ import {
   decreaseQtyFormCart,
   getMyCartItems,
 } from '../../redux/actions/cartAction';
-import { realPrice, designPrice } from '../../assests/currencyControl';
+import {
+  designPrice,
+  priceConvert,
+  iqdDesign,
+} from '../../assests/currencyControl';
 import ButtonMat from '../../generalComponent/ButtonMat';
 import WaitingDialog from '../utilis/WaitingDialog';
+import SummaryCart from './SummaryCart';
+import NameOfPage from '../utilis/NameOfPage';
 
 const CartPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
-  const { isAuthenticated } = useSelector((state) => state.auth);
+  const {
+    isAuthenticated,
+    user: { point },
+  } = useSelector((state) => state.auth);
   const [cartItems, setCartItems] = useState(cart.cartItems);
   const { currs, selectedCurrency } = useSelector((state) => state.currency);
 
@@ -72,45 +81,104 @@ const CartPage = () => {
   };
 
   const calTotalPrice = (cartItems) => {
-    // (priceText.replace(/\D/g, '') * 1)
-    // realPrice(selectedCurrency, currs, ePrice)
-    return cartItems.reduce(
-      (acc, item) =>
-        acc +
-        item.cartQuant *
-          (realPrice(selectedCurrency, currs, item.price).replace(/\D/g, '') *
-            1),
-      0
-    );
+    if (cartItems.length > 0) {
+      return cartItems.reduce(
+        (acc, item) =>
+          acc +
+          item.cartQuant *
+            priceConvert(selectedCurrency, item.currency, item.price, currs),
+        0
+      );
+    }
+    return 0;
   };
 
-  const catTotalDiscount = (cartItems) => {
+  const catTotalDiscount = (cartItems, point) => {
     let totalItems;
 
-    let point = 0.005;
+    // let point = 0.005;
     if (cartItems.length > 0) {
-      totalItems =
-        cartItems.reduce((acc, item) => acc + item.cartQuant * 1, 0) - 1;
+      totalItems = cartItems.reduce(
+        (acc, item) =>
+          acc +
+          (item.cartQuant *
+            priceConvert(selectedCurrency, item.currency, item.price, currs) *
+            point) /
+            500,
+        0
+      );
     } else {
       totalItems = 0;
     }
-    return totalItems * point * 100;
-  };
+    if (selectedCurrency === 'IQD') {
+      return iqdDesign(totalItems);
+    }
 
-  const calFinalPrice = (cartItems) => {
+    return totalItems;
+  };
+  const calShippingPrice = (cartItems, curSelect) => {
+    let shippingPrice = 0;
+    if (cartItems.length > 0) {
+      cartItems.forEach((item, i) => {
+        let qty = 1;
+        if (item.cartQuant > 1) {
+          qty = item.cartQuant / 2;
+        }
+        shippingPrice =
+          shippingPrice +
+          (priceConvert(
+            selectedCurrency,
+            'USD',
+            item.shippingPriceInDollar,
+            currs
+          ) *
+            qty) /
+            (i + 2);
+      });
+    } else {
+      shippingPrice = priceConvert(selectedCurrency, 'USD', 5, currs);
+    }
+    if (shippingPrice < priceConvert(selectedCurrency, 'USD', 5, currs))
+      shippingPrice = priceConvert(selectedCurrency, 'USD', 5, currs);
+
+    if (curSelect === 'IQD') {
+      let mod;
+      if (shippingPrice % 250 < 125) {
+        mod = 0;
+      } else mod = 250;
+
+      return shippingPrice - (shippingPrice % 250) + mod;
+    }
+
+    return shippingPrice;
+  };
+  const calFinalPrice = (cartItems, selCur, point) => {
     return (
-      calTotalPrice(cartItems) -
-      (calTotalPrice(cartItems) * catTotalDiscount(cartItems)) / 100
+      calTotalPrice(cartItems) +
+      calShippingPrice(cartItems, selCur) -
+      catTotalDiscount(cartItems, point).toFixed(1)
     );
   };
 
   const navigateToCheckout = () => {
     navigate('/place-order');
   };
+
+  //*new Price model function
+  const priceShow = (price, currency) => {
+    return `${priceConvert(
+      selectedCurrency,
+      currency,
+      price,
+      currs
+    ).toLocaleString('en-US')} ${selectedCurrency}`;
+  };
+  //*new Price model function
   return (
     <div className="cart-page">
       <WaitingDialog loading={processLoading} />
-
+      {/* <span className="ltpuhead">My Cart Details</span> */}
+      <NameOfPage text="My Cart Details" />
       <div className="cartInfo">
         <div className="items-side">
           {cartItems?.length > 0 ? (
@@ -141,7 +209,9 @@ const CartPage = () => {
                               </span>
                             )}
                             <span className="iin-delivered">
-                              delivered at 5-20 day
+                              {item.foundInIraq
+                                ? 'delivered at 1-5 day'
+                                : 'delivered at 5-20 day'}
                             </span>
                           </div>
                         </Link>
@@ -162,7 +232,8 @@ const CartPage = () => {
                           </IconButton>
                         </div>
                         <div className="item-price">
-                          {realPrice(selectedCurrency, currs, item.price)}
+                          {currs.length > 0 &&
+                            priceShow(item.price, item.currency)}
                         </div>
                         <IconButton
                           className="item-remove"
@@ -182,7 +253,7 @@ const CartPage = () => {
                 There is no item in your card!!
               </span>
               <Link className="no-item-show__link" to="/">
-                Click here to see Product 🤓🤓🤓
+                Click here to see Product
               </Link>
             </div>
           )}
@@ -200,23 +271,40 @@ const CartPage = () => {
             <span className="ss-item-txt">Total Price:</span>
             <span className="ss-item-val">
               {cartItems &&
-                `${calTotalPrice(cartItems).toLocaleString(
-                  'us-US'
-                )} ${selectedCurrency}`}
+                currs.length > 0 &&
+                priceShow(calTotalPrice(cartItems), selectedCurrency)}
+            </span>
+          </div>
+          <div className="summary-side__row">
+            <span className="ss-item-txt">Points:</span>
+            <span className="ss-item-val">{point}</span>
+          </div>
+          <div className="summary-side__row">
+            <span className="ss-item-txt">Shipping Price:</span>
+            <span className="ss-item-val">
+              {cartItems?.length > 0 &&
+                priceShow(
+                  calShippingPrice(cartItems, selectedCurrency),
+                  selectedCurrency
+                )}
             </span>
           </div>
           <div className="summary-side__row">
             <span className="ss-item-txt">Discount </span>
             <span className="ss-item-val">
-              {cartItems && `${catTotalDiscount(cartItems).toFixed(1)} %`}
+              {cartItems?.length > 0 &&
+                priceShow(catTotalDiscount(cartItems, point), selectedCurrency)}
             </span>
           </div>
           <hr />
           <div className="summary-side__row">
             <span className="ss-item-txt">Final Price </span>
             <span className="ss-item-val">
-              {cartItems &&
-                designPrice(selectedCurrency, calFinalPrice(cartItems))}
+              {cartItems?.length > 0 &&
+                priceShow(
+                  calFinalPrice(cartItems, selectedCurrency, point),
+                  selectedCurrency
+                )}
             </span>
           </div>
           <div className="summary-side__btn">
@@ -229,6 +317,7 @@ const CartPage = () => {
             />
           </div>
         </div>
+        {/* <SummaryCart /> */}
       </div>
     </div>
   );

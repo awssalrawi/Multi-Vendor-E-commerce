@@ -13,6 +13,8 @@ import {
 import { useNavigate } from "react-router-dom";
 import { IconButton } from "@material-ui/core";
 import { Add, Remove } from "@material-ui/icons";
+import Checkbox from "@mui/material/Checkbox";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
 const SellerCreateProduct = () => {
   //*Declare variables
@@ -38,6 +40,8 @@ const SellerCreateProduct = () => {
 
   const [prodSpecific, setProdSpecific] = useState([{ specific: "" }]);
 
+  const [checkLocationInIraq, setCheckLocationInIraq] = useState(false);
+  const [checkLocationInTurkey, setCheckLocationInTurkey] = useState(true);
   const { categories } = useSelector((state) => state.category);
   const { loading, error, message } = useSelector(
     (state) => state.sellerProduct
@@ -165,6 +169,9 @@ const SellerCreateProduct = () => {
     if (productDetailPictures.length > 8)
       return toast.error("Maximum Product Details Images is 8");
     if (currency === "") return toast.error("Please Select the Currency");
+    if (!checkLocationInIraq && !checkLocationInTurkey)
+      return toast.error("Please Select Product Place");
+
     //* Validation
 
     //*Create form data and set content inside
@@ -174,8 +181,10 @@ const SellerCreateProduct = () => {
     form.append("cardPicture", cardImage);
     form.append("description", description);
     form.append("category", category);
-    form.append("quantity", quantity);
+    form.append("inStockCount", quantity);
     form.append("currency", currency);
+    form.append("foundInTurkey", checkLocationInTurkey);
+    form.append("foundInIraq", checkLocationInIraq);
 
     form.append("price", price);
     console.log("productPictures", productPictures);
@@ -388,7 +397,7 @@ const SellerCreateProduct = () => {
         </div>
         <div className="content-container">
           <label htmlFor="agp-quantity" className="content-container__label">
-            Product Quantity
+            How Many Piece You Have
           </label>
           <input
             type="number"
@@ -434,11 +443,38 @@ const SellerCreateProduct = () => {
             id="agp-description"
             cols="30"
             className="content-container__textarea"
-            rows="10"
+            rows="4"
+            // style={{ fontSize: "12px" }}
             placeholder="Product Description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           ></textarea>
+        </div>
+        <div className="content-container">
+          <span className="content-container__label">Products Place</span>
+          <div className="productLocation">
+            <FormControlLabel
+              label="In Turkey"
+              control={
+                <Checkbox
+                  checked={checkLocationInTurkey}
+                  defaultChecked
+                  onChange={(e) => setCheckLocationInTurkey(e.target.checked)}
+                  inputProps={{ "aria-label": "controlled" }}
+                />
+              }
+            />
+            <FormControlLabel
+              label="In Iraq"
+              control={
+                <Checkbox
+                  checked={checkLocationInIraq}
+                  onChange={(e) => setCheckLocationInIraq(e.target.checked)}
+                  inputProps={{ "aria-label": "controlled" }}
+                />
+              }
+            />
+          </div>
         </div>
 
         <div className="content-container">
@@ -483,9 +519,10 @@ const SellerCreateProduct = () => {
           <div>
             <div
               style={{
-                padding: "8px",
+                padding: "4px",
                 border: "1px solid black",
                 marginBottom: "2px",
+                fontSize: "12px",
               }}
             >
               <label htmlFor={`sub-prod-subname`} className="subprodLabel">

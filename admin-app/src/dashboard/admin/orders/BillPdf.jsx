@@ -7,8 +7,19 @@ export default function BillPdf() {
   let componentRef = useRef();
 
   const location = useLocation();
+  const { order } = location.state;
+  console.log(order);
 
-  console.log(location);
+  const showDate = (date) => {
+    return new Date(date).toLocaleDateString("tr-TR", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    });
+  };
   return (
     <div>
       <ReactToPrint
@@ -31,13 +42,13 @@ export default function BillPdf() {
             <div className="info">
               <div className="order-info">
                 <span className="order-info__text">معرف الطلب/Sipariş Id</span>
-                <span className="order-info__val">
-                  #6293839e27512ce7d31f188b
-                </span>
+                <span className="order-info__val">{order._id}</span>
               </div>
               <div className="order-info">
                 <span className="order-info__text">تاريخ/Tarih</span>
-                <span className="order-info__val">17.6.2022 14:17:23</span>
+                <span className="order-info__val">
+                  {showDate(order.createdAt)}
+                </span>
               </div>
             </div>
           </div>
@@ -58,29 +69,25 @@ export default function BillPdf() {
               </div>
               <div className="box">
                 <span className="text-head">Address</span>
-                <span className="text-val">
-                  Çiftlik Mah.100yil Blv 225/1 Ilkadim samsun Turkey
-                </span>
+                <span className="text-val">Samsun Turkey</span>
               </div>
             </div>
             <div className="fatura-address__bill">
               <div className="box">
                 <span className="text-head">المستلم/Alıcı</span>
-                <span className="text-val">Ltreda</span>
+                <span className="text-val">{order.address.receiver}</span>
               </div>
               <div className="box">
                 <span className="text-head">Email</span>
-                <span className="text-val">ecommerace@ltreda.com</span>
+                <span className="text-val">{order.user.email}</span>
               </div>
               <div className="box">
                 <span className="text-head">Telephone</span>
-                <span className="text-val">+905538589198</span>
+                <span className="text-val">{order.address.phoneNo}</span>
               </div>
               <div className="box">
                 <span className="text-head">Address</span>
-                <span className="text-val">
-                  Çiftlik Mah.100yil Blv 225/1 Ilkadim samsun Turkey
-                </span>
+                <span className="text-val">{order.address.addressDetail}</span>
               </div>
             </div>
           </div>
@@ -97,29 +104,18 @@ export default function BillPdf() {
                   <th>البائع/Satıcı</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>PlayStation 5 Console.</td>
-                  <td>1</td>
-                  <td>250,500 دع</td>
-                  <td>Dream</td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>PlayStation 5 Console.</td>
-                  <td>1</td>
-                  <td>250,500 دع</td>
-                  <td>Dream</td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td>PlayStation 5 Console.</td>
-                  <td>1</td>
-                  <td>250,500 دع</td>
-                  <td>Dream</td>
-                </tr>
-              </tbody>
+
+              {order.items.map((item, i) => (
+                <tbody key={i}>
+                  <tr>
+                    <td>{i + 1}</td>
+                    <td>{item.productId.name}</td>
+                    <td>{item.purchasedQty}</td>
+                    <td>{item.payedPiceInDollar}</td>
+                    <td>{item.shop}</td>
+                  </tr>
+                </tbody>
+              ))}
             </table>
           </div>
 

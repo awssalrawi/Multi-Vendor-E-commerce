@@ -14,13 +14,15 @@
   &__container {
     .google-facebook-login {
       width: 100%;
-      margin: 0 auto;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-    }
-    .design-same {
-      padding: 0 2rem;
+      .goog-box {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 5px 0;
+      }
     }
 
     padding: 1rem;
@@ -54,6 +56,7 @@
       justify-content: space-between;
       align-items: center;
       margin-top: 1rem;
+      font-size: $subTextSize;
 
       .check-container {
         display: flex;
@@ -61,6 +64,9 @@
         .check {
           margin-right: 0.4rem;
           accent-color: $colorOrng-D;
+        }
+        .check-span {
+          margin-right: 3px;
         }
 
         .check__text {

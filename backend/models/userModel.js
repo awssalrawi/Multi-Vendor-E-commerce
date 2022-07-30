@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema(
       select: false,
     },
 
-    picture: String,
+    point: { type: Number, default: 1 },
 
     role: {
       type: String,

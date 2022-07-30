@@ -44,23 +44,51 @@ exports.getCurrency = catchAsync(async (req, res, next) => {
 //0 0 * * * every night at midnight
 // */5 * * * * evry 5m
 // 0 9 * * * every morning
-exports.autoUpdateCurrency = catchAsync(async (req, res, next) => {
-  const scheduledUpdate = CronJob.schedule('0 9 * * *', async () => {
-    const cur = await Currency.find({});
-    cur.forEach(async (item) => {
-      const { data } = await axios.get(
-        `https://free.currconv.com/api/v7/convert?q=${item.currency}&compact=ultra&apiKey=201ab253b42cc8a1d101`
-      );
-      const newCur = await Currency.findOneAndUpdate(
-        { _id: item._id },
-        { $set: { 'item.value': Object.values(data)[0] } }
-      );
-      console.log('yes Updated', data);
+exports.autoUpdateCurrency = () => {
+  CronJob.schedule('0 * * * *', async () => {
+    try {
+      const cur = await Currency.find({});
 
-      console.log(newCur);
-    });
+      cur.forEach(async (item) => {
+        const { data } = await axios.get(
+          `https://free.currconv.com/api/v7/convert?q=${item.currency}&compact=ultra&apiKey=201ab253b42cc8a1d101`
+        );
+        const newCur = await Currency.findByIdAndUpdate(
+          item._id,
+          {
+            $set: { value: Object.values(data)[0] },
+          },
+          { new: true }
+        );
+
+        // console.log('item.value', item.value);
+        // console.log('Object.values(data)[0]', Object.values(data)[0]);
+        // console.log('yes Updated', data);
+
+        // console.log(newCur);
+      });
+    } catch (error) {
+      console.log(error);
+    }
   });
-});
+};
+// exports.autoUpdateCurrency = catchAsync(async (req, res, next) => {
+//   const scheduledUpdate = CronJob.schedule('*/5 * * * *', async () => {
+//     const cur = await Currency.find({});
+//     cur.forEach(async (item) => {
+//       const { data } = await axios.get(
+//         `https://free.currconv.com/api/v7/convert?q=${item.currency}&compact=ultra&apiKey=201ab253b42cc8a1d101`
+//       );
+//       const newCur = await Currency.findOneAndUpdate(
+//         { _id: item._id },
+//         { $set: { 'item.value': Object.values(data)[0] } }
+//       );
+//       console.log('yes Updated', data);
+
+//       console.log(newCur);
+//     });
+//   });
+// });
 
 exports.adminGetAllProducts = catchAsync(async (req, res, next) => {
   const products = await Product.find();
@@ -88,19 +116,9 @@ exports.adminGetOrderDetails = catchAsync(async (req, res, next) => {
     .populate('user', 'name email')
     .populate('items.productId', 'name cardPicture');
 
-  const userAddresses = await UserAddress.findOne({ user: order.user._id });
-
-  const addressShow = userAddresses.address.find(
-    (add) => add._id.toString() === order.addressId.toString()
-  );
-
-  const data = {
-    order,
-    addressShow,
-  };
   res.status(200).json({
     success: true,
-    data,
+    order,
   });
 });
 

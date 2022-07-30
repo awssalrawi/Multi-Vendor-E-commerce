@@ -1,4 +1,8 @@
 @use '../../../sass/abstracts/' as *;
+
+.lt-home {
+  height: 100vh;
+}
 .categories-slider {
   width: 100%;
   margin: 0 auto;
@@ -65,5 +69,74 @@
       font-size: 3rem;
       font-weight: $fontWeight-B;
     }
+  }
+}
+
+.load-more-container {
+  height: 6rem;
+  // background-color: #ee3;
+  width: 100%;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  //color: #e36e1a;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  &__ring {
+    //  background-color: #b1b1a9;
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    animation: ring 2s linear infinite;
+
+    &:before {
+      position: absolute;
+      content: '';
+      left: 0;
+      top: 0;
+      height: 80%;
+      width: 80%;
+      border-radius: 50%;
+      box-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+    }
+  }
+
+  .load-span {
+    color: #737373;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    animation: text 2s linear infinite;
+  }
+}
+@keyframes ring {
+  0% {
+    transform: rotate(0deg);
+    box-shadow: 1px 5px 5px #e65c00;
+  }
+  50% {
+    transform: rotate(180deg);
+    box-shadow: 1px 5px 5px #18b201;
+  }
+  75% {
+    transform: rotate(270deg);
+    box-shadow: 1px 5px 5px #0456c8;
+  }
+  100% {
+    transform: rotate(360deg);
+    box-shadow: 1px 5px 5px orange;
+  }
+}
+@keyframes text {
+  0% {
+    color: #676767;
+  }
+
+  50% {
+    color: #696969;
+  }
+  100% {
+    color: black;
   }
 }

@@ -1,7 +1,8 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import GoogleSign from './GoogleSign';
-// import FacebookSign from './FacebookSign';
+import NewGoogleSign from './NewGoogleSign';
+import FacebookSign from './FacebookSign';
 import {
   EmailOutlined,
   LockOutlined,
@@ -15,14 +16,18 @@ import {
 // import { UilUser } from "@iconscout/react-unicons";
 import './style/login.scss';
 import { Link } from 'react-router-dom';
+import InfoReadDialog from '../utilis/InfoReadDialog';
+
 const Register = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
-
+  const [checked, setChecked] = useState(true);
   const { message, error } = useSelector((state) => state.auth);
-
+  const handleChange = (event) => {
+    setChecked(event.target.checked);
+  };
   useEffect(() => {
     if (error) {
       toast.error(error);
@@ -34,23 +39,14 @@ const Register = () => {
   }, [dispatch, error, message]);
   const submitHandler = (e) => {
     e.preventDefault();
+    console.log('checked', checked);
+    if (!checked)
+      return toast.warning(
+        'Please read and accept term and conditions before registering.'
+      );
+
     dispatch(signUpWithEmailAndPassword(name, email, password));
   };
-  //* show and hide password functions
-  function showHidePassword() {
-    const passwordShowHide = document.querySelector('.icon-passShow');
-    const passwordFields = document.querySelectorAll('.passwords');
-
-    passwordFields.forEach((field) => {
-      if (field.type === 'password') {
-        field.type = 'text';
-        passwordShowHide.classList.replace('uil-eye-slash', 'uil-eye');
-      } else {
-        field.type = 'password';
-        passwordShowHide.classList.replace('uil-eye', 'uil-eye-slash');
-      }
-    });
-  }
 
   return (
     <Fragment>
@@ -94,21 +90,29 @@ const Register = () => {
                 onChange={(e) => setPassword(e.target.value)}
               />
               <LockOutlined className="login-icons icon-left" />
-              {/* <i className="uil uil-lock icon-left"></i> */}
-              <i
-                className="uil uil-eye-slash login-icons icon-passShow"
-                onClick={showHidePassword}
-              ></i>
             </div>
             <div className="check-pass">
               <div className="check-container">
-                <input type="checkbox" className="check" id="checkLog" />
-                <label htmlFor="checkLog" className="check__text">
-                  I have read and accepted all{' '}
-                  <Link to="#" className="link">
+                {/* <Checkbox
+                  checked={checked}
+                  onChange={handleChange}
+                  inputProps={{ 'aria-label': 'controlled' }}
+                /> */}
+                <input
+                  type="checkbox"
+                  className="check"
+                  id="checkLog"
+                  onChange={handleChange}
+                />
+                <span className="check-span">I have read and accepted all</span>
+                <InfoReadDialog
+                  name="condition"
+                  header="Terms and Conditions"
+                  content="cccccccc"
+                />
+                {/* <Link to="#" className="link">
                     conditions
-                  </Link>
-                </label>
+                  </Link> */}
               </div>
             </div>
 
@@ -126,8 +130,13 @@ const Register = () => {
               />
             </div> */}
             <div className="google-facebook-login">
-              <GoogleSign text=" Sign Up With Google" />
-              {/* <FacebookSign text=" Sign Up With Facebook" /> */}
+              <div className="goog-box">
+                {/* <NewGoogleSign /> */}
+                <GoogleSign text="sign awss" />
+              </div>
+              <div className="goog-box">
+                <FacebookSign />
+              </div>
             </div>
           </form>
         </div>

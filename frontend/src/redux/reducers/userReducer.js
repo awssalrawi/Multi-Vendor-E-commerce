@@ -32,6 +32,9 @@ import {
 
 let authInitialState = {
   user: {},
+  loading: false,
+  error: null,
+  message: null,
 };
 
 let userInfoInitialState = {
@@ -110,6 +113,11 @@ export const authReducer = (state = authInitialState, action) => {
       return {
         ...state,
         error: null,
+      };
+    case CLEAR_MESSAGE:
+      return {
+        ...state,
+        message: null,
       };
 
     default:

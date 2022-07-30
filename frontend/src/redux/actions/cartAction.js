@@ -46,7 +46,6 @@ const addItemToCartConditions = (cartItems, cartItemToAdd) => {
       (cartItem) => cartItem._id === cartItemToAdd._id
     );
     if (existingCartItem) {
-      console.log('exist', existingCartItem);
       return cartItems.map((cartItem) =>
         cartItem._id === cartItemToAdd._id &&
         cartItem.cartQuant < cartItem.inStock
@@ -62,7 +61,7 @@ const addItemToCartConditions = (cartItems, cartItemToAdd) => {
 const removeItemFromCart = (cartItems, removedItem) => {
   let newArray = [];
   newArray = cartItems.filter((cartItem) => cartItem !== removedItem);
-  console.log('filter', newArray);
+
   return newArray;
 };
 
@@ -139,7 +138,7 @@ export const addItemToCart = (item) => async (dispatch, getState) => {
       const { data } = await axios.post('/api/v1/user/cart/test', itemSendToDb);
 
       dispatch(getMyCartItems());
-      console.log('Bitween two dispatch');
+
       dispatch({ type: ADD_TO_CART_SUCCESS });
     } catch (error) {
       console.log(error);
@@ -206,7 +205,6 @@ export const decreaseQtyFormCart = (item) => async (dispatch, getState) => {
       const res = await axios.post('/api/v1/user/cart/test', decItem);
 
       if (res.status === 200) {
-        console.log('fuck');
         dispatch(getMyCartItems());
         dispatch({ type: DECREASE_QTY_DB });
       }
@@ -249,7 +247,7 @@ export const updateCart = () => async (dispatch, getState) => {
     : [];
 
   const isAuthenticated = getState().auth.isAuthenticated;
-  console.log('isAuthenticated', isAuthenticated);
+
   if (isAuthenticated) {
     localStorage.removeItem('ltredaCartItem');
     try {
@@ -269,7 +267,6 @@ export const updateCart = () => async (dispatch, getState) => {
       console.log(error);
     }
   } else {
-    console.log('update cart cartItems', cartItems);
     dispatch({ type: GET_CART_ITEMS_LOCAL, payload: cartItems });
   }
 };

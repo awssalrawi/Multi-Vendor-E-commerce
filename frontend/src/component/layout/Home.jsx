@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import './styles/home.scss';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
@@ -9,7 +9,11 @@ import CategoryInsideSlider from '../../generalComponent/CategoryInsideSlider';
 import { Link } from 'react-router-dom';
 import SimpleProductCard from '../../generalComponent/SimpleProductCard';
 import CategoryHeader from './CategoryHeader';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { getAllProducts } from '../../redux/actions/productAction';
+import store from '../../redux/store';
+import { send } from '../utilis/push.js';
+import Footer from './Footer';
 
 const settings1 = {
   dots: false,
@@ -120,7 +124,9 @@ const simpleProd = {
 };
 
 const Home = () => {
-  const { products } = useSelector((state) => state.productsManagement);
+  let skip = 1;
+  const dispatch = useDispatch();
+
   const { categories } = useSelector((state) => state.category);
 
   const createCategoryList = (categories, options = []) => {
@@ -142,8 +148,49 @@ const Home = () => {
     return options;
   };
 
+  const { products, loading, noProductMore } = useSelector(
+    (state) => state.productsManagement
+  );
+  const [rejectLoad, setRejectLoad] = useState(false);
+  useEffect(() => {
+    if (noProductMore === true) setRejectLoad(true);
+  }, [noProductMore]);
+  //*Operation room
+
+  //*Operation room
+
+  const loadMoreProducts = (i) => {
+    if (!rejectLoad) {
+      dispatch(getAllProducts(i));
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+  }, []);
+
+  const handleScroll = (e) => {
+    if (!loading || rejectLoad === false) {
+      console.log('LOgggg here');
+      const { scrollTop, scrollHeight } = e.target.documentElement;
+      if (window.innerHeight + scrollTop + 1 >= scrollHeight) {
+        setTimeout(() => {
+          skip++;
+          loadMoreProducts(skip);
+        }, 1000);
+      }
+    }
+  };
+
+  const sendNotification = () => {
+    console.log('send notification flag');
+    send(
+      'Push Notifications',
+      'Push notification successfully sent to the browser! Check it out!'
+    );
+  };
   return (
-    <Fragment>
+    <div className="lt-home">
       <PhoneHeaderHome />
       <CategoryHeader categories={categories} />
       <div className="home-feature">
@@ -181,7 +228,7 @@ const Home = () => {
             ))}
         </Slider>
       </div>
-      <div className="categories-slider">
+      {/* <div className="categories-slider"> //!second update
         <div className="category-content">
           <span className="category-content__header">Popular Product</span>
           <Link className="category-content__link" to="#">
@@ -199,11 +246,20 @@ const Home = () => {
           <SimpleProductCard />
           <SimpleProductCard />
         </Slider>
-      </div>
+      </div> */}
       <h4 className="text-align-center my-2">Latest product</h4>
-
+      <button onClick={() => sendNotification()}>Try send Not</button>
       <Product products={products} />
-    </Fragment>
+
+      {loading && (
+        <div className="load-more-container">
+          <div className="load-more-container__ring"></div>
+          <span className="load-span">Loading</span>
+        </div>
+      )}
+
+      <Footer />
+    </div>
   );
 };
 

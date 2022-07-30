@@ -172,7 +172,7 @@ export const adminGetOrderDetail = (orderId) => async (dispatch) => {
 
     const { data } = await axios.get(`/api/v1/admin/get-orders/${orderId}`);
 
-    dispatch({ type: ADMIN_GET_ORDER_DET_SUCCESS, payload: data.data });
+    dispatch({ type: ADMIN_GET_ORDER_DET_SUCCESS, payload: data.order });
   } catch (error) {
     console.log(error);
     dispatch({

@@ -30,10 +30,7 @@ const AdminOrderDetail = () => {
     dispatch(adminGetOrderDetail(params.orderId));
   }, []);
 
-  const {
-    order: { order, addressShow },
-    loading,
-  } = useSelector((state) => state.adminOrderConfig);
+  const { order, loading } = useSelector((state) => state.adminOrderConfig);
 
   const showDate = (date) => {
     return new Date(date).toLocaleDateString("tr-TR", {
@@ -50,16 +47,16 @@ const AdminOrderDetail = () => {
     return orders.items.reduce((acc, item) => acc + item.purchasedQty, 0);
   };
 
-  const showAddressField = (addressDetail, city, state = null, country) => {
-    let address = " ";
-    if (addressDetail.slice(-1) !== ".") {
-      address = `${addressDetail}.${state ? state : null}.${city}. ${country}`;
-    } else {
-      address = `${addressDetail} ${state ? state : null}. ${city}. ${country}`;
-    }
+  // const showAddressField = (addressDetail, city, state = null, country) => {
+  //   let address = " ";
+  //   if (addressDetail.slice(-1) !== ".") {
+  //     address = `${addressDetail}.${state ? state : null}.${city}. ${country}`;
+  //   } else {
+  //     address = `${addressDetail} ${state ? state : null}. ${city}. ${country}`;
+  //   }
 
-    return address;
-  };
+  //   return address;
+  // };
 
   const findLastStatus = (status) => {
     let last;
@@ -111,7 +108,7 @@ const AdminOrderDetail = () => {
 
   return (
     <Fragment>
-      {loading || !order || Object.keys(order).length === 0 ? (
+      {loading || Object.keys(order).length === 0 ? (
         <LoaderSpinner text="Getting Order" />
       ) : (
         <div className="admin-ord-det">
@@ -190,22 +187,15 @@ const AdminOrderDetail = () => {
             <div className="address-content">
               <div className="coc-contact">
                 <PersonOutlineRounded className="ucc-icon" />
-                <span className="ucc-txt">{addressShow.name}</span>
+                <span className="ucc-txt">{order.address.receiver}</span>
               </div>
               <div className="coc-contact">
                 <PhoneAndroidRounded className="ucc-icon" />
-                <span className="ucc-txt">{addressShow.phoneNumber}</span>
+                <span className="ucc-txt">{order.address.phoneNo}</span>
               </div>
               <div className="coc-contact">
                 <LocationOn className="ucc-icon" />
-                <span className="ucc-txt">
-                  {showAddressField(
-                    addressShow.addressDetail,
-                    addressShow.city,
-                    addressShow.state,
-                    addressShow.country
-                  )}
-                </span>
+                <span className="ucc-txt">{order.address.addressDetail}</span>
               </div>
             </div>
           </div>
@@ -233,7 +223,7 @@ const AdminOrderDetail = () => {
                 onClick={() => handleUpdateStatus(updateOrderState)}
               />
 
-              <Link to="/admin/order/bill" state={{ order, addressShow }}>
+              <Link to="/admin/order/bill" state={{ order }}>
                 Show Bill
               </Link>
             </div>

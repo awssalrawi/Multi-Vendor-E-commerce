@@ -29,25 +29,35 @@
   // background-color: #eee;
   .cat-pictures {
     display: flex;
-    max-height: 10rem;
+    // max-height: 10rem;
 
     .catImageShow {
-      object-fit: contain;
-      width: 16rem;
-      height: auto;
-      border-radius: 0.8rem;
-    }
-    .prod-no-img {
-      height: 10rem;
-      width: 100%;
-      // position: absolute;
-      // top: 0;
-      // left: 0;
-      background-color: rgb(255, 255, 255);
-      display: flex;
-      align-items: center;
+      @media all and (max-width: 950px) {
+        height: auto;
+        width: 100%;
+        max-height: 9rem;
+      }
+      @media (max-width: 900px) {
+        height: auto;
+        width: 100%;
+        max-height: 7rem;
+      }
 
-      justify-content: center;
+      @media (max-width: 700px) {
+        height: auto;
+        width: 100%;
+        max-height: 6rem;
+      }
+      @media (max-width: 500px) {
+        height: auto;
+        width: 100%;
+        max-height: 5rem;
+      }
+
+      object-fit: contain;
+      height: auto;
+      width: 100%;
+      max-height: 10rem;
     }
   }
   .cat-name {
@@ -57,4 +67,13 @@
     font-size: $mainFontSize;
     margin-bottom: 0;
   }
+}
+.prod-no-img {
+  object-fit: contain;
+  height: 5rem;
+  width: 16rem;
+  background-color: rgb(255, 255, 255);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

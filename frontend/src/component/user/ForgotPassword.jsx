@@ -1,6 +1,6 @@
-import React, { Fragment } from "react";
-
-import "./style/login.scss";
+import React, { Fragment } from 'react';
+import { EmailOutlined } from '@material-ui/icons';
+import './style/login.scss';
 const ForgotPassword = () => {
   return (
     <Fragment>
@@ -14,7 +14,10 @@ const ForgotPassword = () => {
                 placeholder="Email"
                 className="auth__input-field"
               />
-              <i className="uil uil-envelope icon-left"></i>
+              <EmailOutlined
+                className="login-icons icon-left"
+                fontSize="medium"
+              />
             </div>
 
             <div className="auth__btn mt-5">

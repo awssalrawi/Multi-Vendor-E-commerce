@@ -27,6 +27,7 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.0",
     "cookie-parser": "^1.4.6",
+    "cookie-session": "^2.0.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
@@ -41,11 +42,14 @@
     "node-cron": "^3.0.1",
     "node-fetch": "^2.6.1",
     "nodemailer": "^6.7.3",
+    "passport": "^0.6.0",
+    "passport-google-oauth20": "^2.0.0",
     "react-to-print": "^2.14.7",
     "shortid": "^2.2.16",
     "sib-api-v3-sdk": "^8.3.0",
     "slugify": "^1.6.5",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "web-push": "^3.5.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"

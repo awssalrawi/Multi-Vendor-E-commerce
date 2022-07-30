@@ -125,11 +125,15 @@
         background-color: inherit;
         border: none;
         border-bottom: 1px solid #eee;
-        font-size: $mainFontSize;
+        font-size: $subTextSize !important;
         &:focus {
           outline: none;
           border-bottom: 1px solid #000;
         }
+      }
+
+      .specific-inputs {
+        font-size: $subTextSize;
       }
 
       &__button {

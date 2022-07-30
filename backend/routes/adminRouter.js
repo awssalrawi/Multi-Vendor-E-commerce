@@ -25,10 +25,13 @@ router.get('/currency', getCurrency);
 router.post('/currency/create', setCurrency);
 router.post('/order/update', isAuthenticatedUser, adminUpdateOrderStatus);
 
-router.use(isAuthenticatedSeller);
 // router.use(isAuthenticatedSeller, restrictTo('admin'));
-router.get('/admin/get-product', adminGetAllProducts);
-router.get('/admin/get-orders', adminGetAllOrders);
-router.get('/admin/get-orders/:orderId', adminGetOrderDetails);
+router.get('/admin/get-product', isAuthenticatedSeller, adminGetAllProducts);
+router.get('/admin/get-orders', isAuthenticatedSeller, adminGetAllOrders);
+router.get(
+  '/admin/get-orders/:orderId',
+  isAuthenticatedSeller,
+  adminGetOrderDetails
+);
 
 module.exports = router;

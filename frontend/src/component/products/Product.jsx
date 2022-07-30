@@ -1,11 +1,11 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './style/product.scss';
 
 import Rating from '@material-ui/lab/Rating';
 import { useSelector } from 'react-redux';
 import Box from '@material-ui/core/Box';
-import { realPrice } from '../../assests/currencyControl';
+import { realPrice, priceConvert } from '../../assests/currencyControl';
 
 const Product = ({ products }) => {
   // const { name, price,  cardPicture, shop } = products;
@@ -16,6 +16,16 @@ const Product = ({ products }) => {
   const onLoadedImage = () => {
     setLoad(true);
   };
+
+  const priceShow = (price, currency) => {
+    return `${priceConvert(
+      selectedCurrency,
+      currency,
+      price,
+      currs
+    )} ${selectedCurrency}`;
+  };
+
   return (
     <Fragment>
       <div className="product">
@@ -42,7 +52,7 @@ const Product = ({ products }) => {
                       }
                       alt="product"
                       className="product-image"
-                      onLoad={onLoadedImage}
+                      onLoad={() => setLoad(true)}
                     />
                     {/* <div className="prod-no-img"></div> */}
                   </div>
@@ -53,16 +63,21 @@ const Product = ({ products }) => {
                       {product.priceAfterDiscount ? (
                         <Fragment>
                           <span className="item__price-dis">
-                            {product.priceAfterDiscount}$
+                            {currs.length > 0 &&
+                              priceShow(
+                                product.priceAfterDiscount,
+                                product.currency
+                              )}
                           </span>
                           <span className="item__price-dis-rate">{`-${(
-                            (product.priceAfterDiscount * 100) /
-                            price
+                            100 -
+                            (product.priceAfterDiscount * 100) / product.price
                           ).toFixed(0)}%`}</span>
                         </Fragment>
                       ) : (
                         <span className="item__price-dis">
-                          {realPrice(selectedCurrency, currs, price)}
+                          {currs.length > 0 &&
+                            priceShow(product.price, product.currency)}
                         </span>
                       )}
                     </div>

@@ -159,59 +159,61 @@ exports.getUserById = catchAsync(async (req, res, next) => {
 
 //! google and facebook
 exports.googleLogin = catchAsync(async (req, res, next) => {
-  const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+  // const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+  console.log(req.body);
+  // const { tokenId } = req.body;
+  // const ticket = await client.verifyIdToken({
+  //   idToken: tokenId,
+  //   audience: process.env.GOOGLE_CLIENT_ID,
+  // });
 
-  const { tokenId } = req.body;
-  const ticket = await client.verifyIdToken({
-    idToken: tokenId,
-    audience: process.env.GOOGLE_CLIENT_ID,
-  });
+  // const dataInAuthCont = ticket.getPayload();
+  // console.log('dataInAuthCont', dataInAuthCont);
+  // const { email, name, picture, email_verified } = ticket.getPayload();
+  // if (!email_verified)
+  //   return next(
+  //     new AppError("This Email doesn't verified. Please try another one!", 401)
+  //   );
 
-  const dataInAuthCont = ticket.getPayload();
-  console.log('dataInAuthCont', dataInAuthCont);
-  const { email, name, picture, email_verified } = ticket.getPayload();
-  if (!email_verified)
-    return next(
-      new AppError("This Email doesn't verified. Please try another one!", 401)
-    );
-
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ email: req.body.email });
   console.log('useriffound::', user);
   if (user) {
     return sendToken(user, 200, res);
   }
+  const { email, name } = req.body;
   const password = process.env.USER_SIGNED_WITH_GOOGLE_PASSWORD;
-  const newUser = await User.create({ email, name, picture, password });
+  const newUser = await User.create({ email, name, password });
   sendToken(newUser, 201, res);
 });
 
 exports.facebookLogin = catchAsync(async (req, res, next) => {
   // console.log('req body', req.body);
 
-  const { userID, accessToken } = req.body;
+  // const { userID, accessToken } = req.body;
 
-  const url = `https://graph.facebook.com/v13.0/${userID}/?fields=id,name,email,picture&access_token=${accessToken}`;
+  // const url = `https://graph.facebook.com/v13.0/${userID}/?fields=id,name,email,picture&access_token=${accessToken}`;
 
-  // fetch(url, { method: 'GET' })
-  //   .then((response) => response.json())
-  //   .then((response) => {
-  //     const { name, email } = response;
-  //     const picture = response.data.url;
-  //   });
+  // // fetch(url, { method: 'GET' })
+  // //   .then((response) => response.json())
+  // //   .then((response) => {
+  // //     const { name, email } = response;
+  // //     const picture = response.data.url;
+  // //   });
 
-  const data = await fetch(url, { method: 'GET' });
-  const info = await data.json();
-  const { name, email } = info;
+  // const data = await fetch(url, { method: 'GET' });
+  // const info = await data.json();
+  // const { name, email } = info;
 
-  const picture = info.picture.data.url;
-
+  // const picture = info.picture.data.url;
+  console.log(req.body);
+  const { email, name } = req.body;
   const user = await User.findOne({ email });
   if (user) {
     return sendToken(user, 200, res);
   }
 
   const password = process.env.USER_SIGNED_WITH_GOOGLE_PASSWORD;
-  const newUser = await User.create({ email, name, picture, password });
+  const newUser = await User.create({ email, name, password });
   sendToken(newUser, 201, res);
 });
 

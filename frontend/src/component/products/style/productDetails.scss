@@ -21,6 +21,8 @@
     justify-content: space-around;
     align-items: center;
     flex-direction: row;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #000;
     @media all and (max-width: 900px) {
       flex-direction: column;
     }
@@ -64,13 +66,14 @@
       .img_containerWithSlick {
         // display: none;
         // @media (max-width: 900px) {
-        display: block;
-        max-width: 30rem;
-        width: 100%;
+        display: none;
+        // max-width: 30rem;
+        // width: 100%;
         @media (max-width: 900px) {
           display: block;
           max-width: 50rem;
           width: 100%;
+          margin-bottom: 15px;
           .slickImages {
             max-width: 12rem;
             max-height: 12rem;
@@ -86,6 +89,15 @@
           object-fit: contain;
         }
         // }
+      }
+      .imageWithRepCor {
+        display: none;
+        @media (min-width: 900px) {
+          display: block;
+          max-width: 30rem;
+          width: 100%;
+          max-height: 40rem;
+        }
       }
     }
     .info-part {
@@ -119,7 +131,10 @@
             font-size: 1.1rem;
             font-weight: 500;
             margin-left: 4px;
-            color: $colorRed-D;
+            color: #fc9539;
+            font-family: cursive, sans-serif;
+            // color: #2b76b6;
+            // color: $colorRed-D;
           }
         }
       }
@@ -133,9 +148,12 @@
         margin-top: 0.4rem;
         display: flex;
         align-items: center;
+        justify-content: center;
         //width: 90%;
+        color: $newOrg;
         .review-number {
-          margin: 0 1rem;
+          margin: 0 0 3px 1rem;
+          font-weight: 500;
         }
       }
       &__stockContainer {
@@ -246,7 +264,7 @@
 
         .select-size-text {
           font-size: 1.2rem;
-          color: $colorOrng-M;
+          color: $newOrg;
           font-weight: 500;
         }
         .size-select-container {
@@ -294,7 +312,7 @@
         margin-top: 1rem;
         width: 90%;
         .description-header {
-          font-size: 1.2rem;
+          font-size: 1rem;
           color: $textColor;
         }
         .description-content {
@@ -311,12 +329,14 @@
         width: 90%;
         .sold-text {
           font-size: 1rem;
-          color: #2fa340;
+          color: $textColor;
         }
         .seller-store {
           font-size: 0.8rem;
-          color: #616461;
+          color: $newOrg;
+          font-weight: 500;
           margin-left: 5px;
+          text-transform: uppercase;
         }
       }
     }
@@ -324,8 +344,8 @@
   .review-part {
     border-top: 1px solid #000;
     display: block;
-    //  background-color: rgb(130, 255, 164);
     width: 100%;
+    margin-bottom: 1rem;
     .review-header {
       text-align: center;
       font-size: 1.2rem;
@@ -334,27 +354,28 @@
     .review-card__container {
       width: 80%;
       margin: 0 auto;
+
       .review-card {
         // background-color: rgb(201, 113, 113);
         width: 100%;
         display: flex;
         flex-direction: column;
         justify-content: center;
+        padding-bottom: 0.3rem;
         //align-items: center;
-        border-bottom: 1px solid black;
+        border-bottom: 1px solid #d5d5d5;
         & > *:not(:last-child) {
           margin-bottom: 0.5rem;
         }
         &__user {
           margin-top: 0.5rem;
-          &-avatar {
-            height: 2.75rem;
-            border-radius: 50%;
-            margin-right: 3px;
-          }
+          display: flex;
+          align-items: center;
+
           &-name {
             font-size: $mainFontSize;
             color: orange;
+            margin-left: 3px;
           }
         }
         &__rating {
@@ -397,11 +418,11 @@
         .feature-item {
           padding: 0.2rem;
           display: flex;
-          font-size: 1rem;
+          font-size: 0.9rem;
           &__title {
-            font-weight: 400;
+            font-weight: 500;
 
-            color: #797979;
+            color: $newOrg;
           }
           &__specific {
             font-weight: 400;
@@ -423,8 +444,10 @@
         flex-direction: column;
 
         .item__specific-img {
-          border-bottom: 1px solid #000;
-          width: 100%;
+          border-bottom: 1px solid #777;
+          object-fit: contain;
+          // width: 100%;
+          max-height: 31rem;
         }
       }
     }
@@ -436,5 +459,22 @@
 }
 
 .styledBtn {
-  color: orange;
+  background-color: #fc9539 !important;
+  // background-color: #2e9e3f;
+  &:hover {
+    background-color: #ec7a15 !important ;
+  }
+}
+
+.try-img-carousel {
+  max-height: 20rem;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+.carousel .control-next.control-arrow::before {
+  border-left: 8px solid #000 !important;
+}
+.carousel .control-prev.control-arrow:before {
+  border-right: 8px solid #000 !important;
 }

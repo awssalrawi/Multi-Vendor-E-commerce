@@ -388,7 +388,7 @@ const SellerCreateProduct = () => {
         </div>
         <div className="content-container">
           <label htmlFor="agp-quantity" className="content-container__label">
-            Product Quantity
+            How Many Piece You Have
           </label>
           <input
             type="number"
@@ -432,9 +432,9 @@ const SellerCreateProduct = () => {
           <textarea
             name="description"
             id="agp-description"
-            cols="30"
+            cols="50"
             className="content-container__textarea"
-            rows="10"
+            rows="2"
             placeholder="Product Description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}

@@ -20,6 +20,11 @@ import {
   GET_SHOP_PRODUCT_REQUEST,
   GET_SHOP_PRODUCT_SUCCESS,
   GET_SHOP_PRODUCT_FAIL,
+  GET_FILTERED_PRODUCTS_REQUEST,
+  GET_FILTERED_PRODUCTS_SUCCESS,
+  GET_FILTERED_PRODUCTS_FAIL,
+  GET_ALL_PRODUCTS_LOAD_MORE,
+  NO_PRODUCTS_STOP_PAGINATION,
   CLEAR_ERRORS,
 } from './../constants/productConstant';
 
@@ -33,6 +38,8 @@ const getProductsBySlugState = {
 
 const initialStateOfProduct = {
   products: [],
+  loading: false,
+  noProductMore: false,
 };
 const storeInitial = {
   loading: false,
@@ -40,6 +47,11 @@ const storeInitial = {
   error: null,
 };
 
+const filteredInitial = {
+  products: [],
+  loading: false,
+  error: null,
+};
 const productsAfterCreateNewProduct = (products, newProduct) => {
   return [...products, newProduct];
 };
@@ -111,6 +123,18 @@ export const productsManagementReducer = (
         ...state,
         loading: false,
         products: action.payload,
+      };
+    case GET_ALL_PRODUCTS_LOAD_MORE:
+      return {
+        ...state,
+        loading: false,
+        products: [...state.products, ...action.payload],
+      };
+    case NO_PRODUCTS_STOP_PAGINATION:
+      return {
+        ...state,
+        loading: false,
+        noProductMore: true,
       };
     case ADMIN_CREATE_PRODUCT_SUCCESS:
       return {
@@ -210,6 +234,22 @@ export const storePageReducer = (state = storeInitial, action) => {
         error: null,
         ...state,
       };
+
+    default:
+      return state;
+  }
+};
+
+export const filteredProductsReducer = (state = filteredInitial, action) => {
+  switch (action.type) {
+    case GET_FILTERED_PRODUCTS_REQUEST:
+      return { ...state, loading: true };
+    case GET_FILTERED_PRODUCTS_SUCCESS:
+      return { ...state, loading: false, products: action.payload };
+    case GET_FILTERED_PRODUCTS_FAIL:
+      return { ...state, loading: false, error: action.payload };
+    case CLEAR_ERRORS:
+      return { ...state, error: null };
 
     default:
       return state;

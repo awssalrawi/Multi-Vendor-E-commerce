@@ -135,7 +135,7 @@ exports.getMyCartItems = catchAsync(async (req, res, next) => {
   let cartItems = [];
   const cart = await Cart.findOne({ user: req.user._id }).populate(
     'cartItems.product',
-    'name price subProducts cardPicture quantity shop _id priceAfterDiscount'
+    'name price subProducts cardPicture inStockCount shop _id priceAfterDiscount foundInTurkey foundInIraq currency shippingPriceInDollar'
   );
 
   if (!cart || !cart.cartItems.length > 0) {
@@ -157,6 +157,10 @@ exports.getMyCartItems = catchAsync(async (req, res, next) => {
         cartQuant: item.cartQuant,
         specific: subItem.name,
         shop: item.product.shop,
+        foundInTurkey: item.product.foundInTurkey,
+        foundInIraq: item.product.foundInIraq,
+        currency: item.product.currency,
+        shippingPriceInDollar: item.product.shippingPriceInDollar,
       };
     }
 
@@ -167,9 +171,13 @@ exports.getMyCartItems = catchAsync(async (req, res, next) => {
       price: item.product.priceAfterDiscount
         ? item.product.priceAfterDiscount
         : item.product.price,
-      inStock: item.product.quantity,
+      inStock: item.product.inStockCount,
       cartQuant: item.cartQuant,
       shop: item.product.shop,
+      foundInTurkey: item.product.foundInTurkey,
+      foundInIraq: item.product.foundInIraq,
+      currency: item.product.currency,
+      shippingPriceInDollar: item.product.shippingPriceInDollar,
     };
   });
 

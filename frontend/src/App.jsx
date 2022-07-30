@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
 import './App.scss';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './component/layout/Home';
@@ -21,7 +21,7 @@ import './assests/toast-my-style.scss';
 
 import LoaderSpinner from './component/utilis/LoaderSpinner.jsx';
 import { getAllCategories } from './redux/actions/categoryAction';
-import { adminGetAllProducts } from './redux/actions/productAction';
+import { getAllProducts } from './redux/actions/productAction';
 import Categories from './component/layout/Categories';
 import CategoryShow from './generalComponent/CategoreyShow';
 import AdminDashboard from './component/admin/AdminDashboard';
@@ -51,16 +51,17 @@ import { useTranslation } from 'react-i18next';
 import SearchProduct from './page/SearchProduct';
 import {
   getCurrencyConst,
-  selectedCurrency,
+  // selectedCurrency,
 } from './redux/actions/currencyAction';
 
 import OrderSuccess from './component/cart/OrderSuccess';
 import SellerDashbord from './component/seller/SellerDashbord';
 import SellerProducts from './component/seller/product/SellerProducts';
+import Footer from './component/layout/Footer';
 
 function App() {
   const { isAuthenticated } = useSelector((state) => state.auth);
-  const { t, i18n } = useTranslation();
+  // const { t, i18n } = useTranslation();
   useEffect(() => {
     store.dispatch(updateCart());
   }, [isAuthenticated]);
@@ -70,44 +71,19 @@ function App() {
       store.dispatch(getMyProfileData());
     }
     store.dispatch(getAllCategories());
-    store.dispatch(adminGetAllProducts());
+    store.dispatch(getAllProducts());
     store.dispatch(getCurrencyConst());
   }, []);
 
-  const [selectCurrency, setSelectCurrency] = useState('IQD');
+  // const [selectCurrency, setSelectCurrency] = useState('IQD');
 
-  useEffect(() => {
-    store.dispatch(selectedCurrency(selectCurrency));
-    console.log('I called inside appjs currency effect');
-  }, [selectCurrency]);
+  // useEffect(() => {
+  //   store.dispatch(selectedCurrency(selectCurrency));
+  //   console.log('I called inside appjs currency effect');
+  // }, [selectCurrency]);
 
   return (
     <Router>
-      <div className="topHeader">
-        <div className="currency-select-container">
-          <select
-            name="currency"
-            id="currency"
-            onChange={(e) => setSelectCurrency(e.target.value)}
-          >
-            <option value="IQD">IQD</option>
-            <option value="USD">USD</option>
-            <option value="TRY">TRY</option>
-          </select>
-        </div>
-        <div className="language-selector">
-          <button className="langBtn" onClick={() => i18n.changeLanguage('tr')}>
-            Türkçe
-          </button>
-          <button className="langBtn" onClick={() => i18n.changeLanguage('ar')}>
-            عربي
-          </button>
-          <button className="langBtn" onClick={() => i18n.changeLanguage('en')}>
-            English{' '}
-          </button>
-        </div>
-        <span className="langBtn">{t('hello')}</span>
-      </div>
       <Header />
       <ToastContainer
         position={toast.POSITION.TOP_CENTER}
@@ -119,6 +95,7 @@ function App() {
         pauseOnHover={true}
         style={{ fontSize: '14px' }}
       />
+
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/search/:keyword" element={<SearchProduct />} />

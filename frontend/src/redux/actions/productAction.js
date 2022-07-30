@@ -21,6 +21,11 @@ import {
   GET_SHOP_PRODUCT_REQUEST,
   GET_SHOP_PRODUCT_SUCCESS,
   GET_SHOP_PRODUCT_FAIL,
+  GET_FILTERED_PRODUCTS_REQUEST,
+  GET_FILTERED_PRODUCTS_SUCCESS,
+  GET_FILTERED_PRODUCTS_FAIL,
+  GET_ALL_PRODUCTS_LOAD_MORE,
+  NO_PRODUCTS_STOP_PAGINATION,
   CLEAR_ERRORS,
 } from './../constants/productConstant';
 
@@ -59,20 +64,41 @@ export const getProductsBySlug = (slug) => async (dispatch) => {
   }
 };
 
-export const adminGetAllProducts = () => async (dispatch) => {
-  try {
-    dispatch({ type: ADMIN_GET_ALL_PRODUCTS_REQUEST });
+export const getAllProducts =
+  (page = 1) =>
+  async (dispatch, getState) => {
+    if (!getState().productsManagement.noProductMore) {
+      try {
+        dispatch({ type: ADMIN_GET_ALL_PRODUCTS_REQUEST });
 
-    const { data } = await axios.get('/api/v1/products/get-all');
-
-    dispatch({ type: ADMIN_GET_ALL_PRODUCTS_SUCCESS, payload: data.products });
-  } catch (error) {
-    dispatch({
-      type: ADMIN_GET_ALL_PRODUCTS_FAIL,
-      payload: error.response.data.message,
-    });
-  }
-};
+        const { data } = await axios.get(
+          `/api/v1/products/get-all?page=${page}`
+        );
+        if (page > 1) {
+          if (data.products.length > 0) {
+            dispatch({
+              type: GET_ALL_PRODUCTS_LOAD_MORE,
+              payload: data.products,
+            });
+          } else {
+            dispatch({
+              type: NO_PRODUCTS_STOP_PAGINATION,
+            });
+          }
+        } else {
+          dispatch({
+            type: ADMIN_GET_ALL_PRODUCTS_SUCCESS,
+            payload: data.products,
+          });
+        }
+      } catch (error) {
+        dispatch({
+          type: ADMIN_GET_ALL_PRODUCTS_FAIL,
+          payload: error.response.data.message,
+        });
+      }
+    }
+  };
 
 export const adminDeleteProductById = (id) => async (dispatch) => {
   try {
@@ -138,6 +164,29 @@ export const cusGetShopProduct = (slug) => async (dispatch) => {
     });
   }
 };
+
+export const getProductsByFilter =
+  (keyword = '') =>
+  async (dispatch) => {
+    try {
+      dispatch({ type: GET_FILTERED_PRODUCTS_REQUEST });
+
+      const { data } = await axios.get(
+        `/api/v1/products/get-all?keyword=${keyword}`
+      );
+
+      dispatch({
+        type: GET_FILTERED_PRODUCTS_SUCCESS,
+        payload: data.products,
+      });
+    } catch (error) {
+      dispatch({
+        type: GET_FILTERED_PRODUCTS_FAIL,
+        payload: error.response.data.message,
+      });
+    }
+  };
+
 export const clearErrors = () => (dispatch) => {
   dispatch({ type: CLEAR_ERRORS });
 };

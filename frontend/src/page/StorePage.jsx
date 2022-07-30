@@ -2,7 +2,7 @@ import React, { useEffect, Fragment } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { cusGetShopProduct } from '../redux/actions/productAction';
 import { useParams } from 'react-router-dom';
-import CatPage from './CatPage';
+import FilteredProducts from './FilteredProducts';
 import LoaderSpinner from '../component/utilis/LoaderSpinner';
 import './style/store-page.scss';
 const StorePage = () => {
@@ -36,7 +36,7 @@ const StorePage = () => {
           )}
           {data.products && data.products.length > 0 && (
             <div className="store-products">
-              <CatPage products={data.products} />
+              <FilteredProducts products={data.products} />
             </div>
           )}
         </div>

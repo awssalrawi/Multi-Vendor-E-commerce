@@ -90,3 +90,87 @@
     }
   }
 }
+
+.md-review {
+  width: 30rem;
+  display: flex;
+  flex-direction: column;
+  &__header {
+    font-size: $subTextSize;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .rev-product {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 5px;
+    border-bottom: 1px solid #e3e3e3;
+    &__image {
+      max-width: 8rem;
+      height: auto;
+      object-fit: content;
+      margin-right: 5px;
+      padding: 5px;
+    }
+    .prod-content {
+      display: flex;
+      flex-direction: column;
+      &__shop {
+        font-size: $mainTextSize;
+        font-weight: 500;
+        text-transform: uppercase;
+        margin-bottom: 3px;
+      }
+      &__name {
+        font-size: $subTextSize;
+        margin-bottom: 3px;
+      }
+      .rating {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  }
+
+  .comment {
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    textarea {
+      resize: vertical;
+      background-color: inherit;
+      border: 1px solid #eee;
+      width: 80%;
+      font-size: $subTextSize !important;
+      &:focus {
+        outline: none;
+        border-bottom: 1px solid #000;
+      }
+    }
+  }
+
+  .exist-review {
+    width: 100%;
+    margin: 10px 0;
+    padding: 3px;
+    border: 1px solid #e3e3e3;
+    border-radius: 5px;
+
+    .exist-review__box {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .exist-comment {
+        max-width: 75%;
+        font-size: $subTextSize;
+      }
+    }
+  }
+}

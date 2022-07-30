@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './styles/header.scss';
 import { ReactComponent as CartIcon } from './../../assests/shopping-cart.svg';
@@ -26,6 +26,11 @@ import {
 } from '@mui/icons-material';
 import { ShoppingCartOutlined } from '@material-ui/icons';
 
+import {
+  getCurrencyConst,
+  selectedCurrency,
+} from '../../redux/actions/currencyAction';
+import { useTranslation } from 'react-i18next';
 const Header = () => {
   const { loading, user, isAuthenticated } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -52,6 +57,18 @@ const Header = () => {
     setAnchorEl(null);
   };
 
+  //*currency and translate
+  const { t, i18n } = useTranslation();
+
+  const [selectCurrency, setSelectCurrency] = useState('IQD');
+
+  useEffect(() => {
+    dispatch(selectedCurrency(selectCurrency));
+    console.log('I called inside appjs currency effect');
+  }, [selectCurrency]);
+
+  //*currency and translate
+
   return (
     <Fragment>
       <div className="header header-phone">
@@ -60,18 +77,37 @@ const Header = () => {
           <span className="text-logo">Ltreda</span>
         </Link>
         <Search />
-        {/* <form action="#" className="search">
-          <input
-            type="text"
-            className="search__input"
-            placeholder="Search product"
-          />
-          <button className="search__button">
-            <i className="fa-solid fa-magnifying-glass"></i>
-          </button>
-        </form> */}
+        {/* <span className="langBtn">{t('hello')}</span> */}
 
         <nav className="user-nav" id="user-nav">
+          <div className="topHeader">
+            <div className="currency-select-container">
+              <select
+                name="currency"
+                id="currency"
+                onChange={(e) => setSelectCurrency(e.target.value)}
+              >
+                <option value="IQD">IQD</option>
+                <option value="USD">USD</option>
+                <option value="TRY">TRY</option>
+              </select>
+            </div>
+            <div className="language-selector">
+              <div className="currency-select-container">
+                <select
+                  name="currency"
+                  id="currency"
+                  onChange={(e) => i18n.changeLanguage(e.target.value)}
+                  // defaultValue={i18n.changeLanguage('ar')}
+                >
+                  <option value="ar">ألعربية</option>
+                  <option value="en">English</option>
+                  <option value="tr">Türkçe</option>
+                </select>
+              </div>
+            </div>
+            {/* <span className="langBtn">{t('hello')}</span> */}
+          </div>
           <Link className="user-nav__icon-box" to="/cart">
             <CartIcon className="cart-icon" />
             <span className="cart-notification">
@@ -111,20 +147,9 @@ const Header = () => {
                       aria-haspopup="true"
                       aria-expanded={open ? 'true' : undefined}
                     >
-                      {user.picture ? (
-                        <Fragment>
-                          <img
-                            src={user.picture}
-                            alt="user avatar"
-                            className="user-nav__user-photo"
-                          />
-                          {/* <span className="user-nav__user-name">
-                            {splitName(user.name)}
-                          </span> */}
-                        </Fragment>
-                      ) : (
-                        <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
-                      )}
+                      <Avatar sx={{ width: 32, height: 32 }}>
+                        {user.name.charAt(0)}
+                      </Avatar>
                     </IconButton>
                   </Tooltip>
                 </Box>
@@ -233,7 +258,7 @@ const Header = () => {
               </div>
               <div className="user-nav__scrol">
                 <ScoreIcon className="user-nav__scrol__icon" />
-                <span className="user-nav__scrol__value">point: 70</span>
+                <span className="user-nav__scrol__value">{`point: ${user.point}`}</span>
               </div>
             </Fragment>
           )}

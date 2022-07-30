@@ -7,10 +7,15 @@ const orderSchema = new mongoose.Schema(
       ref: 'User',
       required: [true, 'Please sign in first'],
     },
-    addressId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'UserAddress.address',
-      required: true,
+    // addressId: {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   ref: 'UserAddress.address',
+    //   required: true,
+    // },
+    address: {
+      receiver: { type: String, required: true },
+      phoneNo: { type: String, required: true },
+      addressDetail: { type: String, required: true },
     },
     totalAmountInDollar: {
       type: Number,

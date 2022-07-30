@@ -12,6 +12,8 @@ import {
   sellerUpdateProductById,
 } from "../../redux/actions/productAction";
 import { useDispatch } from "react-redux";
+import Checkbox from "@mui/material/Checkbox";
+import FormControlLabel from "@mui/material/FormControlLabel";
 //*imported from product details
 
 //*agp for this function
@@ -39,6 +41,9 @@ const SellerUpdateProduct = () => {
     subName: "",
     model: [{ name: "", subNumInStock: 0, subPrice: price }],
   });
+
+  const [checkLocationInIraq, setCheckLocationInIraq] = useState(false);
+  const [checkLocationInTurkey, setCheckLocationInTurkey] = useState(true);
 
   const [prodSpecific, setProdSpecific] = useState([{ specific: "" }]);
   //*Declare variables
@@ -125,7 +130,7 @@ const SellerUpdateProduct = () => {
     </div>
   );
   const product = location.state;
-
+  console.log(product);
   //*Submit update function
   const submitUpdateProduct = () => {
     const form = new FormData();
@@ -139,7 +144,7 @@ const SellerUpdateProduct = () => {
     if (cardImage !== "") form.append("cardPicture", cardImage);
     if (name) form.append("name", name);
     if (price) form.append("price", price);
-    if (quantity && quantity > 0) form.append("quantity", quantity);
+    if (quantity && quantity > 0) form.append("inStockCount", quantity);
     if (description) form.append("description", description);
     if (specifications) form.append("specification", specifications);
     if (availableSpecific) form.append("availableSpecific", availableSpecific);
@@ -298,6 +303,35 @@ const SellerUpdateProduct = () => {
         </div>
         <div className="content-container">
           <TextDetail header="Description" content={product.description} />
+        </div>
+
+        <div className="content-container">
+          <span className="content-container__label">Products Place</span>
+          <div className="productLocation">
+            <FormControlLabel
+              label="In Turkey"
+              control={
+                <Checkbox
+                  checked={product.foundInTurkey}
+                  defaultChecked
+                  // onChange={(e) => setCheckLocationInTurkey(e.target.checked)}
+                  inputProps={{ "aria-label": "controlled" }}
+                  readOnly
+                />
+              }
+            />
+            <FormControlLabel
+              label="In Iraq"
+              control={
+                <Checkbox
+                  checked={product.foundInIraq}
+                  // onChange={(e) => setCheckLocationInIraq(e.target.checked)}
+                  inputProps={{ "aria-label": "controlled" }}
+                  readOnly
+                />
+              }
+            />
+          </div>
         </div>
         {Object.keys(product.subProducts).length !== 0 && (
           <div className="content-container">
@@ -532,6 +566,32 @@ const SellerUpdateProduct = () => {
           ></textarea>
         </div>
         <div className="content-container">
+          <span className="content-container__label">Products Place</span>
+          <div className="productLocation">
+            <FormControlLabel
+              label="In Turkey"
+              control={
+                <Checkbox
+                  checked={checkLocationInTurkey}
+                  defaultChecked
+                  onChange={(e) => setCheckLocationInTurkey(e.target.checked)}
+                  inputProps={{ "aria-label": "controlled" }}
+                />
+              }
+            />
+            <FormControlLabel
+              label="In Iraq"
+              control={
+                <Checkbox
+                  checked={checkLocationInIraq}
+                  onChange={(e) => setCheckLocationInIraq(e.target.checked)}
+                  inputProps={{ "aria-label": "controlled" }}
+                />
+              }
+            />
+          </div>
+        </div>
+        <div className="content-container">
           <label htmlFor="agp-sp" className="content-container__label">
             Specifications (if there or leave empty)
           </label>
@@ -566,21 +626,6 @@ const SellerUpdateProduct = () => {
             </div>
           ))}
         </div>
-        {/* <div className="content-container">
-          <label htmlFor="agp-av" className="content-container__label">
-            available Items
-          </label>
-          <textarea
-            name="available-items"
-            id="agp-av"
-            cols="30"
-            className="content-container__textarea"
-            rows="2"
-            placeholder="please write in this format xxl-8,xxs-1"
-            value={availableSpecific}
-            onChange={(e) => setAvailableSpecific(e.target.value)}
-          ></textarea>
-        </div> */}
         <div className="content-container">
           <span className="content-container__label">
             Sub Product (if there or leave empty)
@@ -591,6 +636,7 @@ const SellerUpdateProduct = () => {
                 padding: "8px",
                 border: "1px solid black",
                 marginBottom: "2px",
+                fontSize: "12px",
               }}
             >
               <label htmlFor={`sub-prod-subname`} className="subprodLabel">
@@ -678,22 +724,6 @@ const SellerUpdateProduct = () => {
             </div>
           </div>
         </div>
-
-        {/* <div className="content-container">
-          <label htmlFor="agp-sp" className="content-container__label">
-            Specifications
-          </label>
-          <textarea
-            name="available-items"
-            id="agp-sp"
-            cols="30"
-            className="content-container__textarea"
-            rows="2"
-            placeholder="please write in this format Origin:Turkey,Marke:Nike,garanti:2 year "
-            value={specifications}
-            onChange={(e) => setSpecifications(e.target.value)}
-          ></textarea>
-        </div> */}
 
         <div className="content-container">
           <span className="content-container__general-header">

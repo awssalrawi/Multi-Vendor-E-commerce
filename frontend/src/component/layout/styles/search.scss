@@ -4,26 +4,46 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  @media (max-width: 768px) {
+    flex: auto;
+    max-width: 20rem;
+  }
+  @media (max-width: 600px) {
+    flex: auto;
+    max-width: 18rem;
+  }
+  @media (max-width: 450px) {
+    flex: auto;
+    max-width: 15rem;
+  }
   &__input {
     font-family: $mainFontFamily; //*inside input doesn't inherit automatically
-    font-size: $mainFontSize;
+    font-size: $mainTextSize;
     color: #000000;
     background-color: #eee;
     border: none;
+    @media (max-width: 768px) {
+      padding: 3px 1rem;
+    }
     padding: 0.5rem 1.2rem;
     border-radius: 4rem;
     width: 90%;
     transition: all 0.2s;
     margin-right: -2rem;
+
     &:focus {
-      outline: none;
-      width: 100%;
-      background-color: #f0eeee;
+      @media (min-width: 768px) {
+        outline: none;
+        width: 100%;
+        background-color: #f0eeee;
+      }
     }
+
     &::-webkit-input-placeholder {
       //*only work with chrome and safari
       font-weight: 100;
-      color: #ccc;
+      color: #c5c5c5;
+      font-size: $subTextSize;
     }
   }
   &__input:focus + &__button {

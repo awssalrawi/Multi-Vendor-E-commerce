@@ -30,7 +30,7 @@ const storage = multer.diskStorage({
   },
 });
 const upload = multer({ storage: storage });
-router.use(isAuthenticatedSeller, restrictTo('seller'));
+router.use(isAuthenticatedSeller);
 router.get('/notification-turnoff', getOrderAndTurnNotifications);
 router.post('/create-shop', upload.single('shopImage'), CreateShop);
 

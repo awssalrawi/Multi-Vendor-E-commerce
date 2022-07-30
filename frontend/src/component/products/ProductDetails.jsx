@@ -21,9 +21,43 @@ import {
 import Button from '@mui/material/Button';
 import LoaderSpinner from '../utilis/LoaderSpinner';
 import { addItemToCart } from '../../redux/actions/cartAction';
-import { realPrice } from '../../assests/currencyControl';
+import { realPrice, priceConvert } from '../../assests/currencyControl';
 import WaitingDialog from '../utilis/WaitingDialog';
+//*avatar mui
+import Avatar from '@mui/material/Avatar';
+import Stack from '@mui/material/Stack';
+import { Carousel } from 'react-responsive-carousel';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
+function stringToColor(string) {
+  let hash = 0;
+  let i;
 
+  /* eslint-disable no-bitwise */
+  for (i = 0; i < string.length; i += 1) {
+    hash = string.charCodeAt(i) + ((hash << 5) - hash);
+  }
+
+  let color = '#';
+
+  for (i = 0; i < 3; i += 1) {
+    const value = (hash >> (i * 8)) & 0xff;
+    color += `00${value.toString(16)}`.slice(-2);
+  }
+  /* eslint-enable no-bitwise */
+
+  return color;
+}
+
+function stringAvatar(name) {
+  return {
+    sx: {
+      bgcolor: stringToColor(name),
+    },
+    children: `${name.charAt(0)}`,
+    // children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
+  };
+}
+//*avatar mui
 const ProductDetails = () => {
   const dispatch = useDispatch();
   const params = useParams();
@@ -45,7 +79,6 @@ const ProductDetails = () => {
     setCheckAddToCardLoading(cart.loading);
     console.log('In product detail card loading effect');
   }, [cart.loading]);
-  const [value, setValue] = React.useState(2.5);
 
   const [ePrice, setEPrice] = useState(product.price);
   const [eQuantity, setEQuantity] = useState(product.quantity);
@@ -92,7 +125,7 @@ const ProductDetails = () => {
       {
         breakpoint: 900,
         settings: {
-          dots: false,
+          dots: true,
         },
       },
     ],
@@ -123,15 +156,24 @@ const ProductDetails = () => {
       item.image = product.cardPicture;
       item.cartQuant = 1;
     } else {
-      const { cardPicture, quantity, price } = product;
+      const { cardPicture, inStockCount, price } = product;
       item.image = cardPicture;
       item.price = product.priceAfterDiscount
         ? product.priceAfterDiscount
         : price;
-      item.inStock = quantity;
+      item.inStock = inStockCount;
     }
 
     dispatch(addItemToCart(item));
+  };
+
+  const priceShow = (price, currency) => {
+    return `${priceConvert(
+      selectedCurrency,
+      currency,
+      price,
+      currs
+    ).toLocaleString('en-US')} ${selectedCurrency}`;
   };
   return (
     <Fragment>
@@ -143,16 +185,20 @@ const ProductDetails = () => {
           <div className="details_product">
             <div className="detail__container">
               <div className="pictures-part">
-                {/* <div className="imgs__container-withswiper">
-                  <ProductImagesSlider images={product.productPictures} />
-                </div> */}
-                {/* <div className="verticalImageStack">
-                  {product.productPictures.map((item, index) => (
-                    <div className="thumbnail" key={index}>
-                      <img src={item.img} alt="Product" />
-                    </div>
-                  ))}
-                </div> */}
+                <div className="imageWithRepCor">
+                  <Carousel>
+                    {product.productPictures &&
+                      product.productPictures.map((picture, index) => (
+                        <div key={index}>
+                          <img
+                            src={picture.img}
+                            alt="product"
+                            className="try-img-carousel"
+                          />
+                        </div>
+                      ))}
+                  </Carousel>
+                </div>
                 <div className="img_containerWithSlick">
                   <Slider {...featureSetting}>
                     {product.productPictures &&
@@ -199,8 +245,8 @@ const ProductDetails = () => {
                     <span className="h-val">
                       {currs?.length > 0 &&
                         (ePrice
-                          ? realPrice(selectedCurrency, currs, ePrice)
-                          : realPrice(selectedCurrency, currs, product.price))}
+                          ? priceShow(ePrice, product.currency)
+                          : priceShow(product.price, product.currency))}
                       {/* {ePrice
                         ? realPrice(selectedCurrency, currs, ePrice)
                         : realPrice(selectedCurrency, currs, product.price)} */}
@@ -209,7 +255,7 @@ const ProductDetails = () => {
                   <div className="info-part__stockCount-price-Container">
                     <span className="h-Txt">In Stock:</span>
                     <span className="h-val">
-                      {eQuantity ? eQuantity : product.quantity}
+                      {eQuantity ? eQuantity : product.inStockCount}
                     </span>
                   </div>
                 </div>
@@ -238,65 +284,27 @@ const ProductDetails = () => {
                 </div>
 
                 <div className="info-part__sold-by">
-                  <p className="sold-text">Sold By:</p>
+                  <p className="sold-text">Store:</p>
                   <Link className="seller-store" to={`/store/${product.shop}`}>
                     {product.shop}
                   </Link>
                 </div>
 
                 <div className="info-part__rating-review">
-                  <RatingStars rating="50%" />
-                  <span className="review-number">56 Review</span>
+                  <Box component="fieldset" borderColor="transparent">
+                    <Rating
+                      name="read-only"
+                      value={product.ratingsAverage}
+                      readOnly
+                      size="medium"
+                    />
+                  </Box>
+                  {/* <RatingStars rating="50%" /> */}
+                  <span className="review-number">{`${product.ratingsQuantity} Review`}</span>
                 </div>
               </div>
             </div>
-            <div className="review-part">
-              <p className="review-header">Reviews</p>
-              <div className="review-card__container">
-                <div className="review-card">
-                  <div className="review-card__user">
-                    <img
-                      src="https://picsum.photos/200"
-                      alt="user avatar"
-                      className="review-card__user-avatar "
-                    />
-                    <span className="review-card__user-name">Awss</span>
-                  </div>
-                  <div className="review-card__rating">
-                    <Box component="fieldset" borderColor="transparent">
-                      <Rating name="read-only" value={value} readOnly />
-                    </Box>
-                    <span className="review-card__rating-data">17.03.2022</span>
-                  </div>
-                  <p className="review-card__comment">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Omnis voluptas id quidem nostrum? Quasi minima doloribus
-                    magnam recusandae accusamus. Sint minus repudiandae ab
-                    adipisci aliquam animi, delectus consectetur vitae quae.
-                  </p>
-                </div>
-                <div className="review-card">
-                  <div className="review-card__user">
-                    <img
-                      src="https://picsum.photos/200"
-                      alt="user avatar"
-                      className="review-card__user-avatar "
-                    />
-                    <span className="review-card__user-name">Awss</span>
-                  </div>
-                  <div className="review-card__rating">
-                    <RatingStars rating="50%" />
-                    <span className="review-card__rating-data">17.03.2022</span>
-                  </div>
-                  <p className="review-card__comment">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Omnis voluptas id quidem nostrum? Quasi minima doloribus
-                    magnam recusandae accusamus. Sint minus repudiandae ab
-                    adipisci aliquam animi, delectus consectetur vitae quae.
-                  </p>
-                </div>
-              </div>
-            </div>
+
             <div className="information-part">
               {product.specification && product.specification.length > 0 && (
                 <Fragment>
@@ -306,10 +314,9 @@ const ProductDetails = () => {
                       {product.specification.map((c, index) => (
                         <div className="feature-item" key={index}>
                           <p className="feature-item__title">{c.specific}</p>
-                          <p className="feature-item__specific">
-                            {/* {' '}
-                            {c.specific.split(':')[1].toUpperCase()} */}
-                          </p>
+                          {/* <p className="feature-item__specific">
+                    
+                          </p> */}
                         </div>
                       ))}
                     </div>
@@ -330,11 +337,58 @@ const ProductDetails = () => {
                 </figure>
               </div>
             </div>
+
+            <div className="review-part">
+              <p className="review-header">Reviews</p>
+
+              <div className="review-card__container">
+                {product.reviews.length > 0 &&
+                  product.reviews.map((rev, i) => (
+                    <div className="review-card" key={i}>
+                      <div className="review-card__user">
+                        <Stack direction="row" spacing={4}>
+                          <Avatar
+                            {...stringAvatar(rev.user.name)}
+                            sx={{
+                              ['@media (max-width:780px)']: {
+                                width: 20,
+                                height: 20,
+                              },
+                            }}
+                          />
+                        </Stack>
+                        <span className="review-card__user-name">
+                          {rev.user.name}
+                        </span>
+                      </div>
+                      <div className="review-card__rating">
+                        <Rating
+                          name="read-only"
+                          value={rev.rating}
+                          readOnly
+                          size="small"
+                        />
+
+                        <span className="review-card__rating-data">
+                          {showDate(rev.CreatedAt)}
+                        </span>
+                      </div>
+                      <p className="review-card__comment">{rev.comment}</p>
+                    </div>
+                  ))}
+              </div>
+            </div>
           </div>
         )
       )}
     </Fragment>
   );
 };
-
+const showDate = (date) => {
+  return new Date(date).toLocaleDateString('tr-TR', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  });
+};
 export default ProductDetails;

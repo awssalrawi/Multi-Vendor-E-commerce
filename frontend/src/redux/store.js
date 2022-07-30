@@ -11,11 +11,13 @@ import {
   productsManagementReducer,
   cusProductsReducer,
   storePageReducer,
+  filteredProductsReducer,
 } from './reducers/productReducer';
 
 import { cartReducer } from './reducers/cartReducer';
 import { currencyReducer } from './reducers/currencyReducer';
 import { userOrderReducer } from './reducers/orderReducer';
+import { reviewReducer } from './reducers/reviewReducer';
 const reducer = combineReducers({
   auth: authReducer,
   category: categoryReducer,
@@ -28,6 +30,8 @@ const reducer = combineReducers({
   currency: currencyReducer,
   userOrder: userOrderReducer,
   storePage: storePageReducer,
+  filteredProducts: filteredProductsReducer,
+  review: reviewReducer,
 });
 
 const store = configureStore({

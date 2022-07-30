@@ -30,19 +30,14 @@ const Sidebar = () => {
         <nav>
           <ul className="menu-aside">
             <li className="menu-item">
-              <NavLink
-                activeClassName="active"
-                className="menu-link"
-                to="/"
-                exact={true}
-              >
+              <NavLink activeclassname="active" className="menu-link" to="/">
                 <i className="icon fas fa-home"></i>
                 <span className="text">Dashboard</span>
               </NavLink>
             </li>
             <li className="menu-item">
               <NavLink
-                activeClassName="active"
+                activeclassname="active"
                 className="menu-link"
                 to="/seller-products"
               >
@@ -52,7 +47,7 @@ const Sidebar = () => {
             </li>
             <li className="menu-item">
               <NavLink
-                activeClassName="active"
+                activeclassname="active"
                 className="menu-link"
                 to="/seller/create-prod"
               >
@@ -68,7 +63,7 @@ const Sidebar = () => {
             </li> */}
             <li className="menu-item">
               <NavLink
-                activeClassName="active"
+                activeclassname="active"
                 className="menu-link"
                 to="/seller-orders"
               >
@@ -88,7 +83,7 @@ const Sidebar = () => {
             </li> */}
             <li className="menu-item">
               <NavLink
-                activeClassName="active"
+                activeclassname="active"
                 className="menu-link"
                 to="/seller-profile"
               >
@@ -99,7 +94,7 @@ const Sidebar = () => {
 
             <li className="menu-item">
               <NavLink
-                activeClassName="active"
+                activeclassname="active"
                 className="menu-link"
                 to="#"
                 onClick={() => dispatch(logout())}

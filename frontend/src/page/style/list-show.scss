@@ -13,8 +13,8 @@
     .card-fig {
       // max-height: 10rem;
       // max-width: 10rem;
-      // margin-right: 3px;
-      width: 12rem;
+      margin-right: 5px;
+      // width: 12rem;
 
       border-radius: 4px;
 
@@ -25,10 +25,11 @@
         // display: flex;
         // align-items: center;
         // justify-content: center;
-        width: 100%;
+
         object-fit: contain;
         overflow: hidden;
         outline: none;
+        max-height: 7rem;
       }
     }
     .card-content {
@@ -48,6 +49,7 @@
 
         color: $colorRed-D;
       }
+
       &__Shipping {
         font-size: $subTextSize;
       }
@@ -55,6 +57,22 @@
         font-size: $subTextSize;
         color: #777;
         text-decoration: underline;
+      }
+
+      .item__price-dis {
+        font-weight: $fontWeight-D;
+        color: $colorRed-D;
+        font-size: $priceFontSize;
+      }
+      .item__price-dis-rate {
+        margin-left: 0.4rem;
+        font-style: bold;
+        font-weight: 600;
+        font-size: $subTextSize;
+        color: $colorRed-D;
+        font-family: inherit;
+
+        opacity: 90%;
       }
     }
   }

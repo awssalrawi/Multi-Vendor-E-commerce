@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import LoaderSpinner from '../utilis/LoaderSpinner';
 import { getProductsBySlug } from '../../redux/actions/productAction';
 import { useParams } from 'react-router-dom';
-import CatPage from '../../page/CatPage';
+import FilteredProducts from '../../page/FilteredProducts';
 function ProductsListPage() {
   const params = useParams();
   const dispatch = useDispatch();
@@ -19,7 +19,7 @@ function ProductsListPage() {
   const { products, loading } = useSelector((state) => state.getProductsBySlug);
   return (
     <Fragment>
-      {loading ? <LoaderSpinner /> : <CatPage products={products} />}
+      {loading ? <LoaderSpinner /> : <FilteredProducts products={products} />}
     </Fragment>
   );
 }

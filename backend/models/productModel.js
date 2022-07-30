@@ -7,7 +7,17 @@ const productSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    rating: Number,
+    ratingsAverage: {
+      type: Number,
+      default: 4,
+      min: [1, 'Rating must be above 1.0'],
+      max: [5, 'Rating must be below 5.0'],
+      set: (val) => Math.round(val * 10) / 10, //* 4.6666*10 = 46.666 > 47 /10 >4.7
+    },
+    ratingsQuantity: {
+      type: Number,
+      default: 0,
+    },
     price: {
       type: Number,
       required: [true, 'product must have a price'],
@@ -16,11 +26,7 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    shippingPriceInDollar: {
-      type: Number,
-      default: 5,
-    },
-    quantity: {
+    inStockCount: {
       type: Number,
       required: [true, 'product must have a quantity'],
     },
@@ -58,25 +64,13 @@ const productSchema = new mongoose.Schema(
       },
     ],
 
-    reviews: [
-      {
-        userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-        review: String,
-      },
-    ],
+    shippingPriceInDollar: { type: Number, default: 5 },
     category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' },
 
     shop: { type: mongoose.Schema.Types.String, ref: 'Shop' },
     location: String,
     updatedAt: Date,
 
-    // availableSpecific: [
-    //   {
-    //     _id: false,
-    //     option: String,
-    //     inStockCount: Number,
-    //   },
-    // ],
     subProducts: {
       subName: String,
       model: [
@@ -87,11 +81,24 @@ const productSchema = new mongoose.Schema(
         },
       ],
     },
+    foundInTurkey: Boolean,
+    foundInIraq: Boolean,
+    taxes: Number,
+  },
+  {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   },
 
   { timestamps: true }
 );
 
+//*Vertual populate
+productSchema.virtual('reviews', {
+  ref: 'Review',
+  foreignField: 'product', //*in Review model we have product field,
+  localField: '_id',
+});
 // productSchema.pre('save', function (next) {
 //   this.slug = slugify(this.name, { lower: true });
 //   next();
