@@ -5,7 +5,9 @@
     max-width: 60%;
     margin: 0 auto;
     font-size: $subTextSize;
-
+    @media (max-width: 768px) {
+      max-width: 100%;
+    }
     & > *:not(:last-child) {
       margin-bottom: 0.8rem;
     }
@@ -49,6 +51,11 @@
         //   margin-bottom: 0.8rem;
         //   border-bottom: 1px solid #000;
         // }
+
+        .order-seller {
+          color: $newOrg;
+          font-size: $subTextSize;
+        }
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -69,10 +76,13 @@
           &__name {
             max-width: 10rem;
             margin-left: 3px;
+            font-size: $subTextSize;
+            color: $newOrg;
           }
         }
         .order-item-status {
           font-weight: 600;
+          margin: 0 5px;
         }
         .approved {
           background-color: #e5faf2;

@@ -1,5 +1,5 @@
 .load-center {
-  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   //color: #e36e1a;
   display: flex;
   text-align: center;
@@ -16,7 +16,7 @@
 
     &:before {
       position: absolute;
-      content: "";
+      content: '';
       left: 0;
       top: 0;
       height: 100%;
@@ -28,11 +28,10 @@
 
   .load-span {
     color: #737373;
-    font: size 20px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    font-size: 20px;
     line-height: 200px;
     animation: text 2s linear infinite;
+    font-weight: 500;
   }
 }
 @keyframes ring {

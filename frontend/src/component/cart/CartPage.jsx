@@ -25,7 +25,7 @@ import ButtonMat from '../../generalComponent/ButtonMat';
 import WaitingDialog from '../utilis/WaitingDialog';
 import SummaryCart from './SummaryCart';
 import NameOfPage from '../utilis/NameOfPage';
-
+import Footer from '../layout/Footer';
 const CartPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -160,10 +160,6 @@ const CartPage = () => {
     );
   };
 
-  const navigateToCheckout = () => {
-    navigate('/place-order');
-  };
-
   //*new Price model function
   const priceShow = (price, currency) => {
     return `${priceConvert(
@@ -178,7 +174,7 @@ const CartPage = () => {
     <div className="cart-page">
       <WaitingDialog loading={processLoading} />
       {/* <span className="ltpuhead">My Cart Details</span> */}
-      <NameOfPage text="My Cart Details" />
+      <NameOfPage text="عربة التسوق" />
       <div className="cartInfo">
         <div className="items-side">
           {cartItems?.length > 0 ? (
@@ -205,13 +201,14 @@ const CartPage = () => {
 
                             {item.specific && (
                               <span className="iin-specific">
-                                {`selected : ${item.specific}`}
+                                {` ${item.specific} : ألاختيار `}
+                                {/* {`selected : ${item.specific}`} */}
                               </span>
                             )}
                             <span className="iin-delivered">
                               {item.foundInIraq
-                                ? 'delivered at 1-5 day'
-                                : 'delivered at 5-20 day'}
+                                ? 'مدة الوصول (1-5) يوم'
+                                : 'مدة الوصول (5-20) يوم'}
                             </span>
                           </div>
                         </Link>
@@ -219,6 +216,7 @@ const CartPage = () => {
                           <IconButton
                             className="item-quant__btn"
                             onClick={() => decreaseQty(item)}
+                            size="small"
                           >
                             <RemoveRounded className="item-quant__btn-icon" />
                           </IconButton>
@@ -227,6 +225,7 @@ const CartPage = () => {
                           <IconButton
                             className="item-quant__btn"
                             onClick={() => increaseQty(item)}
+                            size="small"
                           >
                             <Add className="item-quant__btn-icon" />
                           </IconButton>
@@ -259,28 +258,27 @@ const CartPage = () => {
           )}
         </div>
         <div className="summary-side">
-          <span className="ss-header">Order Summary</span>
+          <span className="ss-header">{'خلاصة الطلب'}</span>
 
           <div className="summary-side__row">
-            <span className="ss-item-txt">Total Items:</span>
             <span className="ss-item-val">
               {cartItems && calTotalItemsInCart(cartItems)}
             </span>
+            <span className="ss-item-txt">{' : ألعدد الكلي'}</span>
           </div>
           <div className="summary-side__row">
-            <span className="ss-item-txt">Total Price:</span>
             <span className="ss-item-val">
               {cartItems &&
                 currs.length > 0 &&
                 priceShow(calTotalPrice(cartItems), selectedCurrency)}
             </span>
+            <span className="ss-item-txt">{' : السعر الكلي'}</span>
           </div>
           <div className="summary-side__row">
-            <span className="ss-item-txt">Points:</span>
             <span className="ss-item-val">{point}</span>
+            <span className="ss-item-txt">{' : المستوى'}</span>
           </div>
           <div className="summary-side__row">
-            <span className="ss-item-txt">Shipping Price:</span>
             <span className="ss-item-val">
               {cartItems?.length > 0 &&
                 priceShow(
@@ -288,17 +286,17 @@ const CartPage = () => {
                   selectedCurrency
                 )}
             </span>
+            <span className="ss-item-txt">{' : سعر الشحن'}</span>
           </div>
           <div className="summary-side__row">
-            <span className="ss-item-txt">Discount </span>
             <span className="ss-item-val">
               {cartItems?.length > 0 &&
                 priceShow(catTotalDiscount(cartItems, point), selectedCurrency)}
             </span>
+            <span className="ss-item-txt">{' : الخصم'}</span>
           </div>
           <hr />
           <div className="summary-side__row">
-            <span className="ss-item-txt">Final Price </span>
             <span className="ss-item-val">
               {cartItems?.length > 0 &&
                 priceShow(
@@ -306,19 +304,20 @@ const CartPage = () => {
                   selectedCurrency
                 )}
             </span>
+            <span className="ss-item-txt">{' : السعر النهائي'}</span>
           </div>
           <div className="summary-side__btn">
             <ButtonMat
-              name="Place Order"
+              name="اطلب الان"
               icon={<OpenInNewOutlined fontSize="large" />}
               className="ss-mtui-btn"
-              onClick={navigateToCheckout}
+              onClick={() => navigate('/place-order')}
               disabled={cartItems?.length > 0 ? false : true}
             />
           </div>
         </div>
-        {/* <SummaryCart /> */}
       </div>
+      <Footer />
     </div>
   );
 };

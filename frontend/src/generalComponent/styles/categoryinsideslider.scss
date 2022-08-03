@@ -29,6 +29,7 @@
   // background-color: #eee;
   .cat-pictures {
     display: flex;
+
     // max-height: 10rem;
 
     .catImageShow {
@@ -68,12 +69,24 @@
     margin-bottom: 0;
   }
 }
-.prod-no-img {
+
+.cat-no-img {
   object-fit: contain;
-  height: 5rem;
-  width: 16rem;
-  background-color: rgb(255, 255, 255);
+  height: 7rem;
+  width: 401rem;
+  /* margin: 0 auto; */
+  //  background-color: rgb(255, 255, 255);
   display: flex;
   align-items: center;
   justify-content: center;
+  /* position: relative; */
+  z-index: 100;
+
+  &__text {
+    font-size: 1.8rem;
+    font-weight: 500;
+    color: #cac4be;
+    font-family: cursive;
+    transform: rotateZ(333deg);
+  }
 }

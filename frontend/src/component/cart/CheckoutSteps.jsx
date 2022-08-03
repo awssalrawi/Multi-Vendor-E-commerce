@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import {
   Typography,
   Paper,
@@ -26,11 +26,16 @@ import { LocalShippingOutlined } from '@material-ui/icons';
 import {
   realPrice,
   designPrice,
+  priceConvert,
   convertToUsd,
 } from '../../assests/currencyControl';
 import ButtonMat from '../../generalComponent/ButtonMat';
 import { useNavigate } from 'react-router-dom';
 import { userAddOrder } from '../../redux/actions/orderAction';
+import NameOfPage from '../utilis/NameOfPage';
+//*Theme
+
+//*Theme
 export default function CheckoutSteps() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -47,27 +52,27 @@ export default function CheckoutSteps() {
 
   const steps = [
     {
-      label: 'Address',
+      label: 'العنوان',
       description: (
         <UserAddress sendAddressToParent={comingAddressFormAddressComponent} />
       ),
     },
     {
-      label: 'Selected Products',
+      label: 'المنتجات المختارة',
       description: <DisplaySelectedItems />,
     },
     {
-      label: 'Payment Method',
+      label: 'طرق الدفع',
       description: (
         <div className="payment-method-select">
           <div className="cos-payment-method">
             <input type="radio" className="cos-pay-on-door" defaultChecked />
-            <span className="text-pay-door">Pay on Door</span>
+            <span className="text-pay-door">{'دفع عند التوصيل'}</span>
           </div>
           <div className="cos-payment-method">
             <input type="radio" className="cos-pay-on-door" disabled />
             <span className="text-pay-bank">
-              Pay With Vize or MasterCard ..soon
+              {'دفع باستخدام بطاقة الائتمان ...قريبا'}
             </span>
           </div>
         </div>
@@ -114,12 +119,17 @@ export default function CheckoutSteps() {
           addressData.activeAddress.country
         ),
       },
-      totalAmountInDollar: summaryObject.priceInDollar * 1,
+      totalAmountInDollar: summaryObject.totalAmountInDollar * 1,
       totalAmountText: summaryObject.finalPriceText,
       receiver: userAddressData.name,
       items: cartItems.map((item) => ({
         productId: item._id,
-        payedPrice: realPrice(selectedCurrency, currs, item.price),
+        payedPrice: priceConvert(
+          selectedCurrency,
+          item.currency,
+          item.price,
+          currs
+        ),
         payedCurrency: selectedCurrency,
         shop: item.shop,
         specific: item.specific ? item.specific : undefined,
@@ -127,14 +137,13 @@ export default function CheckoutSteps() {
         purchasedQty: item.cartQuant,
       })),
     };
-
+    console.log('order', makeOrder);
     const promise = dispatch(userAddOrder(makeOrder));
     setOpen(false);
 
     toast
       .promise(promise, {
         loading: 'Loading',
-        success: 'The request has been successfully received',
         error: 'Error happened',
       })
       .then(() => navigate('/order-success'))
@@ -172,97 +181,115 @@ export default function CheckoutSteps() {
   // };
 
   return (
-    <div className="place-order">
-      <div className="checkout-page">
-        <div>
-          <Stepper activeStep={activeStep} orientation="vertical">
-            {steps.map((step, index) => (
-              <Step key={step.label}>
-                <StepLabel
-                  optional={
-                    index === 2 ? (
-                      <Typography variant="caption">Last step</Typography>
-                    ) : null
-                  }
-                >
-                  {step.label}
-                </StepLabel>
-                <StepContent>
-                  <div>{step.description}</div>
-                  <Box sx={{ mb: 2 }}>
-                    <div>
-                      <Button
-                        variant="contained"
-                        onClick={() => handleNext(index)}
-                        sx={{ mt: 1, mr: 1 }}
-                      >
-                        {index === steps.length - 1 ? 'Finish' : 'Continue'}
-                      </Button>
-                      <Button
-                        disabled={index === 0}
-                        onClick={handleBack}
-                        sx={{ mt: 1, mr: 1 }}
-                      >
-                        Back
-                      </Button>
-                    </div>
-                  </Box>
-                </StepContent>
-              </Step>
-            ))}
-          </Stepper>
-          {activeStep === steps.length && (
-            <Paper
-              square
-              elevation={0}
-              sx={{ p: 3, backgroundColor: 'inherit' }}
+    <Fragment>
+      <NameOfPage text="الشراء" />
+      <div className="place-order">
+        <div className="checkout-page">
+          <div>
+            <Stepper
+              activeStep={activeStep}
+              orientation="vertical"
+              sx={{ color: 'green' }}
             >
-              <Typography>
-                All steps completed - Now You Put your order, Please Click on
-                Buy Now
-              </Typography>
-            </Paper>
-          )}
+              {steps.map((step, index) => (
+                <Step key={step.label} sx={{ color: 'green' }}>
+                  <StepLabel
+                    optional={
+                      index === 2 ? (
+                        <Typography variant="caption">Last step</Typography>
+                      ) : null
+                    }
+                  >
+                    {step.label}
+                  </StepLabel>
+                  <StepContent>
+                    <div>{step.description}</div>
+                    <Box sx={{ mb: 2 }}>
+                      <div>
+                        <Button
+                          variant="contained"
+                          onClick={() => handleNext(index)}
+                          sx={{
+                            mt: 1,
+                            mr: 1,
+                            backgroundColor: '#fc9539',
+                            width: '10rem',
+                            '&:hover': { backgroundColor: '#ec9922' },
+                          }}
+                        >
+                          {index === steps.length - 1 ? 'انهاء ' : 'التالي'}
+                        </Button>
+                        <Button
+                          disabled={index === 0}
+                          onClick={handleBack}
+                          sx={{ mt: 1, mr: 1, width: '10rem', color: '#000' }}
+                        >
+                          {'رجوع'}
+                        </Button>
+                      </div>
+                    </Box>
+                  </StepContent>
+                </Step>
+              ))}
+            </Stepper>
+
+            {activeStep === steps.length && (
+              <Paper
+                square
+                elevation={0}
+                sx={{ p: 3, backgroundColor: 'inherit' }}
+              >
+                <Typography>
+                  {
+                    'اكتملت جميع الخطوات - الآن قمت بوضع طلبك ، يرجى النقر على اشتري الآن'
+                  }
+                </Typography>
+              </Paper>
+            )}
+          </div>
+        </div>
+        <div className="checkout-summary">
+          <SummaryCart summaryObj={getSummaryInfo} />
+          <ButtonMat
+            name="Buy Now"
+            icon={<LocalShippingOutlined fontSize="large" />}
+            className="buy-order-btn"
+            disabled={buyBtnActive}
+            onClick={handleClickOpen}
+          />
+
+          <Dialog
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">
+              {'أتمام عملية الشراء'}
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                {
+                  'ستستغرق العملية 21 يومًا كحد أقصى ، في حالة وجود أي مشكلة  تحدث مع طلبك كأرسال منتج اخر، تتكفل الشركة بحل هذة المشكلة .هدفنا هو اتمام عملية البيع والشراء التي تحدث بين المشتري والبائع بطريقة شفافة ونزية . عند وصول البضاعة اليك احتفظ بالفاتورة المرسلة من طرفنا لان رقم الطلب المكتوب عليها يمثل الدليل لنا لايجاد الطلب الخاص بك على قاعده البيناتات وبلتالي نتمكن من مساعدك بطريقة سريعة بامكانك الضغط على اشتري الان لانهاء الطلب '
+                }
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose} sx={{ color: 'black' }}>
+                الغاء
+              </Button>
+              <Button
+                onClick={handleSubmitOrder}
+                autoFocus
+                sx={{ color: 'green' }}
+              >
+                أشتري الان
+              </Button>
+            </DialogActions>
+          </Dialog>
         </div>
       </div>
-      <div className="checkout-summary">
-        <SummaryCart summaryObj={getSummaryInfo} />
-        <ButtonMat
-          name="Buy Now"
-          icon={<LocalShippingOutlined fontSize="large" />}
-          className="buy-order-btn"
-          disabled={buyBtnActive}
-          onClick={handleClickOpen}
-        />
-
-        <Dialog
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">
-            {'You are requesting Order form Ltreda '}
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              The Process will take at maximum 20 day , if there any Problem
-              happens with your Order{' '}
-              <strong>Link sent another Product vs.</strong>
-              Ltreda will be responsible for Solve it
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose} style={{}}>
-              Disagree
-            </Button>
-            <Button onClick={handleSubmitOrder} autoFocus>
-              Buy Now
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </div>
-    </div>
+    </Fragment>
   );
 }
 

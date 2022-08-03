@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import FilteredProducts from './FilteredProducts';
 import LoaderSpinner from '../component/utilis/LoaderSpinner';
 import './style/store-page.scss';
+import Footer from './../component/layout/Footer';
 const StorePage = () => {
   const dispatch = useDispatch();
   const params = useParams();
@@ -39,6 +40,7 @@ const StorePage = () => {
               <FilteredProducts products={data.products} />
             </div>
           )}
+          <Footer />
         </div>
       )}
     </Fragment>

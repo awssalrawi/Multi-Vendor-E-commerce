@@ -4,6 +4,7 @@ import { getProductsByFilter } from '../redux/actions/productAction';
 import { useParams } from 'react-router-dom';
 import FilteredProducts from './FilteredProducts';
 import LoaderSpinner from '../component/utilis/LoaderSpinner';
+import Footer from '../component/layout/Footer';
 const SearchProduct = () => {
   const dispatch = useDispatch();
   const params = useParams();
@@ -18,6 +19,7 @@ const SearchProduct = () => {
   return (
     <div>
       {loading ? <LoaderSpinner /> : <FilteredProducts products={products} />}
+      <Footer />
     </div>
   );
 };

@@ -15,6 +15,7 @@ import {
   BookmarkBorderOutlined,
   LocationOn,
   DeleteForeverOutlined,
+  Forward,
 } from '@material-ui/icons';
 import PropTypes from 'prop-types';
 import { styled } from '@mui/material/styles';
@@ -416,7 +417,8 @@ const UserAddress = ({ sendAddressToParent }) => {
                       i === 0 ? 'coa-opacity-deliver' : ''
                     }`}
                   >
-                    Deliver here
+                    {/* Deliver here */}
+                    <Forward />
                   </span>
 
                   <div
@@ -462,7 +464,7 @@ const UserAddress = ({ sendAddressToParent }) => {
               ))}
 
               <ButtonMat
-                name="Add New Address"
+                name="Add Address"
                 icon={<Add fontSize="large" />}
                 className="aaf-add-btn"
                 onClick={handleClickOpenNewAddress}

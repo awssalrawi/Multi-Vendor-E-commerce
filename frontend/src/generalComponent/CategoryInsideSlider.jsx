@@ -11,11 +11,16 @@ const CategoryInsideSlider = ({ category }) => {
       <div className="cat-pictures">
         <img
           className="catImageShow"
-          src={category.categoryImage}
-          alt="Category Show"
-          onLoad={onLoadedImage}
+          // src={category.categoryImage}
+          src=""
+          alt=""
+          onLoad={false}
         />
-        {!load && <div className="prod-no-img">Loading</div>}
+        {!load && (
+          <div className="cat-no-img">
+            <span className="cat-no-img__text">Ltreda</span>
+          </div>
+        )}
       </div>
       <p className="cat-name">{category.name}</p>
     </Link>

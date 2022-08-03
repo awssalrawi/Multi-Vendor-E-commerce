@@ -93,7 +93,7 @@ const Header = () => {
               </select>
             </div>
             <div className="language-selector">
-              <div className="currency-select-container">
+              {/* <div className="currency-select-container">
                 <select
                   name="currency"
                   id="currency"
@@ -104,7 +104,7 @@ const Header = () => {
                   <option value="en">English</option>
                   <option value="tr">Türkçe</option>
                 </select>
-              </div>
+              </div> */}
             </div>
             {/* <span className="langBtn">{t('hello')}</span> */}
           </div>
@@ -206,7 +206,7 @@ const Header = () => {
                       <ListItemIcon>
                         <LocalMallOutlined fontSize="small" />
                       </ListItemIcon>
-                      My Orders
+                      ألطلبات
                     </Link>
                   </MenuItem>
                   <MenuItem>
@@ -214,7 +214,7 @@ const Header = () => {
                       <ListItemIcon>
                         <PersonOutlineOutlined fontSize="small" />
                       </ListItemIcon>
-                      My account
+                      حسابي
                     </Link>
                   </MenuItem>
                   {/* <Divider /> */}
@@ -222,7 +222,7 @@ const Header = () => {
                     <ListItemIcon>
                       <ShoppingCartOutlined fontSize="small" />
                     </ListItemIcon>
-                    My Cart
+                    السله خاصتي
                   </MenuItem>
                   {/* <Divider /> */}
                   <MenuItem>
@@ -251,14 +251,14 @@ const Header = () => {
                       <ListItemIcon>
                         <Logout fontSize="small" />
                       </ListItemIcon>{' '}
-                      Logout
+                      تسجيل خروج
                     </Link>
                   </MenuItem>
                 </Menu>
               </div>
               <div className="user-nav__scrol">
                 <ScoreIcon className="user-nav__scrol__icon" />
-                <span className="user-nav__scrol__value">{`point: ${user.point}`}</span>
+                <span className="user-nav__scrol__value">{`نقطة  :  ${user.point}`}</span>
               </div>
             </Fragment>
           )}

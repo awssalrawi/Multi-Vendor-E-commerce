@@ -47,16 +47,20 @@
       overflow: hidden;
       .prod-no-img {
         height: 10rem;
-        // height: 100%;
+
         width: 100%;
-        // position: absolute;
-        // top: 0;
-        // left: 0;
         background-color: rgb(255, 255, 255);
         display: flex;
         align-items: center;
-        justify-items: center;
+
         justify-content: center;
+        &__text {
+          font-size: 1.8rem;
+          font-weight: 500;
+          color: #cac4be;
+          font-family: cursive;
+          transform: rotateZ(333deg);
+        }
       }
       .product-image {
         object-fit: contain;

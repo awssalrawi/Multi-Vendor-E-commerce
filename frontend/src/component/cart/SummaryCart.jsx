@@ -64,19 +64,6 @@ const SummaryCart = ({ summaryObj }) => {
   //   );
   // };
 
-  const sendSummaryInfoToSteps = (cartItems) => ({
-    totalItemInCart: calTotalItemsInCart(cartItems),
-    totalPrice: calTotalPrice(cartItems),
-    discountPrice: catTotalDiscount(cartItems),
-    finalPriceText: designPrice(selectedCurrency, calFinalPrice(cartItems)),
-    finalPriceNumber:
-      designPrice(selectedCurrency, calFinalPrice(cartItems)).replace(
-        /\D/g,
-        ''
-      ) * 1,
-    currency: selectedCurrency,
-  });
-
   //*designed summary
   const priceShow = (price, currency) => {
     return `${priceConvert(
@@ -174,17 +161,32 @@ const SummaryCart = ({ summaryObj }) => {
   };
   //*designed summary
 
+  const sendSummaryInfoToSteps = (cartItems) => ({
+    totalItemInCart: calTotalItemsInCart(cartItems),
+    totalPrice: calTotalPrice(cartItems),
+    discountPrice: catTotalDiscount(cartItems, point),
+    finalPriceText: priceShow(
+      calFinalPrice(cartItems, selectedCurrency, point),
+      selectedCurrency
+    ),
+    totalAmountInDollar: priceConvert(
+      'USD',
+      selectedCurrency,
+      calFinalPrice(cartItems, selectedCurrency, point),
+      currs
+    ),
+  });
   return (
-    <div className="summary-side">
+    <div className="sum-side">
       <span className="ss-header">Order Summary</span>
 
-      <div className="summary-side__row">
+      <div className="sum-side__row">
         <span className="ss-item-txt">Total Items:</span>
         <span className="ss-item-val">
           {cartItems && calTotalItemsInCart(cartItems)}
         </span>
       </div>
-      <div className="summary-side__row">
+      <div className="sum-side__row">
         <span className="ss-item-txt">Total Price:</span>
         <span className="ss-item-val">
           {cartItems &&
@@ -192,11 +194,11 @@ const SummaryCart = ({ summaryObj }) => {
             priceShow(calTotalPrice(cartItems), selectedCurrency)}
         </span>
       </div>
-      <div className="summary-side__row">
+      <div className="sum-side__row">
         <span className="ss-item-txt">Points:</span>
         <span className="ss-item-val">{point}</span>
       </div>
-      <div className="summary-side__row">
+      <div className="sum-side__row">
         <span className="ss-item-txt">Shipping Price:</span>
         <span className="ss-item-val">
           {cartItems?.length > 0 &&
@@ -206,7 +208,7 @@ const SummaryCart = ({ summaryObj }) => {
             )}
         </span>
       </div>
-      <div className="summary-side__row">
+      <div className="sum-side__row">
         <span className="ss-item-txt">Discount </span>
         <span className="ss-item-val">
           {cartItems?.length > 0 &&
@@ -214,7 +216,7 @@ const SummaryCart = ({ summaryObj }) => {
         </span>
       </div>
       <hr />
-      <div className="summary-side__row">
+      <div className="sum-side__row">
         <span className="ss-item-txt">Final Price </span>
         <span className="ss-item-val">
           {cartItems?.length > 0 &&

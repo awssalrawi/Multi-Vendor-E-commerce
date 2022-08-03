@@ -94,10 +94,12 @@ const ReviewModel = ({ item }) => {
   return (
     <div noderef={nodeRef}>
       <ButtonMat
-        name="Add Review"
-        icon={<RateReviewOutlined style={{ color: 'green' }} />}
+        name="Review"
+        //    icon={<RateReviewOutlined style={{ color: '#fc9539' }} size="small" />}
         variant="true"
-        style={{ border: '1px solid green', color: 'green' }}
+        style={{
+          color: '#fc9539',
+        }}
         onClick={handleClickOpen}
       />
 

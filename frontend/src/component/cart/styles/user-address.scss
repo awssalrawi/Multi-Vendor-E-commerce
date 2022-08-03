@@ -2,10 +2,7 @@
 
 .user-address {
   width: 100%;
-  // background-color: rgb(255, 255, 255);
-
   display: flex;
-  //border: 1px solid #555;
   flex-direction: column;
   margin: 1rem 0;
   .container-address-button {
@@ -20,12 +17,13 @@
       .coa-deliver-here {
         opacity: 0;
         padding: 0.2rem;
-        border: 1px solid #555;
-        background-color: rgb(190, 220, 249);
+        //   border: 1px solid $borderColor;
+        //  background-color: rgb(190, 220, 249);
         font-size: 0.7rem;
         font-weight: 500;
         margin: 0 0.3rem;
-        border-radius: 5px;
+        //  border-radius: 5px;
+        color: $newOrg;
       }
       .coa-opacity-deliver {
         opacity: 1 !important;
@@ -34,7 +32,7 @@
         width: 70%;
 
         padding: 1rem;
-        border: 1px solid #555;
+        border: 1px solid $borderColor;
         border-radius: 10px;
         background-color: #f4f4f455;
         display: flex;
@@ -42,6 +40,9 @@
         flex-direction: column;
         font-weight: 500;
         cursor: pointer;
+        @media (max-width: 768px) {
+          width: 90%;
+        }
         .address-content {
           display: flex;
 
@@ -80,9 +81,12 @@
     }
 
     .aaf-add-btn {
-      max-width: 14rem;
-      background-color: orange;
+      max-width: 10rem;
+      background-color: #1976d2;
       margin: 1rem 0;
+      @media (max-width: 768px) {
+        max-width: 14rem;
+      }
     }
   }
 
@@ -173,7 +177,8 @@
 }
 
 .selectedAddress {
-  background-color: rgb(190, 220, 249) !important;
+  background-color: inherit !important;
+  color: $newOrg !important;
 }
 
 .add-address-form {

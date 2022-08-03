@@ -20,7 +20,8 @@ const settings1 = {
   infinite: true,
   slidesToShow: 4,
   slidesToScroll: 1,
-  autoplay: true,
+  autoplay: false,
+  // autoplay: true,
   focusOnSelect: true,
   mobileFirst: true,
   autoplaySpeed: 3000,
@@ -131,7 +132,7 @@ const Home = () => {
 
   const createCategoryList = (categories, options = []) => {
     for (let category of categories) {
-      if (category.categoryImage.length > 0) {
+      if (category.categoryImage.length > 0 && category.children.length === 0) {
         options.push({
           value: category._id,
           name: category.name,
@@ -182,13 +183,6 @@ const Home = () => {
     }
   };
 
-  const sendNotification = () => {
-    console.log('send notification flag');
-    send(
-      'Push Notifications',
-      'Push notification successfully sent to the browser! Check it out!'
-    );
-  };
   return (
     <div className="lt-home">
       <PhoneHeaderHome />
@@ -216,7 +210,7 @@ const Home = () => {
 
       <div className="categories-slider">
         <div className="category-content">
-          <span className="category-content__header">Popular Category</span>
+          <span className="gn-hed">ألفئات</span>
           <Link className="category-content__link" to="#">
             View all
           </Link>
@@ -247,14 +241,13 @@ const Home = () => {
           <SimpleProductCard />
         </Slider>
       </div> */}
-      <h4 className="text-align-center my-2">Latest product</h4>
-      <button onClick={() => sendNotification()}>Try send Not</button>
+      <span className="gn-hed">أحدث المنتجات</span>
       <Product products={products} />
 
       {loading && (
         <div className="load-more-container">
           <div className="load-more-container__ring"></div>
-          <span className="load-span">Loading</span>
+          <span className="load-span">جار التحميل</span>
         </div>
       )}
 

@@ -38,8 +38,8 @@ export const userOrderReducer = (state = initialState, action) => {
       };
     case CLEAR_ERRORS:
       return {
-        error: null,
         ...state,
+        error: null,
       };
 
     default:

@@ -8,10 +8,12 @@ import ReviewModel from '../utilis/ReviewModel';
 import Rating from '@material-ui/lab/Rating';
 import Box from '@material-ui/core/Box';
 import { useNavigate } from 'react-router-dom';
-import { Link } from '@material-ui/icons';
+import { Link } from 'react-router-dom';
 import { TurnedIn } from '@material-ui/icons';
 import ButtonMat from '../../generalComponent/ButtonMat';
 import { getReview } from '../../redux/actions/reviewAction';
+import NameOfPage from '../utilis/NameOfPage';
+import Footer from '../layout/Footer';
 const UserOrders = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -59,12 +61,34 @@ const UserOrders = () => {
   };
 
   //*Review
-
+  const translateAdminStatus = (status) => {
+    let str = 'معلق';
+    if (status === 'packed') {
+      str = 'تم التعبئة';
+    } else if (status === 'shipped') {
+      str = 'تم الشحن';
+    } else if (status === 'delivered') {
+      str = 'تم التوصيل';
+    }
+    return str;
+  };
+  const translateSellerStatus = (status) => {
+    let str = 'معلق';
+    if (status === 'shipped') {
+      str = 'تم الشحن';
+    } else if (status === 'cancelled') {
+      str = 'الغاء';
+    } else if (status === 'refund') {
+      str = 'اعاده';
+    }
+    return str;
+  };
   //*Review
   return (
     <div className="user-order">
+      <NameOfPage text="ألطلبات الخاصة بي" />
       {loading ? (
-        <LoaderSpinner text="Getting Orders" />
+        <LoaderSpinner />
       ) : (
         <div className="orders-container">
           {orders && orders.length > 0 ? (
@@ -72,31 +96,33 @@ const UserOrders = () => {
               <div className="order-package" key={order._id}>
                 <div className="order-package__info">
                   <div className="order-header-box">
-                    <span className="order-header-box-title">Data</span>
+                    <span className="order-header-box-title">{'التاريخ'}</span>
                     <span className="order-header-box-data">
                       {showDate(order.createdAt)}
                     </span>
                   </div>
                   <div className="order-header-box">
-                    <span className="order-header-box-title">Name</span>
+                    <span className="order-header-box-title">{'ألاسم'}</span>
                     <span className="order-header-box-data">
                       {order.receiver}
                     </span>
                   </div>
                   <div className="order-header-box">
-                    <span className="order-header-box-title">Quantity</span>
+                    <span className="order-header-box-title">{'العدد'}</span>
                     <span className="order-header-box-data">
                       {showTotalQtyOfOrder(order)}
                     </span>
                   </div>
                   <div className="order-header-box">
-                    <span className="order-header-box-title">Total Price</span>
+                    <span className="order-header-box-title">
+                      {'السعر الكلي'}
+                    </span>
                     <span className="order-header-box-data">
                       {order.totalAmountText}
                     </span>
                   </div>
                   <span className="order-status">
-                    {findLastStatus(order.orderStatus)}
+                    {translateAdminStatus(findLastStatus(order.orderStatus))}
                   </span>
                 </div>
                 {order.items.length > 0 &&
@@ -111,15 +137,20 @@ const UserOrders = () => {
                           alt="order"
                           className="img-name-box__image"
                         />
-                        <span className="img-name-box__name">
+                        <Link
+                          className="img-name-box__name"
+                          to={`/product/${item.productId._id}`}
+                        >
                           {item.productId?.name &&
                             `${item.productId.name}.${
                               item.specific ? item.specific : ''
                             }`}
-                        </span>
+                        </Link>
                       </div>
-                      <span className="order-price">{`${item.purchasedQty} x ${item.payedPrice}`}</span>
-                      <span className="order-seller">{item.shop}</span>
+                      <span className="order-price">{`${item.purchasedQty} x ${item.payedPrice} ${item.payedCurrency}`}</span>
+                      <Link className="order-seller" to={`/store/${item.shop}`}>
+                        {item.shop}
+                      </Link>
                       <span
                         className={`order-item-status ${
                           item.itemStatus === 'pending'
@@ -129,83 +160,25 @@ const UserOrders = () => {
                             : 'declined'
                         }`}
                       >
-                        {item.itemStatus}
+                        {translateSellerStatus(item.itemStatus)}
                       </span>
-                      <ReviewModel
-                        // body={
-                        //   <div className="md-review">
-                        //     <span className="md-review__header">
-                        //       set review and get extra point for discount
-                        //     </span>
-                        //     <div className="rev-product">
-                        //       <img
-                        //         src={
-                        //           item.productId?.cardPicture &&
-                        //           item.productId.cardPicture
-                        //         }
-                        //         alt="order"
-                        //         className="rev-product__image"
-                        //       />
-                        //       <div className="prod-content">
-                        //         <span className="prod-content__shop">
-                        //           {item.shop}
-                        //         </span>
-                        //         <span className="prod-content__name">
-                        //           {item.productId?.name && item.productId.name}
-                        //         </span>
-                        //         <div className="rating">
-                        //           <Rating
-                        //             name="simple-controlled"
-                        //             value={value}
-                        //             onChange={(event, newValue) => {
-                        //               setValue(newValue);
-                        //             }}
-                        //             size="large"
-                        //           />
-                        //         </div>
-                        //       </div>
-                        //     </div>
-                        //     <div className="comment">
-                        //       <textarea
-                        //         name="comment"
-                        //         cols="30"
-                        //         rows="4"
-                        //         placeholder="Review"
-                        //         value={comment}
-                        //         onChange={(e) => setComment(e.target.value)}
-                        //       ></textarea>
-                        //     </div>
-                        //   </div>
-                        // }
-                        // // body={successPost()}
-                        // submit={
-                        //   <div className="submit-review">
-                        //     <ButtonMat
-                        //       name="Submit"
-                        //       icon={<TurnedIn />}
-                        //       onClick={() => submitReview(item.productId._id)}
-                        //     />
-                        //   </div>
-                        // }
-                        item={item}
-                      />
+                      {findLastStatus(order.orderStatus) === 'delivered' && (
+                        <ReviewModel item={item} />
+                      )}
                     </div>
                   ))}
               </div>
             ))
           ) : (
-            <span className="show-no-order">There is No Order</span>
+            <span className="show-no-order">
+              {'لا يوجد اي طلبات في حسابك '}
+            </span>
           )}
         </div>
       )}
+      <Footer />
     </div>
   );
 };
-
-const successPost = () => (
-  <div className="thanks-post">
-    <span>Thankkkyyoouuu</span>
-  </div>
-);
 
 export default UserOrders;

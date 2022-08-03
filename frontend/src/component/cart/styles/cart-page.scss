@@ -6,11 +6,13 @@
   @media (max-width: 768px) {
     padding: 1px;
   }
+
   .cartInfo {
     display: flex;
     margin-top: 10px;
     @media (max-width: 768px) {
       flex-direction: column;
+      margin-bottom: 4rem;
     }
     .items-side {
       flex: 3;
@@ -22,7 +24,7 @@
 
       .cg-shop-container {
         width: 100%;
-        border: 1px solid #555;
+        border: 1px solid $borderColor;
         margin-bottom: 5px;
         border-radius: 10px;
         overflow: hidden;
@@ -30,7 +32,7 @@
         .cg-seller-info {
           display: block;
           background-color: #f0f0f0;
-          border-bottom: 1px solid #222;
+          border-bottom: 1px solid $borderColor;
           width: 100%;
           padding: 5px 0;
           &__text {
@@ -45,7 +47,7 @@
         .cg-item-container {
           display: flex;
           justify-content: space-between;
-          border-bottom: 1px solid #000;
+          border-bottom: 1px solid $borderColor;
           padding: 5px;
           .item-info {
             display: flex;
@@ -117,9 +119,10 @@
             .value {
               margin: 0 0.8rem;
               padding: 5px;
+              font-size: $subTextSize;
               @media (max-width: 768px) {
-                margin: 0;
-                padding: 0;
+                padding: 3px;
+                margin: 0 3px;
               }
               // border-left: 1px solid #555;
               // border-right: 1px solid #555;
@@ -132,6 +135,7 @@
             display: flex;
             align-items: center;
             font-weight: 500;
+            font-size: $subTextSize;
           }
           .item-remove {
             &:active {
@@ -186,21 +190,21 @@
       }
     }
     .summary-side {
-      @media (max-width: 768px) {
-        flex: auto;
-        width: 100%;
-      }
       padding: 5px;
       flex: 1;
-      border: 1px solid #555;
+      border: 1px solid $borderColor;
       display: flex;
       flex-direction: column;
       border-radius: 10px;
       height: fit-content;
       margin: auto;
-
+      @media (max-width: 768px) {
+        flex: auto;
+        width: 90%;
+        margin: 0 auto;
+      }
       .ss-header {
-        font-size: headerFont;
+        font-size: $headerFont;
         text-align: center;
         font-weight: bold;
         color: $newOrg;
@@ -208,25 +212,26 @@
         border-bottom: 1px solid #eee;
       }
       &__row {
-        margin-top: 5px;
+        margin-top: 10px;
         display: flex;
         justify-content: space-between;
         align-items: center;
         // border-bottom: 1px solid #d8d8d8;
-        & > * {
-          margin: 5px;
+        font-size: $mainTextSize;
+        @media (max-width: 768px) {
+          margin-top: 6px;
         }
         .ss-item-txt {
-          font-size: 1rem;
           font-weight: 500;
         }
-        .ss-total-price-val {
+        .ss-item-val {
+          font-weight: 500;
         }
       }
 
       &__btn {
         width: 100%;
-
+        margin-top: 3px;
         .ss-mtui-btn {
           width: 100%;
           background-color: $newOrg;

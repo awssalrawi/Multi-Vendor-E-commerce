@@ -1,19 +1,30 @@
 @use '../../../sass/abstracts' as *;
 
 .place-order {
+  margin-bottom: 3rem;
   display: flex;
-
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
   .checkout-page {
     flex: 3;
+    @media (max-width: 768px) {
+      height: 80vh;
+    }
   }
 
   .checkout-summary {
     flex: 1;
-
+    margin-right: 1rem;
+    @media (max-width: 768px) {
+      margin-right: 0;
+      width: 90%;
+      margin: 1rem auto;
+    }
     .buy-order-btn {
       margin: 5px 0;
       width: 100%;
-      background-color: #26b724;
+      background-color: $newOrg;
     }
   }
 }
@@ -29,11 +40,12 @@
       margin-right: 10px;
       width: 1.5rem;
       height: 1.5rem;
-      accent-color: #1f9f42;
+      //  accent-color: $newOrg;
     }
     .text-pay-door {
       font-size: $mainTextSize;
       font-weight: 500;
+      color: $newOrg;
     }
 
     .text-pay-bank {

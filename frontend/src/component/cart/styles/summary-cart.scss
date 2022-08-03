@@ -1,5 +1,5 @@
 @use '../../../sass/abstracts' as *;
-.summary-side {
+.sum-side {
   padding: 5px;
   flex: 1;
   border: 1px solid #555;
@@ -11,34 +11,29 @@
   margin: auto;
 
   .ss-header {
-    font-size: headerFont;
+    font-size: $headerFont;
     text-align: center;
     font-weight: bold;
-    color: $colorOrng-M;
+    color: $newOrg;
     padding-bottom: 5px;
     border-bottom: 1px solid #eee;
   }
   &__row {
-    margin-top: 5px;
+    margin-top: 0.8rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    font-size: $mainTextSize;
+    @media (max-width: 768px) {
+      margin-top: 0.4rem;
+    }
     // border-bottom: 1px solid #d8d8d8;
-    & > * {
-      margin: 5px;
-    }
+    // & > * {
+    //   margin: 5px;
+    // }
     .ss-item-txt {
-      font-size: 1rem;
+      // font-size: $mainTextSize;
       font-weight: 500;
-    }
-  }
-
-  &__btn {
-    width: 100%;
-
-    .ss-mtui-btn {
-      width: 100%;
-      background-color: orange;
     }
   }
 }

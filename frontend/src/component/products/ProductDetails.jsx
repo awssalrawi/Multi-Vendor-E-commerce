@@ -28,6 +28,7 @@ import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import Footer from '../layout/Footer';
 function stringToColor(string) {
   let hash = 0;
   let i;
@@ -179,7 +180,7 @@ const ProductDetails = () => {
     <Fragment>
       <WaitingDialog loading={checkAddToCardLoading} />
       {loading ? (
-        <LoaderSpinner text="Getting Product.." />
+        <LoaderSpinner />
       ) : (
         Object.keys(product).length > 0 && (
           <div className="details_product">
@@ -221,7 +222,7 @@ const ProductDetails = () => {
             </span> for development-mode */}
                 {product.subProducts.model.length > 1 && (
                   <div className="info-part__size-select ">
-                    <p className="select-size-text">{`Please Select ${product.subProducts.subName}`}</p>
+                    <p className="select-size-text">{`قم بتحديد ${product.subProducts.subName}`}</p>
                     <div className="size-select-container">
                       {product.subProducts.model.map((item, index) => (
                         <span
@@ -241,7 +242,7 @@ const ProductDetails = () => {
                 )}
                 <div className="info-part__stockCount-price">
                   <div className="info-part__stockCount-price-Container">
-                    <span className="h-Txt">Price:</span>
+                    {/* <span className="h-Txt">{`السعر :`}</span> */}
                     <span className="h-val">
                       {currs?.length > 0 &&
                         (ePrice
@@ -251,12 +252,15 @@ const ProductDetails = () => {
                         ? realPrice(selectedCurrency, currs, ePrice)
                         : realPrice(selectedCurrency, currs, product.price)} */}
                     </span>
+                    <span className="h-Txt">{': السعر'}</span>
                   </div>
                   <div className="info-part__stockCount-price-Container">
-                    <span className="h-Txt">In Stock:</span>
+                    {/* <span className="h-Txt">In Stock:</span> */}
+
                     <span className="h-val">
                       {eQuantity ? eQuantity : product.inStockCount}
                     </span>
+                    <span className="h-Txt">{' : العدد المتوفر'}</span>
                   </div>
                 </div>
 
@@ -274,20 +278,20 @@ const ProductDetails = () => {
                     onClick={addItemToCartHandel}
                     className="styledBtn"
                   >
-                    Add To Cart
+                    {'أضف الى السلة'}
                   </Button>
                 </div>
 
                 <div className="info-part__description">
-                  <span className="description-header">Description:</span>
+                  <span className="description-header">: الوصف</span>
                   <p className="description-content">{product.description}</p>
                 </div>
 
                 <div className="info-part__sold-by">
-                  <p className="sold-text">Store:</p>
                   <Link className="seller-store" to={`/store/${product.shop}`}>
                     {product.shop}
                   </Link>
+                  <p className="sold-text">{': المتجر'}</p>
                 </div>
 
                 <div className="info-part__rating-review">
@@ -300,7 +304,7 @@ const ProductDetails = () => {
                     />
                   </Box>
                   {/* <RatingStars rating="50%" /> */}
-                  <span className="review-number">{`${product.ratingsQuantity} Review`}</span>
+                  <span className="review-number">{`تقييم (${product.ratingsQuantity}) `}</span>
                 </div>
               </div>
             </div>
@@ -308,7 +312,7 @@ const ProductDetails = () => {
             <div className="information-part">
               {product.specification && product.specification.length > 0 && (
                 <Fragment>
-                  <p className="information-part__header">Specifications</p>
+                  <p className="information-part__header">{'المواصفات'}</p>
                   <div className="information-part__texts">
                     <div className="info__container">
                       {product.specification.map((c, index) => (
@@ -339,7 +343,7 @@ const ProductDetails = () => {
             </div>
 
             <div className="review-part">
-              <p className="review-header">Reviews</p>
+              <p className="review-header">{'التقيمات والاراء'}</p>
 
               <div className="review-card__container">
                 {product.reviews.length > 0 &&
@@ -378,6 +382,7 @@ const ProductDetails = () => {
                   ))}
               </div>
             </div>
+            <Footer />
           </div>
         )
       )}

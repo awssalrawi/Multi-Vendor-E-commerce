@@ -5,73 +5,8 @@ import { IconButton } from '@material-ui/core';
 import { Add, RemoveRounded } from '@material-ui/icons';
 import { useSelector, useDispatch } from 'react-redux';
 import { getMyCartItems } from '../../redux/actions/cartAction';
-import { realPrice } from '../../assests/currencyControl';
 
-const dimi = [
-  {
-    name: 'X box series x',
-    _id: '6293720327512ce7d31f183e',
-    shop: 'dreams',
-    image: 'http://localhost:4000/public/izfYDk7HA-71NBQ2a52CL.jpg',
-    price: 499.99,
-    inStock: 15,
-    cartQuant: 3,
-  },
-  {
-    name: 'X box series x',
-    _id: '6293720327512ce7d31f183e',
-    shop: 'dreams',
-    image: 'http://localhost:4000/public/izfYDk7HA-71NBQ2a52CL.jpg',
-    price: 499.99,
-    inStock: 15,
-    cartQuant: 3,
-  },
-  {
-    name: 'X box series x',
-    _id: '6293720327512ce7d31f183e',
-    shop: 'marka',
-    image: 'http://localhost:4000/public/izfYDk7HA-71NBQ2a52CL.jpg',
-    price: 499.99,
-    inStock: 15,
-    cartQuant: 3,
-  },
-  {
-    name: 'X box series x',
-    _id: '6293720327512ce7d31f183e',
-    shop: 'colins',
-    image: 'http://localhost:4000/public/izfYDk7HA-71NBQ2a52CL.jpg',
-    price: 499.99,
-    inStock: 15,
-    cartQuant: 3,
-  },
-  {
-    name: 'X box series x',
-    _id: '6293720327512ce7d31f183e',
-    shop: 'dreams',
-    image: 'http://localhost:4000/public/izfYDk7HA-71NBQ2a52CL.jpg',
-    price: 499.99,
-    inStock: 15,
-    cartQuant: 3,
-  },
-  {
-    name: 'X box series x',
-    _id: '6293720327512ce7d31f183e',
-    shop: 'WAQ',
-    image: 'http://localhost:4000/public/izfYDk7HA-71NBQ2a52CL.jpg',
-    price: 499.99,
-    inStock: 15,
-    cartQuant: 3,
-  },
-  {
-    name: 'X box series x',
-    _id: '6293720327512ce7d31f183e',
-    shop: 'Aws',
-    image: 'http://localhost:4000/public/izfYDk7HA-71NBQ2a52CL.jpg',
-    price: 499.99,
-    inStock: 15,
-    cartQuant: 3,
-  },
-];
+import { realPrice, priceConvert } from '../../assests/currencyControl';
 
 const DisplaySelectedItems = () => {
   const dispatch = useDispatch();
@@ -87,6 +22,15 @@ const DisplaySelectedItems = () => {
   useEffect(() => {
     setCartItems(cart.cartItems);
   }, [cart.cartItems]);
+
+  const priceShow = (price, currency) => {
+    return `${priceConvert(
+      selectedCurrency,
+      currency,
+      price,
+      currs
+    ).toLocaleString('en-US')} ${selectedCurrency}`;
+  };
 
   return (
     <div className="dsi-items-side">
@@ -115,12 +59,11 @@ const DisplaySelectedItems = () => {
                 </div>
               </div>
               <div className="item-quant">
-                <span className="value">{`${item.cartQuant} Item`}</span>
+                <span className="value">{` x ${item.cartQuant}`}</span>
               </div>
-              <div className="item-price">{`${item.cartQuant} x ${realPrice(
-                selectedCurrency,
-                currs,
-                item.price
+              <div className="item-price">{`${item.cartQuant} x ${priceShow(
+                item.price,
+                item.currency
               )}`}</div>
             </div>
           </Fragment>

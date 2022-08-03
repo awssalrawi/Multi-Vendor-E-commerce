@@ -27,10 +27,10 @@ const CategoryHeader = ({ categories }) => {
     for (let category of categories) {
       myCategories.push(
         <li key={category.name}>
-          {category.parentId ? (
+          {category.parentId && category.children.length === 0 ? (
             <Link to={`/${category.slug}`}>{category.name}</Link>
           ) : (
-            <span>{category.name}</span>
+            <span style={{ fontSize: '.9rem' }}>{category.name}</span>
           )}
 
           {category.children.length > 0 ? (

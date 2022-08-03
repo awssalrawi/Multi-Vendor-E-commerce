@@ -114,7 +114,8 @@ exports.userGetOrder = catchAsync(async (req, res, next) => {
     .select(
       '_id paymentStatus items orderStatus createdAt receivedAt receiver totalAmountText'
     )
-    .populate('items.productId', '_id name cardPicture');
+    .populate('items.productId', '_id name cardPicture')
+    .sort('-_id');
 
   if (!order) {
     return next(new AppError('There is no order found', 400));

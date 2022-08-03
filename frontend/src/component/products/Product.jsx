@@ -43,7 +43,11 @@ const Product = ({ products }) => {
                   state={product}
                 >
                   <div className="product__item__img-container">
-                    {!load && <div className="prod-no-img">Loading</div>}
+                    {!load && (
+                      <div className="prod-no-img">
+                        <span className="prod-no-img__text">Ltreda</span>
+                      </div>
+                    )}
                     <img
                       src={
                         cardPicture
