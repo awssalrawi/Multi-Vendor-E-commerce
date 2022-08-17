@@ -33,6 +33,7 @@ import ButtonMat from '../../generalComponent/ButtonMat';
 import { useNavigate } from 'react-router-dom';
 import { userAddOrder } from '../../redux/actions/orderAction';
 import NameOfPage from '../utilis/NameOfPage';
+import PageTitle from '../utilis/PageTitle';
 //*Theme
 
 //*Theme
@@ -133,7 +134,12 @@ export default function CheckoutSteps() {
         payedCurrency: selectedCurrency,
         shop: item.shop,
         specific: item.specific ? item.specific : undefined,
-        payedPiceInDollar: item.price,
+        payedPiceInDollar: priceConvert(
+          'USD',
+          item.currency,
+          item.price,
+          currs
+        ),
         purchasedQty: item.cartQuant,
       })),
     };
@@ -182,6 +188,7 @@ export default function CheckoutSteps() {
 
   return (
     <Fragment>
+      <PageTitle title="Shopping" />
       <NameOfPage text="الشراء" />
       <div className="place-order">
         <div className="checkout-page">
@@ -196,7 +203,9 @@ export default function CheckoutSteps() {
                   <StepLabel
                     optional={
                       index === 2 ? (
-                        <Typography variant="caption">Last step</Typography>
+                        <Typography variant="caption">
+                          الخطوة الاخيرة
+                        </Typography>
                       ) : null
                     }
                   >
@@ -251,7 +260,7 @@ export default function CheckoutSteps() {
         <div className="checkout-summary">
           <SummaryCart summaryObj={getSummaryInfo} />
           <ButtonMat
-            name="Buy Now"
+            name="أطلب الان"
             icon={<LocalShippingOutlined fontSize="large" />}
             className="buy-order-btn"
             disabled={buyBtnActive}

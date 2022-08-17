@@ -77,24 +77,24 @@ BootstrapDialogTitle.propTypes = {
 //*Dialog Functions
 //*Iraq Cities
 const IraqCities = [
-  'Al Anbar',
-  'Al Basrah',
-  'Al Muthanna',
-  'Al Qadisiyah',
-  'An Najaf',
-  'Arbil',
-  'As Sulaymaniyah',
-  "At Ta'mim",
-  'Babil',
-  'Baghdad',
-  'Dahuk',
-  'Dhi Qar',
-  'Diyala',
-  "Karbala'",
-  'Maysan',
-  'Ninawa',
-  'Salah ad Din',
-  'Wasit',
+  'الانبار',
+  'البصرة',
+  'المثنى',
+  'القادسية',
+  'النجف',
+  'اربيل',
+  'السليمانية',
+  'التاميم',
+  'بابل',
+  'بغداد',
+  'دهوك',
+  'ذي قار',
+  'ديالى',
+  'كربلاء',
+  'ميسان',
+  'نينوى',
+  'صلاح الدين',
+  'الواسط',
 ];
 //*Iraq Cities
 
@@ -106,7 +106,7 @@ const UserAddress = ({ sendAddressToParent }) => {
 
   const [selectedAddress, setSelectedAddress] = useState(' ');
   const [userName, setUserName] = useState('');
-  const [userCountry, setUserCountry] = useState('Iraq');
+  const [userCountry, setUserCountry] = useState('العراق');
   const [userCity, setUserCity] = useState('');
   const [userPhone, setUserPhone] = useState();
   const [userAddressDetail, setUserAddressDetail] = useState('');
@@ -175,7 +175,7 @@ const UserAddress = ({ sendAddressToParent }) => {
         <div className="aaf-from-container">
           <div className="aaf-field-container">
             <label htmlFor="aff-name" className="aaf-field-label">
-              Name
+              اسم المستلم
             </label>
             <input
               type="text"
@@ -183,13 +183,13 @@ const UserAddress = ({ sendAddressToParent }) => {
               id="aaf-name"
               value={userName ? userName : nameValue}
               onChange={(e) => setUserName(e.target.value)}
-              placeholder="Ahmed Mohammed Ali"
+              placeholder="احمد حسين علي"
               required
             />
           </div>
           <div className="aaf-field-container">
             <label htmlFor="country_field" className="aaf-field-label">
-              Country
+              الدولة
             </label>
             <select
               id="country_field"
@@ -198,12 +198,12 @@ const UserAddress = ({ sendAddressToParent }) => {
               onChange={(e) => setUserCountry(e.target.value)}
               required
             >
-              <option value="Iraq">Iraq</option>
+              <option value="العراق">العراق</option>
             </select>
           </div>
           <div className="aaf-field-container">
             <label htmlFor="aff-phone" className="aaf-field-label">
-              Phone Number +964
+              رقم الهاتف
             </label>
             <Input
               id="aff-phone"
@@ -217,7 +217,7 @@ const UserAddress = ({ sendAddressToParent }) => {
           </div>
           <div className="aaf-field-container">
             <label htmlFor="city_field" className="aaf-field-label">
-              City
+              المحافظة
             </label>
             <select
               id="city_field"
@@ -226,7 +226,7 @@ const UserAddress = ({ sendAddressToParent }) => {
               onChange={(e) => setUserCity(e.target.value)}
               required
             >
-              <option value="">Select State</option>
+              <option value="">اختر المحافظة</option>
               {IraqCities.map((city, index) => (
                 <option key={index} value={city}>
                   {city}
@@ -236,7 +236,7 @@ const UserAddress = ({ sendAddressToParent }) => {
           </div>
           <div className="aaf-field-container">
             <label htmlFor="state-filed" className="aaf-field-label">
-              State
+              الناحية او القضاء
             </label>
             <input
               type="text"
@@ -244,12 +244,12 @@ const UserAddress = ({ sendAddressToParent }) => {
               id="state-filed"
               value={userState ? userState : stateValue}
               onChange={(e) => setUserState(e.target.value)}
-              placeholder="alfaloja"
+              placeholder="الفلوجة"
             />
           </div>
           <div className="aaf-field-container">
             <label htmlFor="aff-details" className="aaf-field-label">
-              Address Details
+              باقي تفاصيل العنوان
             </label>
             <textarea
               name="address-information"
@@ -257,7 +257,7 @@ const UserAddress = ({ sendAddressToParent }) => {
               cols="30"
               className="aaf-field-textarea"
               rows="8"
-              placeholder="Baghdad/Alyarmok-14ramazan"
+              placeholder="شارع المصنور زقاق 14 بيت رقم 12"
               value={userAddressDetail ? userAddressDetail : addressDetailValue}
               onChange={(e) => setUserAddressDetail(e.target.value)}
               required
@@ -268,7 +268,7 @@ const UserAddress = ({ sendAddressToParent }) => {
         {handleDeleteAddress ? (
           <div className="btn-inModel">
             <ButtonMat
-              name="Delete"
+              name="حذف"
               icon={<DeleteForeverOutlined fontSize="large" />}
               className="aaf-delete-btn"
               type="button"
@@ -278,7 +278,7 @@ const UserAddress = ({ sendAddressToParent }) => {
             />
 
             <ButtonMat
-              name="Save"
+              name="حفظ"
               icon={<BookmarkBorderOutlined fontSize="large" />}
               className="aaf-save-btn"
               type="submit"
@@ -286,7 +286,7 @@ const UserAddress = ({ sendAddressToParent }) => {
           </div>
         ) : (
           <ButtonMat
-            name="Save"
+            name="حفظ"
             icon={<BookmarkBorderOutlined fontSize="large" />}
             className="aaf-save-btn"
             type="submit"
@@ -464,7 +464,7 @@ const UserAddress = ({ sendAddressToParent }) => {
               ))}
 
               <ButtonMat
-                name="Add Address"
+                name="أضف عنوان"
                 icon={<Add fontSize="large" />}
                 className="aaf-add-btn"
                 onClick={handleClickOpenNewAddress}
@@ -479,7 +479,7 @@ const UserAddress = ({ sendAddressToParent }) => {
                   id="add-extra-address"
                   onClose={handleCloseNewAddress}
                 >
-                  Add New Address
+                  اضف عنوان جديد
                 </BootstrapDialogTitle>
                 <DialogContent dividers>
                   {addAddressForm(

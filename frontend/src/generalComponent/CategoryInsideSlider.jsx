@@ -11,10 +11,9 @@ const CategoryInsideSlider = ({ category }) => {
       <div className="cat-pictures">
         <img
           className="catImageShow"
-          // src={category.categoryImage}
-          src=""
-          alt=""
-          onLoad={false}
+          src={category.categoryImage}
+          alt="Category"
+          onLoad={onLoadedImage}
         />
         {!load && (
           <div className="cat-no-img">

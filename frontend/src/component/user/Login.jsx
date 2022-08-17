@@ -81,12 +81,12 @@ const Login = () => {
         <Fragment>
           <div className="auth">
             <div className="auth__container">
-              <span className="auth__header"> Login </span>
+              <span className="auth__header"> تسجيل دخول </span>
               <form action="#" className="auth__form" onSubmit={submitHandler}>
                 <div className="auth__input">
                   <input
                     type="email"
-                    placeholder="Email"
+                    placeholder="البريد الالكتوني"
                     className="auth__input-field"
                     onChange={(e) => setEmail(e.target.value)}
                     value={email}
@@ -102,7 +102,7 @@ const Login = () => {
                   <input
                     required
                     type="password"
-                    placeholder="Password"
+                    placeholder="كلمة السر"
                     className="auth__input-field passwords"
                     onChange={(e) => setPassword(e.target.value)}
                     value={password}
@@ -117,7 +117,7 @@ const Login = () => {
                 </div>
                 <div className="check-pass">
                   <Link to="/forgotpassword" className="check__forgot">
-                    Forgot password?
+                    نسيت كلمة السر
                   </Link>
                 </div>
 
@@ -127,17 +127,22 @@ const Login = () => {
                     type="submit"
                     id="login_button"
                   >
-                    Sign in
+                    دخول
                   </button>
                 </div>
                 <div className="auth__signup">
                   <span className="signup-text">
-                    Not a member?
-                    <Link to="/signup" className="signup-link">
-                      Signup Now
+                    {' لست مسجل من قبل'}
+                    <br />
+                    <Link
+                      to="/signup"
+                      className="signup-link"
+                      style={{ margin: '0 5px' }}
+                    >
+                      انشاء حساب
                     </Link>
                   </span>
-                  <span className="class-for-or">Or</span>
+                  <span className="class-for-or">او</span>
                 </div>
               </form>
 

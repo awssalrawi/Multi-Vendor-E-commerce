@@ -14,7 +14,7 @@ const PhoneFooterNav = ({ user, cartItems }) => {
       <Link to="/" className="phone-footer-nav__icon-box">
         <HomeOutlined className="phone-footer-nav__icon" />
       </Link>
-      <Link to="#" className="phone-footer-nav__icon-box">
+      <Link to="/category-list" className="phone-footer-nav__icon-box">
         <StorefrontOutlined className="phone-footer-nav__icon" />
       </Link>
       <Link to="/cart" className="phone-footer-nav__icon-box item-number">

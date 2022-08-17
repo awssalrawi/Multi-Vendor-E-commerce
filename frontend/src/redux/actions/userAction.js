@@ -59,7 +59,7 @@ export const login = (email, password) => async (dispatch) => {
 export const getMyProfileData = () => async (dispatch) => {
   if (localStorage.getItem('ltredaUser')) {
     dispatch({
-      type: LOGIN_SUCCESS,
+      type: LOAD_PROFILE_SUCCESS,
       payload: JSON.parse(localStorage.getItem('ltredaUser')),
     });
   } else {

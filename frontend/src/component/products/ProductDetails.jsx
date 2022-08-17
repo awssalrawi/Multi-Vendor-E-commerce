@@ -1,14 +1,11 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import './style/productDetails.scss';
 import ProductImagesSlider from '../utilis/ProductImagesSlider';
-import { Link, useLocation, useParams } from 'react-router-dom';
-import { productImages } from './../../assests/exp';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/thumbs';
+import { Link, useParams } from 'react-router-dom';
+// import 'swiper/css';
+// import 'swiper/css/navigation';
+// import 'swiper/css/thumbs';
 
-import RatingStars from './../utilis/RatingStars';
-import { AddShoppingCartOutlined } from '@material-ui/icons';
 import Rating from '@material-ui/lab/Rating';
 import { toast } from 'react-toastify';
 import Box from '@material-ui/core/Box';
@@ -21,7 +18,7 @@ import {
 import Button from '@mui/material/Button';
 import LoaderSpinner from '../utilis/LoaderSpinner';
 import { addItemToCart } from '../../redux/actions/cartAction';
-import { realPrice, priceConvert } from '../../assests/currencyControl';
+import { priceConvert } from '../../assests/currencyControl';
 import WaitingDialog from '../utilis/WaitingDialog';
 //*avatar mui
 import Avatar from '@mui/material/Avatar';
@@ -29,6 +26,8 @@ import Stack from '@mui/material/Stack';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import Footer from '../layout/Footer';
+import PageTitle from '../utilis/PageTitle';
+import { AddShoppingCartOutlined } from '@material-ui/icons';
 function stringToColor(string) {
   let hash = 0;
   let i;
@@ -84,7 +83,9 @@ const ProductDetails = () => {
   const [ePrice, setEPrice] = useState(product.price);
   const [eQuantity, setEQuantity] = useState(product.quantity);
   const [selectedSize, setSelectedSize] = useState({});
-
+  useEffect(() => {
+    setEPrice(product.price);
+  }, [product?.price]);
   function handleSizeSelect(i, item) {
     const box = document.querySelectorAll('.sizing');
     box.forEach((size, index) => {
@@ -156,6 +157,8 @@ const ProductDetails = () => {
       item.inStock = selectedSize.subNumInStock;
       item.image = product.cardPicture;
       item.cartQuant = 1;
+      item.currency = product.currency;
+      item.shippingPriceInDollar = product.shippingPriceInDollar;
     } else {
       const { cardPicture, inStockCount, price } = product;
       item.image = cardPicture;
@@ -163,12 +166,24 @@ const ProductDetails = () => {
         ? product.priceAfterDiscount
         : price;
       item.inStock = inStockCount;
+      item.currency = product.currency;
+      item.shippingPriceInDollar = product.shippingPriceInDollar;
     }
 
     dispatch(addItemToCart(item));
   };
 
-  const priceShow = (price, currency) => {
+  const [userCur, setUserCur] = useState(selectedCurrency);
+
+  useEffect(() => {
+    setUserCur(selectedCurrency);
+    console.log('use Effect called for selecetcurrency');
+  }, [selectedCurrency]);
+
+  const priceShow = (selectedCurrency, currency, price, currs) => {
+    // console.log('selectedCurrency', selectedCurrency);
+    // console.log('currency', currency);
+    // console.log('price', price);
     return `${priceConvert(
       selectedCurrency,
       currency,
@@ -176,8 +191,10 @@ const ProductDetails = () => {
       currs
     ).toLocaleString('en-US')} ${selectedCurrency}`;
   };
+
   return (
     <Fragment>
+      <PageTitle title="Product Detail" />
       <WaitingDialog loading={checkAddToCardLoading} />
       {loading ? (
         <LoaderSpinner />
@@ -243,15 +260,42 @@ const ProductDetails = () => {
                 <div className="info-part__stockCount-price">
                   <div className="info-part__stockCount-price-Container">
                     {/* <span className="h-Txt">{`السعر :`}</span> */}
-                    <span className="h-val">
-                      {currs?.length > 0 &&
-                        (ePrice
-                          ? priceShow(ePrice, product.currency)
-                          : priceShow(product.price, product.currency))}
-                      {/* {ePrice
+                    {product.priceAfterDiscount &&
+                    product.subProducts.model.length === 0 ? (
+                      <span className="h-val">
+                        {currs?.length > 0 &&
+                          priceShow(
+                            userCur,
+                            product.currency,
+                            product.priceAfterDiscount,
+                            currs
+                          )}
+                        {/* {ePrice
+           ? realPrice(selectedCurrency, currs, ePrice)
+           : realPrice(selectedCurrency, currs, product.price)} */}
+                      </span>
+                    ) : (
+                      <span className="h-val">
+                        {currs?.length > 0 &&
+                          (ePrice
+                            ? priceShow(
+                                userCur,
+                                product.currency,
+                                ePrice,
+                                currs
+                              )
+                            : priceShow(
+                                userCur,
+                                product.currency,
+                                product.price,
+                                currs
+                              ))}
+                        {/* {ePrice
                         ? realPrice(selectedCurrency, currs, ePrice)
                         : realPrice(selectedCurrency, currs, product.price)} */}
-                    </span>
+                      </span>
+                    )}
+
                     <span className="h-Txt">{': السعر'}</span>
                   </div>
                   <div className="info-part__stockCount-price-Container">
@@ -277,6 +321,7 @@ const ProductDetails = () => {
                     startIcon={<AddShoppingCartOutlined />}
                     onClick={addItemToCartHandel}
                     className="styledBtn"
+                    disabled={product.inStockCount <= 0 ? true : false}
                   >
                     {'أضف الى السلة'}
                   </Button>

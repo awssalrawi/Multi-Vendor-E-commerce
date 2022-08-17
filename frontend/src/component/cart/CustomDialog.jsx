@@ -65,7 +65,7 @@ const CustomDialog = ({ body }) => {
         open={open}
       >
         <BootstrapDialogTitle id="edit-address" onClose={handleClose}>
-          Edit your Address
+          تعديل العنوان
         </BootstrapDialogTitle>
 
         <DialogContent dividers>{body}</DialogContent>

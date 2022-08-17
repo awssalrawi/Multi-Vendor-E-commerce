@@ -52,12 +52,12 @@ const Register = () => {
     <Fragment>
       <div className="auth">
         <div className="auth__container">
-          <span className="auth__header">Register by email</span>
+          <span className="auth__header">التسجيل عبر البريد الالكتروني</span>
           <form action="#" className="auth__form" onSubmit={submitHandler}>
             <div className="auth__input">
               <input
                 type="text"
-                placeholder="Name"
+                placeholder="الاسم"
                 className="auth__input-field"
                 name="name"
                 value={name}
@@ -71,7 +71,7 @@ const Register = () => {
             <div className="auth__input">
               <input
                 type="email"
-                placeholder="Email"
+                placeholder="البريد الالكتوني"
                 className="auth__input-field"
                 required
                 value={email}
@@ -84,7 +84,7 @@ const Register = () => {
               <input
                 required
                 type="password"
-                placeholder="Password"
+                placeholder="كلمة السر"
                 className="auth__input-field passwords"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -104,12 +104,13 @@ const Register = () => {
                   id="checkLog"
                   onChange={handleChange}
                 />
-                <span className="check-span">I have read and accepted all</span>
+
                 <InfoReadDialog
-                  name="condition"
+                  name="الشروط"
                   header="Terms and Conditions"
                   content="cccccccc"
                 />
+                <span className="check-span">قرات واوافق على </span>
                 {/* <Link to="#" className="link">
                     conditions
                   </Link> */}
@@ -118,10 +119,10 @@ const Register = () => {
 
             <div className="auth__btn">
               <button type="submit" className="auth__btn-login">
-                Register Now
+                سجل الان
               </button>
             </div>
-            <p className="text-align-center my-0">Or</p>
+            <p className="text-align-center my-0">او</p>
             {/* <div className="auth__btn">
               <input
                 type="button"

@@ -16,7 +16,7 @@ const Search = () => {
       <input
         type="text"
         className="search__input"
-        placeholder="Search product"
+        placeholder="أبحث هنا"
         onChange={(e) => setKeyword(e.target.value)}
       />
       <button className="search__button" type="submit">

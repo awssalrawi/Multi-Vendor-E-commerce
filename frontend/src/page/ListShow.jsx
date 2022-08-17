@@ -1,20 +1,20 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import './style/list-show.scss';
 import { Link } from 'react-router-dom';
-import { priceConvert } from '../assests/currencyControl';
+import { priceShow } from '../assests/currencyControl';
 import { useSelector } from 'react-redux';
-
+import Rating from '@material-ui/lab/Rating';
+import Box from '@material-ui/core/Box';
 const ListShow = ({ products }) => {
   const { currs, selectedCurrency } = useSelector((state) => state.currency);
 
-  const priceShow = (price, currency) => {
-    return `${priceConvert(
-      selectedCurrency,
-      currency,
-      price,
-      currs
-    )} ${selectedCurrency}`;
-  };
+  const [userCur, setUserCur] = useState(selectedCurrency);
+
+  useEffect(() => {
+    setUserCur(selectedCurrency);
+    console.log('use Effect called for selecetcurrency');
+  }, [selectedCurrency]);
+
   return (
     <div class="pro-list">
       {products &&
@@ -38,7 +38,12 @@ const ListShow = ({ products }) => {
                 <Fragment>
                   <span className="item__price-dis">
                     {currs.length > 0 &&
-                      priceShow(product.priceAfterDiscount, product.currency)}
+                      priceShow(
+                        userCur,
+                        product.currency,
+                        product.priceAfterDiscount,
+                        currs
+                      )}
                   </span>
                   <span className="item__price-dis-rate">{`-${(
                     100 -
@@ -48,16 +53,29 @@ const ListShow = ({ products }) => {
               ) : (
                 <span className="item__price-dis">
                   {currs.length > 0 &&
-                    priceShow(product.price, product.currency)}
+                    priceShow(userCur, product.currency, product.price, currs)}
                 </span>
               )}
               {/* <span className="card-content__price">{product.price}</span> */}
               <span className="card-content__Shipping">
                 {product.shippingPrice}
               </span>
-              <Link className="card-content__store" to="#">
+              <Link
+                className="card-content__store"
+                to={`/store/${product.shop}`}
+              >
                 {product.shop}
               </Link>
+              <div className="card-content__ratings">
+                <Box component="fieldset" borderColor="transparent">
+                  <Rating
+                    name="read-only"
+                    value={product.ratingsAverage}
+                    readOnly
+                    size="small"
+                  />
+                </Box>
+              </div>
             </div>
           </div>
         ))}

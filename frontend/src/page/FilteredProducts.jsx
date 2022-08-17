@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { clearErrors } from '../redux/actions/productAction';
 import { useSelector, useDispatch } from 'react-redux';
 import GridShow from './GridShow';
@@ -17,7 +17,8 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-
+import PageTitle from '../component/utilis/PageTitle';
+import Footer from '../component/layout/Footer';
 const FilteredProducts = ({ products }) => {
   const [expanded, setExpanded] = useState(false);
 
@@ -39,31 +40,41 @@ const FilteredProducts = ({ products }) => {
   };
   const [showType, setShowType] = useState('grid');
   return (
-    <div className="side">
-      {/* Here we w'll add filter */}
-      <main className="side__products">
-        <div className="select-show">
-          <ToggleButtonGroup
-            orientation="horizontal"
-            value={showType}
-            exclusive
-            onChange={handleChange}
-          >
-            <ToggleButton value="list" aria-label="list">
-              <ViewListIcon />
-            </ToggleButton>
-            <ToggleButton value="grid" aria-label="module">
-              <ViewModuleIcon />
-            </ToggleButton>
-          </ToggleButtonGroup>
-        </div>
-        {showType === 'grid' ? (
-          <GridShow products={products} />
+    <Fragment>
+      <div className="side">
+        <PageTitle title="Figure Out" />
+        {/* Here we w'll add filter */}
+        {products.length === 0 ? (
+          <span className="product-not-found">
+            🤷‍♀️ لم يتم العثور على اي منتج{' '}
+          </span>
         ) : (
-          <ListShow products={products} />
+          <main className="side__products">
+            <div className="select-show">
+              <ToggleButtonGroup
+                orientation="horizontal"
+                value={showType}
+                exclusive
+                onChange={handleChange}
+              >
+                <ToggleButton value="list" aria-label="list">
+                  <ViewListIcon />
+                </ToggleButton>
+                <ToggleButton value="grid" aria-label="module">
+                  <ViewModuleIcon />
+                </ToggleButton>
+              </ToggleButtonGroup>
+            </div>
+            {showType === 'grid' ? (
+              <GridShow products={products} />
+            ) : (
+              <ListShow products={products} />
+            )}
+          </main>
         )}
-      </main>
-    </div>
+      </div>
+      <Footer />
+    </Fragment>
   );
 };
 

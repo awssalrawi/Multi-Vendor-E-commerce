@@ -52,7 +52,7 @@ export const adminCreateProduct = (form) => async (dispatch) => {
 export const getProductsBySlug = (slug) => async (dispatch) => {
   try {
     dispatch({ type: GET_PRODUCTS_BY_SLUG_REQUEST });
-
+    // const response  = await axios.post("/signin")
     const { data } = await axios.get(`/api/v1/products-cat/${slug}`);
     dispatch({ type: GET_PRODUCTS_BY_SLUG_SUCCESS, payload: data });
   } catch (error) {
@@ -69,6 +69,9 @@ export const getAllProducts =
   async (dispatch, getState) => {
     if (!getState().productsManagement.noProductMore) {
       try {
+        if (getState().productsManagement.loading) {
+          return;
+        }
         dispatch({ type: ADMIN_GET_ALL_PRODUCTS_REQUEST });
 
         const { data } = await axios.get(

@@ -5,15 +5,24 @@ import {
   SELECTED_CURRENCY,
 } from '../constants/currencyConstant';
 
-export const currencyReducer = (
-  state = { currs: [], error: null, selectedCurrency: 'IQD' },
-  action
-) => {
+const currInitialState = {
+  currs: [],
+  error: null,
+  selectedCurrency: localStorage.getItem('currency')
+    ? localStorage.getItem('currency')
+    : 'IQD',
+  loading: false,
+
+  appImgs: [],
+};
+
+export const currencyReducer = (state = currInitialState, action) => {
   switch (action.type) {
     case CURR_SUCCESS:
       return {
         ...state,
-        currs: action.payload,
+        currs: action.payload.cur,
+        appImgs: action.payload.appData,
       };
 
     case CURR_FAIL:

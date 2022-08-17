@@ -12,14 +12,15 @@ export const getCurrencyConst = () => async (dispatch) => {
   try {
     dispatch({ type: CURR_REQUEST });
     const { data } = await axios.get('/api/v1/currency');
-    dispatch({ type: CURR_SUCCESS, payload: data.cur });
+    dispatch({ type: CURR_SUCCESS, payload: data });
   } catch (error) {
     console.log(error);
     dispatch({ type: CURR_FAIL, payload: error.response.data.message });
   }
 };
 
-export const selectedCurrency = (cur) => (dispatch) => {
+export const selectCurr = (cur) => (dispatch) => {
+  localStorage.setItem('currency', cur);
   dispatch({ type: SELECTED_CURRENCY, payload: cur });
 };
 export const clearErrors = () => (dispatch) => {

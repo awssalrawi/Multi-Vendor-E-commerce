@@ -19,7 +19,7 @@ const SearchProduct = () => {
   return (
     <div>
       {loading ? <LoaderSpinner /> : <FilteredProducts products={products} />}
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };

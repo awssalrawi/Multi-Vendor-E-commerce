@@ -14,6 +14,7 @@ import { getAllProducts } from '../../redux/actions/productAction';
 import store from '../../redux/store';
 import { send } from '../utilis/push.js';
 import Footer from './Footer';
+import PageTitle from '../utilis/PageTitle';
 
 const settings1 = {
   dots: false,
@@ -129,7 +130,7 @@ const Home = () => {
   const dispatch = useDispatch();
 
   const { categories } = useSelector((state) => state.category);
-
+  const { appImgs } = useSelector((state) => state.currency);
   const createCategoryList = (categories, options = []) => {
     for (let category of categories) {
       if (category.categoryImage.length > 0 && category.children.length === 0) {
@@ -171,48 +172,66 @@ const Home = () => {
   }, []);
 
   const handleScroll = (e) => {
+    console.log('window.innerHeight = ', window.innerHeight);
+    console.log('scrollTop = ', e.target.documentElement.scrollTop);
+    console.log('scrollHeight = ', e.target.documentElement.scrollHeight);
+
     if (!loading || rejectLoad === false) {
-      console.log('LOgggg here');
       const { scrollTop, scrollHeight } = e.target.documentElement;
-      if (window.innerHeight + scrollTop + 1 >= scrollHeight) {
-        setTimeout(() => {
-          skip++;
-          loadMoreProducts(skip);
-        }, 1000);
+      if (window.innerHeight + scrollTop + 356 >= scrollHeight) {
+        // setTimeout(() => {
+        //   skip++;
+        //   loadMoreProducts(skip);
+        // }, 1000);
+
+        skip++;
+        loadMoreProducts(skip);
       }
     }
   };
 
   return (
     <div className="lt-home">
+      <PageTitle title="Home" />
       <PhoneHeaderHome />
       <CategoryHeader categories={categories} />
       <div className="home-feature">
-        <Slider {...featureSetting}>
-          <div className="home-feature__content">
-            <img
-              src="/s1.jpg"
-              alt="Feature"
-              className="home-feature__content-img"
-            />
-            <p className="home-feature__content-ad">تخفيضات كبيرة</p>
-          </div>
-          <div className="home-feature__content">
-            <img
-              src="/s2.jpg"
-              alt="Feature"
-              className="home-feature__content-img"
-            />
-            <p className="home-feature__content-ad">تخفيضات كبيرة</p>
-          </div>
-        </Slider>
+        {appImgs.length > 0 && (
+          <Slider {...featureSetting}>
+            {appImgs[0].adsPic.map((ads, i) => (
+              <div className="home-feature__content" key={i}>
+                <img
+                  src={ads.img}
+                  alt="Feature"
+                  className="home-feature__content-img"
+                />
+              </div>
+            ))}
+            {/* <div className="home-feature__content">
+               <img
+                 src="/s1.jpg"
+                 alt="Feature"
+                 className="home-feature__content-img"
+               />
+               <p className="home-feature__content-ad">تخفيضات كبيرة</p>
+             </div>
+             <div className="home-feature__content">
+               <img
+                 src="/s2.jpg"
+                 alt="Feature"
+                 className="home-feature__content-img"
+               />
+               <p className="home-feature__content-ad">تخفيضات كبيرة</p>
+             </div> */}
+          </Slider>
+        )}
       </div>
 
       <div className="categories-slider">
         <div className="category-content">
           <span className="gn-hed">ألفئات</span>
-          <Link className="category-content__link" to="#">
-            View all
+          <Link className="category-content__link" to="/category-list">
+            أضهر الكل
           </Link>
         </div>
         <Slider {...settings1}>

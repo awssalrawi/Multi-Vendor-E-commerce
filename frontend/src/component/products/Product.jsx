@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 import './style/product.scss';
 
 import Rating from '@material-ui/lab/Rating';
-import { useSelector } from 'react-redux';
 import Box from '@material-ui/core/Box';
-import { realPrice, priceConvert } from '../../assests/currencyControl';
+import { useSelector } from 'react-redux';
+import { priceShow, priceConvert } from '../../assests/currencyControl';
 
 const Product = ({ products }) => {
   // const { name, price,  cardPicture, shop } = products;
@@ -17,20 +17,17 @@ const Product = ({ products }) => {
     setLoad(true);
   };
 
-  const priceShow = (price, currency) => {
-    return `${priceConvert(
-      selectedCurrency,
-      currency,
-      price,
-      currs
-    )} ${selectedCurrency}`;
-  };
+  const [userCur, setUserCur] = useState(selectedCurrency);
+
+  useEffect(() => {
+    setUserCur(selectedCurrency);
+    console.log('use Effect called for selecetcurrency');
+  }, [selectedCurrency]);
 
   return (
     <Fragment>
       <div className="product">
         <div className="product__container">
-          {/*//? Job Place */}
           {products &&
             currs.length > 0 &&
             products.map((product) => {
@@ -58,7 +55,6 @@ const Product = ({ products }) => {
                       className="product-image"
                       onLoad={() => setLoad(true)}
                     />
-                    {/* <div className="prod-no-img"></div> */}
                   </div>
                   <div className="product__item__details">
                     <span className="product__item__name">{name}</span>
@@ -69,8 +65,10 @@ const Product = ({ products }) => {
                           <span className="item__price-dis">
                             {currs.length > 0 &&
                               priceShow(
+                                userCur,
+                                product.currency,
                                 product.priceAfterDiscount,
-                                product.currency
+                                currs
                               )}
                           </span>
                           <span className="item__price-dis-rate">{`-${(
@@ -81,7 +79,12 @@ const Product = ({ products }) => {
                       ) : (
                         <span className="item__price-dis">
                           {currs.length > 0 &&
-                            priceShow(product.price, product.currency)}
+                            priceShow(
+                              userCur,
+                              product.currency,
+                              product.price,
+                              currs
+                            )}
                         </span>
                       )}
                     </div>
@@ -102,332 +105,6 @@ const Product = ({ products }) => {
                 </Link>
               );
             })}
-
-          {/*//? Job Place */}
-          {/* 
-          <div className="product__item">
-            <img
-              src="img/house-5.jpeg"
-              alt="product"
-              className="product__item__img"
-            />
-            <div className="product__item__details">
-              <span className="product__item__name">
-                2021 New Printed Baby Nylon Headband,
-              </span>
-
-              <div className="product__item__info">
-                <span className="item__price-dis">120.99$</span>
-                <span className="item__price-dis-rate">-34%</span>
-              </div>
-              <div className="product__item__review">
-                <Box component="fieldset" borderColor="transparent">
-                  <Rating name="read-only" value={value} readOnly />
-                </Box>
-                <span className="product-review-number">(134)</span>
-              </div>
-              <span className="product__item__shipping">+Shipping: 5$</span>
-              <span className="product__item__seller">Awss store</span>
-            </div>
-          </div>
-          <div className="product__item">
-            <img
-              src="img/house-5.jpeg"
-              alt="product"
-              className="product__item__img"
-            />
-            <div className="product__item__details">
-              <span className="product__item__name">
-                2021 New Printed Baby Nylon Headband,
-              </span>
-
-              <div className="product__item__info">
-                <span className="item__price-dis">120.99$</span>
-                <span className="item__price-dis-rate">-34%</span>
-              </div>
-              <div className="product__item__review">
-                <Box component="fieldset" borderColor="transparent">
-                  <Rating name="read-only" value={value} readOnly />
-                </Box>
-                <span className="product-review-number">(134)</span>
-              </div>
-              <span className="product__item__shipping">+Shipping: 5$</span>
-              <span className="product__item__seller">Awss store</span>
-            </div>
-          </div>
-          <div className="product__item">
-            <img
-              src="img/house-5.jpeg"
-              alt="product"
-              className="product__item__img"
-            />
-            <div className="product__item__details">
-              <span className="product__item__name">
-                2021 New Printed Baby Nylon Headband,
-              </span>
-
-              <div className="product__item__info">
-                <span className="item__price-dis">120.99$</span>
-                <span className="item__price-dis-rate">-34%</span>
-              </div>
-              <div className="product__item__review">
-                <Box component="fieldset" borderColor="transparent">
-                  <Rating name="read-only" value={value} readOnly />
-                </Box>
-                <span className="product-review-number">(134)</span>
-              </div>
-              <span className="product__item__shipping">+Shipping: 5$</span>
-              <span className="product__item__seller">Awss store</span>
-            </div>
-          </div>
-          <div className="product__item">
-            <img
-              src="img/house-5.jpeg"
-              alt="product"
-              className="product__item__img"
-            />
-            <div className="product__item__details">
-              <span className="product__item__name">
-                2021 New Printed Baby Nylon Headband,
-              </span>
-
-              <div className="product__item__info">
-                <span className="item__price-dis">120.99$</span>
-                <span className="item__price-dis-rate">-34%</span>
-              </div>
-              <div className="product__item__review">
-                <Box component="fieldset" borderColor="transparent">
-                  <Rating name="read-only" value={value} readOnly />
-                </Box>
-                <span className="product-review-number">(134)</span>
-              </div>
-            </div>
-          </div>
-          <div className="product__item">
-            <img
-              src="img/house-5.jpeg"
-              alt="product"
-              className="product__item__img"
-            />
-            <div className="product__item__details">
-              <span className="product__item__name">
-                2021 New Printed Baby Nylon Headband,
-              </span>
-
-              <div className="product__item__info">
-                <span className="item__price-dis">120.99$</span>
-                <span className="item__price-dis-rate">-34%</span>
-              </div>
-              <div className="product__item__review">
-                <Box component="fieldset" borderColor="transparent">
-                  <Rating name="read-only" value={value} readOnly />
-                </Box>
-                <span className="product-review-number">(134)</span>
-              </div>
-              <span className="product__item__shipping">+Shipping: 5$</span>
-              <span className="product__item__seller">Awss store</span>
-            </div>
-          </div>
-          <div className="product__item">
-            <img
-              src="img/house-5.jpeg"
-              alt="product"
-              className="product__item__img"
-            />
-            <div className="product__item__details">
-              <span className="product__item__name">
-                2021 New Printed Baby Nylon Headband,
-              </span>
-
-              <div className="product__item__info">
-                <span className="item__price-dis">120.99$</span>
-                <span className="item__price-dis-rate">-34%</span>
-              </div>
-              <div className="product__item__review">
-                <Box component="fieldset" borderColor="transparent">
-                  <Rating name="read-only" value={value} readOnly />
-                </Box>
-                <span className="product-review-number">(134)</span>
-              </div>
-              <span className="product__item__shipping">+Shipping: 5$</span>
-              <span className="product__item__seller">Awss store</span>
-            </div>
-          </div>
-          <div className="product__item">
-            <img
-              src="img/house-5.jpeg"
-              alt="product"
-              className="product__item__img"
-            />
-            <div className="product__item__details">
-              <span className="product__item__name">
-                2021 New Printed Baby Nylon Headband,
-              </span>
-
-              <div className="product__item__info">
-                <span className="item__price-dis">120.99$</span>
-                <span className="item__price-dis-rate">-34%</span>
-              </div>
-              <div className="product__item__review">
-                <Box component="fieldset" borderColor="transparent">
-                  <Rating name="read-only" value={value} readOnly />
-                </Box>
-                <span className="product-review-number">(134)</span>
-              </div>
-              <span className="product__item__shipping">+Shipping: 5$</span>
-              <span className="product__item__seller">Awss store</span>
-            </div>
-          </div>
-          <div className="product__item">
-            <img
-              src="img/house-5.jpeg"
-              alt="product"
-              className="product__item__img"
-            />
-            <div className="product__item__details">
-              <span className="product__item__name">
-                2021 New Printed Baby Nylon Headband,
-              </span>
-
-              <div className="product__item__info">
-                <span className="item__price-dis">120.99$</span>
-                <span className="item__price-dis-rate">-34%</span>
-              </div>
-              <div className="product__item__review">
-                <Box component="fieldset" borderColor="transparent">
-                  <Rating name="read-only" value={value} readOnly />
-                </Box>
-                <span className="product-review-number">(134)</span>
-              </div>
-              <span className="product__item__shipping">+Shipping: 5$</span>
-              <span className="product__item__seller">Awss store</span>
-            </div>
-          </div>
-          <div className="product__item">
-            <img
-              src="img/house-5.jpeg"
-              alt="product"
-              className="product__item__img"
-            />
-            <div className="product__item__details">
-              <span className="product__item__name">
-                2021 New Printed Baby Nylon Headband,
-              </span>
-
-              <div className="product__item__info">
-                <span className="item__price-dis">120.99$</span>
-                <span className="item__price-dis-rate">-34%</span>
-              </div>
-              <div className="product__item__review">
-                <Box component="fieldset" borderColor="transparent">
-                  <Rating name="read-only" value={value} readOnly />
-                </Box>
-                <span className="product-review-number">(134)</span>
-              </div>
-              <span className="product__item__shipping">+Shipping: 5$</span>
-              <span className="product__item__seller">Awss store</span>
-            </div>
-          </div>
-          <div className="product__item">
-            <img
-              src="img/house-5.jpeg"
-              alt="product"
-              className="product__item__img"
-            />
-            <div className="product__item__details">
-              <span className="product__item__name">
-                2021 New Printed Baby Nylon Headband,
-              </span>
-
-              <div className="product__item__info">
-                <span className="item__price-dis">120.99$</span>
-                <span className="item__price-dis-rate">-34%</span>
-              </div>
-              <div className="product__item__review">
-                <Box component="fieldset" borderColor="transparent">
-                  <Rating name="read-only" value={value} readOnly />
-                </Box>
-                <span className="product-review-number">(134)</span>
-              </div>
-              <span className="product__item__shipping">+Shipping: 5$</span>
-              <span className="product__item__seller">Awss store</span>
-            </div>
-          </div>
-          <div className="product__item">
-            <img
-              src="img/house-5.jpeg"
-              alt="product"
-              className="product__item__img"
-            />
-            <div className="product__item__details">
-              <span className="product__item__name">
-                2021 New Printed Baby Nylon Headband,
-              </span>
-
-              <div className="product__item__info">
-                <span className="item__price-dis">120.99$</span>
-                <span className="item__price-dis-rate">-34%</span>
-              </div>
-              <div className="product__item__review">
-                <Box component="fieldset" borderColor="transparent">
-                  <Rating name="read-only" value={value} readOnly />
-                </Box>
-                <span className="product-review-number">(134)</span>
-              </div>
-              <span className="product__item__shipping">+Shipping: 5$</span>
-              <span className="product__item__seller">Awss store</span>
-            </div>
-          </div>
-          <div className="product__item">
-            <img
-              src="img/house-5.jpeg"
-              alt="product"
-              className="product__item__img"
-            />
-            <div className="product__item__details">
-              <span className="product__item__name">
-                2021 New Printed Baby Nylon Headband,
-              </span>
-
-              <div className="product__item__info">
-                <span className="item__price-dis">120.99$</span>
-                <span className="item__price-dis-rate">-34%</span>
-              </div>
-              <div className="product__item__review">
-                <Box component="fieldset" borderColor="transparent">
-                  <Rating name="read-only" value={value} readOnly />
-                </Box>
-                <span className="product-review-number">(134)</span>
-              </div>
-              <span className="product__item__shipping">+Shipping: 5$</span>
-              <span className="product__item__seller">Awss store</span>
-            </div>
-          </div>
-          <div className="product__item">
-            <img
-              src="img/house-5.jpeg"
-              alt="product"
-              className="product__item__img"
-            />
-            <div className="product__item__details">
-              <span className="product__item__name">
-                2021 New Printed Baby Nylon Headband,
-              </span>
-
-              <div className="product__item__info">
-                <span className="item__price-dis">120.99$</span>
-                <span className="item__price-dis-rate">-34%</span>
-              </div>
-              <div className="product__item__review">
-                <Box component="fieldset" borderColor="transparent">
-                  <Rating name="read-only" value={value} readOnly />
-                </Box>
-                <span className="product-review-number">(134)</span>
-              </div>
-              <span className="product__item__shipping">+Shipping: 5$</span>
-              <span className="product__item__seller">Awss store</span>
-            </div>
-          </div> */}
         </div>
       </div>
     </Fragment>

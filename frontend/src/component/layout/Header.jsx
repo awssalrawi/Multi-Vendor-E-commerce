@@ -37,6 +37,8 @@ const Header = () => {
 
   const { cartItems } = useSelector((state) => state.cart);
 
+  const { appImgs } = useSelector((state) => state.currency);
+
   const logoutHandler = () => {
     // dispatch(userLoggedOut);
 
@@ -60,27 +62,24 @@ const Header = () => {
   //*currency and translate
   const { t, i18n } = useTranslation();
 
-  const [selectCurrency, setSelectCurrency] = useState('IQD');
-
-  useEffect(() => {
-    dispatch(selectedCurrency(selectCurrency));
-    console.log('I called inside appjs currency effect');
-  }, [selectCurrency]);
-
   //*currency and translate
 
   return (
     <Fragment>
       <div className="header header-phone">
         <Link to="/" className="link">
+          {appImgs?.length > 0 ? (
+            <img src={appImgs[0].appLogo} alt="logo" className="logo" />
+          ) : (
+            <span className="text-logo">Ltreda</span>
+          )}
           {/* <img src="./logo.png" alt="logo" className="logo" /> */}
-          <span className="text-logo">Ltreda</span>
         </Link>
         <Search />
         {/* <span className="langBtn">{t('hello')}</span> */}
 
         <nav className="user-nav" id="user-nav">
-          <div className="topHeader">
+          {/* <div className="topHeader">
             <div className="currency-select-container">
               <select
                 name="currency"
@@ -93,21 +92,10 @@ const Header = () => {
               </select>
             </div>
             <div className="language-selector">
-              {/* <div className="currency-select-container">
-                <select
-                  name="currency"
-                  id="currency"
-                  onChange={(e) => i18n.changeLanguage(e.target.value)}
-                  // defaultValue={i18n.changeLanguage('ar')}
-                >
-                  <option value="ar">ألعربية</option>
-                  <option value="en">English</option>
-                  <option value="tr">Türkçe</option>
-                </select>
-              </div> */}
+          
             </div>
-            {/* <span className="langBtn">{t('hello')}</span> */}
-          </div>
+           
+          </div> */}
           <Link className="user-nav__icon-box" to="/cart">
             <CartIcon className="cart-icon" />
             <span className="cart-notification">
@@ -219,13 +207,15 @@ const Header = () => {
                   </MenuItem>
                   {/* <Divider /> */}
                   <MenuItem>
-                    <ListItemIcon>
-                      <ShoppingCartOutlined fontSize="small" />
-                    </ListItemIcon>
-                    السله خاصتي
+                    <Link className="link centered-flex" to="/cart">
+                      <ListItemIcon>
+                        <ShoppingCartOutlined fontSize="small" />
+                      </ListItemIcon>
+                      السله خاصتي
+                    </Link>
                   </MenuItem>
                   {/* <Divider /> */}
-                  <MenuItem>
+                  {/* <MenuItem>
                     <Link className="link centered-flex" to="/admin">
                       <ListItemIcon>
                         <Settings fontSize="small" />
@@ -240,7 +230,7 @@ const Header = () => {
                       </ListItemIcon>
                       Seller Dashboard
                     </Link>
-                  </MenuItem>
+                  </MenuItem> */}
                   {/* <Divider /> */}
                   <MenuItem>
                     <Link

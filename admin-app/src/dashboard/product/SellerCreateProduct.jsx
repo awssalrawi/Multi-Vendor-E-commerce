@@ -15,8 +15,10 @@ import { IconButton } from "@material-ui/core";
 import { Add, Remove } from "@material-ui/icons";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
-
+import { useTranslation } from "react-i18next";
+import PageTitle from "../utilities/PageTitle";
 const SellerCreateProduct = () => {
+  const { t } = useTranslation();
   //*Declare variables
   const [cardImage, setCardImage] = useState("");
   const [cardImagePreview, setCardImagePreview] = useState("");
@@ -290,14 +292,18 @@ const SellerCreateProduct = () => {
 
   return (
     <div className="agp-body">
+      <PageTitle title="Products" />
       <ArrowBack onClick={() => navigate(-1)} />
       <form
         className="agp-exists"
         onSubmit={handleProductInfoAndSubmit}
         encType="multipart/form-data"
       >
-        <span className="agp-exists__header">New Product</span>
+        <span className="agp-exists__header">{t("New_Product")}</span>
         <div className="content-container">
+          <span className="content-container__label require">
+            {t("Card_Image")}
+          </span>
           <img
             src={
               cardImagePreview
@@ -330,13 +336,16 @@ const SellerCreateProduct = () => {
           </label>
         </div>
         <div className="content-container">
-          <label htmlFor="agp-name" className="content-container__label">
-            Product Name
+          <label
+            htmlFor="agp-name"
+            className="content-container__label require"
+          >
+            {t("Product_Name")}
           </label>
           <input
             type="text"
             value={name}
-            placeholder="Product Name"
+            placeholder={t("Product_Name")}
             className="content-container__input"
             id="agp-name"
             onChange={(e) => setName(e.target.value)}
@@ -344,13 +353,16 @@ const SellerCreateProduct = () => {
         </div>
         <div className="price-currency-container">
           <div className="content-container">
-            <label htmlFor="agp-price" className="content-container__label">
-              Product Price
+            <label
+              htmlFor="agp-price"
+              className="content-container__label require"
+            >
+              {t("Product_Price")}
             </label>
 
             <input
               type="number"
-              placeholder="Product Price "
+              placeholder={t("Product_Price")}
               className="content-container__input"
               id="agp-price"
               value={price}
@@ -358,8 +370,11 @@ const SellerCreateProduct = () => {
             />
           </div>
           <div className="content-container">
-            <label htmlFor="agp-currency" className="content-container__label">
-              Currency
+            <label
+              htmlFor="agp-currency"
+              className="content-container__label require"
+            >
+              {t("Currency")}
             </label>
 
             <select
@@ -370,20 +385,20 @@ const SellerCreateProduct = () => {
             >
               <option value="">..</option>
               <option value="IQD" className="options-style">
-                IQD
+                {`IQD..${t("Iraqi_Dinar")}`}
               </option>
               <option value="TRY" className="options-style">
-                TRY
+                {`TRY..${t("Turkish_lira")}`}
               </option>
               <option value="USD" className="options-style">
-                USD
+                {`USD..${t("American_dollar")}`}
               </option>
             </select>
           </div>
         </div>
         <div className="content-container">
           <label htmlFor="agp-ship-price" className="content-container__label">
-            Shipping Price
+            {t("Shipping_Price")}
           </label>
           <input
             type="text"
@@ -396,12 +411,15 @@ const SellerCreateProduct = () => {
           />
         </div>
         <div className="content-container">
-          <label htmlFor="agp-quantity" className="content-container__label">
-            How Many Piece You Have
+          <label
+            htmlFor="agp-quantity"
+            className="content-container__label require"
+          >
+            {t("number_of_available_pieces")}
           </label>
           <input
             type="number"
-            placeholder="Product Quantity"
+            placeholder={t("Product_Quantity")}
             className="content-container__input"
             id="agp-quantity"
             value={quantity}
@@ -409,8 +427,11 @@ const SellerCreateProduct = () => {
           />
         </div>
         <div className="content-container">
-          <label htmlFor="agp-category" className="content-container__label">
-            Select Category
+          <label
+            htmlFor="agp-category"
+            className="content-container__label require"
+          >
+            {t("Select_Category")}
           </label>
           <select
             id="agp-category"
@@ -436,7 +457,7 @@ const SellerCreateProduct = () => {
             htmlFor="agp-description"
             className="content-container__label require"
           >
-            Description
+            {t("Description")}
           </label>
           <textarea
             name="description"
@@ -445,27 +466,29 @@ const SellerCreateProduct = () => {
             className="content-container__textarea"
             rows="4"
             // style={{ fontSize: "12px" }}
-            placeholder="Product Description"
+            placeholder={t("Product_Description")}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           ></textarea>
         </div>
         <div className="content-container">
-          <span className="content-container__label">Products Place</span>
+          <span className="content-container__label">
+            {t("Products_Place")}
+          </span>
           <div className="productLocation">
             <FormControlLabel
-              label="In Turkey"
+              label={t("In_Turkey")}
               control={
                 <Checkbox
                   checked={checkLocationInTurkey}
-                  defaultChecked
+                  // defaultChecked
                   onChange={(e) => setCheckLocationInTurkey(e.target.checked)}
                   inputProps={{ "aria-label": "controlled" }}
                 />
               }
             />
             <FormControlLabel
-              label="In Iraq"
+              label={t("In_Iraq")}
               control={
                 <Checkbox
                   checked={checkLocationInIraq}
@@ -479,7 +502,7 @@ const SellerCreateProduct = () => {
 
         <div className="content-container">
           <label htmlFor="agp-sp" className="content-container__label">
-            Specifications (if there or leave empty)
+            {`${t("Specifications")} (${t("if_there_or_leave_empty")})`}
           </label>
           <div className="specific-fields-container">
             <IconButton
@@ -498,7 +521,7 @@ const SellerCreateProduct = () => {
               <input
                 type="text"
                 value={field.specific}
-                placeholder="Origin:Turkey"
+                placeholder={t("Origin_Turkey")}
                 className="subprodInput"
                 id="agp-sp"
                 onChange={(e) => handleSetSpecificField(index, e)}
@@ -514,7 +537,7 @@ const SellerCreateProduct = () => {
         </div>
         <div className="content-container">
           <span className="content-container__label">
-            Sub Product (if there or leave empty)
+            {`${t("Sub_Product")} (${t("if_there_or_leave_empty")})`}
           </span>
           <div>
             <div
@@ -526,11 +549,11 @@ const SellerCreateProduct = () => {
               }}
             >
               <label htmlFor={`sub-prod-subname`} className="subprodLabel">
-                Name of Sub Product like color or size
+                {t("Name_of_Sub_Product_like_color_or_size")}
               </label>
               <input
                 className="subprodInput"
-                placeholder="ex:Size,Color"
+                placeholder={t("ex_Size_Color")}
                 id={`sub-prod-subname`}
                 type="text"
                 value={subProducts.subName}
@@ -553,7 +576,7 @@ const SellerCreateProduct = () => {
                           htmlFor={`sub-prod-mod-name${i}-s`}
                           className="subprodLabel"
                         >
-                          Specific Name
+                          {t("Specific_Name")}
                         </label>
                         <input
                           id={`sub-prod-mod-name${i}-s`}
@@ -569,7 +592,7 @@ const SellerCreateProduct = () => {
                           htmlFor={`sub-prod-mod-stock${i}-s`}
                           className="subprodLabel"
                         >
-                          Product in Stock
+                          {t("Product_in_Stock")}
                         </label>
                         <input
                           id={`sub-prod-mod-stock${i}-s`}
@@ -586,7 +609,7 @@ const SellerCreateProduct = () => {
                           htmlFor={`sub-prod-mod-price${i}-s`}
                           className="subprodLabel"
                         >
-                          Price if different
+                          {t("Price")}
                         </label>
                         <input
                           id={`sub-prod-mod-price${i}-s`}
@@ -613,7 +636,7 @@ const SellerCreateProduct = () => {
 
         <div className="content-container">
           <span className="content-container__general-header">
-            Product Images
+            {t("Product_Images")}
           </span>
           <div className="productImages-container">
             <PhotoProvider>
@@ -668,7 +691,7 @@ const SellerCreateProduct = () => {
 
         <div className="content-container">
           <span className="content-container__general-header">
-            Details Images (if there or leave empty)
+            {`${t("Details_Images")} (${t("if_there_or_leave_empty")})`}
           </span>
           <div className="productImages-container">
             <PhotoProvider>
@@ -727,7 +750,7 @@ const SellerCreateProduct = () => {
             type="submit"
             disabled={loading ? true : false}
           >
-            Create Product
+            {t("Create_Product")}
           </button>
         </div>
       </form>

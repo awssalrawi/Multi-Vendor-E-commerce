@@ -25,6 +25,17 @@ exports.getMyProfileData = catchAsync(async (req, res, next) => {
 //*Update user Profile
 //*delete user profile
 //*update my profile
+exports.updateMyProfileName = catchAsync(async (req, res, next) => {
+  const user = await User.findByIdAndUpdate(req.body._id, req.body.name);
+
+  if (!user)
+    return next(new AppError('Something went wrong please try again later'));
+
+  res.status(200).json({
+    success: true,
+    user,
+  });
+});
 //* seller role
 /**
  *

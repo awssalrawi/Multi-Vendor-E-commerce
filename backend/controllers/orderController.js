@@ -5,16 +5,16 @@ const Cart = require('../models/cartModel');
 const Shop = require('../models/shopModel');
 const SellerOrders = require('../models/sellerOrderModel');
 //*Notification Tutorial
-const webpush = require('web-push');
+// const webpush = require('web-push');
 
-const publicVapidKey =
-  'BBgM6MCz_oKjICkfCBLmPgJj7aPB9DC2QdyTggSmVl8kli-UM3cDhFPfn57LDZsieykn-DGNZc43o6K6Ovh55Ac';
-const privateVapidKey = 'fXbczeOVxaAXtwgj4m438cxgp0y5Tlqrgr9gc6vFrbY';
-webpush.setVapidDetails(
-  'mailto:awss.alrawi@gmail.com',
-  publicVapidKey,
-  privateVapidKey
-);
+// const publicVapidKey =
+//   'BBgM6MCz_oKjICkfCBLmPgJj7aPB9DC2QdyTggSmVl8kli-UM3cDhFPfn57LDZsieykn-DGNZc43o6K6Ovh55Ac';
+// const privateVapidKey = 'fXbczeOVxaAXtwgj4m438cxgp0y5Tlqrgr9gc6vFrbY';
+// webpush.setVapidDetails(
+//   'mailto:awss.alrawi@gmail.com',
+//   publicVapidKey,
+//   privateVapidKey
+// );
 //*Subscribe Route
 
 //*Notification Tutorial
@@ -79,7 +79,7 @@ exports.userAddOrder = catchAsync(async (req, res, next) => {
       specific: item.specific,
       payedPiceInDollar: item.payedPiceInDollar,
       _id: item._id,
-      receiver: req.body.order.receiver,
+      address: order.address,
       userOrdersId: order._id,
     }),
       // promiseArry.push(runUpdate(condition, update));
@@ -96,18 +96,18 @@ exports.userAddOrder = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.handleNotification = catchAsync(async (req, res, next) => {
-  const { subscription, title, message } = req.body;
-  const payload = JSON.stringify({ title: 'Push Test' });
+// exports.handleNotification = catchAsync(async (req, res, next) => {
+//   const { subscription, title, message } = req.body;
+//   const payload = JSON.stringify({ title: 'Push Test' });
 
-  //*Pass object into send notification
+//   //*Pass object into send notification
 
-  webpush.sendNotification(subscription, payload).catch((err) => {
-    console.log(err);
-  });
+//   webpush.sendNotification(subscription, payload).catch((err) => {
+//     console.log(err);
+//   });
 
-  res.status(200).json({ message: 'Push Test' });
-});
+//   res.status(200).json({ message: 'Push Test' });
+// });
 
 exports.userGetOrder = catchAsync(async (req, res, next) => {
   const order = await Order.find({ user: req.user._id })

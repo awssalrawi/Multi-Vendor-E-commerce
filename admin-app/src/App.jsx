@@ -16,14 +16,14 @@ import IsSeller from "./strict/IsSeller";
 import SellerHome from "./dashboard/SellerHome";
 import SellerDashboard from "./dashboard/SellerDashboard";
 import Login from "./components/auth/Login";
-import SellerOrders from "./dashboard/order/SellerOrders";
+//import SellerOrders from "./dashboard/order/SellerOrders";
 import SellerProducts from "./dashboard/product/SellerProducts";
-import SellerProfile from "./components/profile/SellerProfile";
+import SellerProfile from "./dashboard/profile/SellerProfile";
 // import SellerUpdateProduct from "./dashboard/product/SellerUpdateProduct";
 import SellerCreateProduct from "./dashboard/product/SellerCreateProduct";
 import { sellerGetInfo, sellerOrders } from "./redux/actions/orderAction";
 import { useSelector } from "react-redux";
-import SellerOrderDetail from "./dashboard/order/SellerOrderDetail";
+//import SellerOrderDetail from "./dashboard/order/SellerOrderDetail";
 //*admin
 import AdminDashboard from "./dashboard/admin/AdminDashboard";
 import UserList from "./dashboard/admin/pages/UserList";
@@ -48,8 +48,8 @@ import "./style.css";
 import "./responsive.css";
 import HomeScreen from "./screens/HomeScreen";
 import OrderScreen from "./screens/OrderScreen";
-import OrderDetailmain from "./components/orders/OrderDetailmain";
-import MainProducts from "./components/products/MainProducts";
+import OrderDetailmain from "./dashboard/order/OrderDetailmain";
+import MainProducts from "./dashboard/product/MainProducts";
 import SellerUpdateProduct from "./dashboard/product/SellerUpdateProduct";
 
 //*Design pro
@@ -80,8 +80,6 @@ function App() {
 
   return (
     <Router>
-    
-
       <ToastContainer
         position={toast.POSITION.TOP_CENTER}
         draggable={true}
@@ -115,10 +113,6 @@ function App() {
               path="seller-orders/:orderId"
               element={<OrderDetailmain />}
             />
-            {/* <Route
-              path="seller-orders/:orderId"
-              element={<SellerOrderDetail />}
-            /> */}
             <Route
               path="seller-products/:productId"
               element={<SellerUpdateProduct />}

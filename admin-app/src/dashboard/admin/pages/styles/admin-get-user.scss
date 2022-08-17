@@ -1,4 +1,4 @@
-@use '../../../../sass/abstracts/' as *;
+@use "../../../../sass/abstracts/" as *;
 .admin-getuser {
   margin-top: 1rem;
   padding: 0.5rem;
@@ -154,18 +154,18 @@
               height: 1.5rem;
             }
           }
-
-          .userUpdate-btn {
-            border: none;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            padding: 0.5rem;
-            background-color: $colorGreen;
-            color: #fff;
-            font-weight: bold;
-          }
         }
       }
     }
   }
+}
+.userUpdate-btn {
+  margin-top: 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: $colorGreen;
+  color: #fff;
+  font-weight: bold;
 }

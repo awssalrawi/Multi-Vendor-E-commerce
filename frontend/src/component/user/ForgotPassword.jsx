@@ -6,12 +6,12 @@ const ForgotPassword = () => {
     <Fragment>
       <div className="auth">
         <div className="auth__container">
-          <span className="auth__header">Forgot Password</span>
+          <span className="auth__header">اعادة تعيين كلمة السر</span>
           <form action="#" className="auth__form">
             <div className="auth__input">
               <input
                 type="email"
-                placeholder="Email"
+                placeholder="البريد الالكتوني"
                 className="auth__input-field"
               />
               <EmailOutlined
@@ -23,7 +23,7 @@ const ForgotPassword = () => {
             <div className="auth__btn mt-5">
               <input
                 type="button"
-                value="Send Email"
+                value="ارسل رابط الى البريد"
                 className="auth__btn-login"
               />
             </div>

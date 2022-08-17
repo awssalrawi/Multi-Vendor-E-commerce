@@ -1,16 +1,19 @@
 import React, { Fragment, useState } from "react";
 import "./styles/seller-profile.scss";
-import { Link, useNavigate } from "react-router-dom";
+// import { Link, useNavigate } from "react-router-dom";
 import { Publish } from "@material-ui/icons";
-import LoaderSpinner from "../../component/utilities/LoaderSpinner";
+import LoaderSpinner from "../../utilities/LoaderSpinner/LoaderSpinner";
 import { useSelector, useDispatch } from "react-redux";
 import ButtonMat from "../../utilities/button/ButtonMat";
 import {
   updateSellerShop,
   sellerGetInfo,
 } from "../../redux/actions/orderAction";
+import { useTranslation } from "react-i18next";
+import PageTitle from "../utilities/PageTitle";
 const SellerProfile = () => {
-  const navigate = useNavigate();
+  const { t } = useTranslation();
+  // const navigate = useNavigate();
   const dispatch = useDispatch();
   const { shop, loading } = useSelector((state) => state.shop);
 
@@ -46,14 +49,15 @@ const SellerProfile = () => {
   };
   return (
     <Fragment>
+      <PageTitle title="My Shop" />
       {loading ? (
         <LoaderSpinner text="Getting Shop Data" />
       ) : (
         <div className="seller-profile">
-          <div className="admin-getuser">
-            <div className="currentUser">
-              <div className="currentUser__userShow">
-                <div className="userShow-top">
+          <div className="my-prof">
+            <div className="current-info">
+              <div className="current-info__userShow">
+                <div className="prof-top">
                   <img
                     src={
                       shop && Object.keys(shop).length > 0 && shop.shopImage
@@ -61,26 +65,32 @@ const SellerProfile = () => {
                         : ""
                     }
                     alt="Header"
-                    className="currentUserImage"
+                    className="curr-img"
                   />
                 </div>
                 <div className="userShow-bottom">
-                  <span className="userShow-bottom__title">Shop Details</span>
+                  <span className="userShow-bottom__title">
+                    {t("Shop_Details")}
+                  </span>
                   <div className="userShow-bottom__info">
-                    <span className="userShow-bottom__info-header">Name</span>
+                    <span className="userShow-bottom__info-header">
+                      {t("Name")}
+                    </span>
                     <span className="userShow-bottom__info-other">
                       {shop && Object.keys(shop).length > 0 && shop.owner.name}
                     </span>
                   </div>
                   <div className="userShow-bottom__info">
-                    <span className="userShow-bottom__info-header">Email</span>
+                    <span className="userShow-bottom__info-header">
+                      {t("Email")}
+                    </span>
                     <span className="userShow-bottom__info-other">
                       {shop && Object.keys(shop).length > 0 && shop.owner.email}
                     </span>
                   </div>
                   <div className="userShow-bottom__info">
                     <span className="userShow-bottom__info-header">
-                      Store Name
+                      {t("Store_Name")}
                     </span>
                     <span className="userShow-bottom__info-other">
                       {shop && Object.keys(shop).length > 0 && shop.name}
@@ -88,7 +98,7 @@ const SellerProfile = () => {
                   </div>
                   <div className="userShow-bottom__info">
                     <span className="userShow-bottom__info-header">
-                      Description
+                      {t("Description")}
                     </span>
                     <span className="userShow-bottom__info-other">
                       {shop && Object.keys(shop).length > 0 && shop.description}
@@ -96,8 +106,10 @@ const SellerProfile = () => {
                   </div>
                 </div>
               </div>
-              <div className="currentUser__userUpdate">
-                <span className="currentUser__userUpdate-title">Edit</span>
+              <div className="current-info__userUpdate">
+                <span className="current-info__userUpdate-title">
+                  {t("Edit")}
+                </span>
                 <form
                   action="#"
                   className="userForm"
@@ -106,11 +118,11 @@ const SellerProfile = () => {
                   <div className="userForm__left">
                     <div className="userForm__right">
                       <div className="userForm__left-field">
-                        <label htmlFor="">Store Name</label>
+                        <label htmlFor="">{t("Store_Name")}</label>
                         <input
                           type="text"
                           className="userUpdate-input"
-                          placeholder="Store Name"
+                          placeholder={t("Store_Name")}
                           onChange={(e) => setStoreName(e.target.value)}
                           disabled={shop.name !== "noName"}
                           style={{ marginBottom: "10px" }}
@@ -136,8 +148,9 @@ const SellerProfile = () => {
                       </div>
                     </div>
                     <div className="userForm__left-field">
-                      <label htmlFor="">Description</label>
+                      <label htmlFor="discp-store">{t("Description")}</label>
                       <textarea
+                        id="discp-store"
                         type="text"
                         className="userUpdate-input"
                         placeholder={shop.description}
@@ -148,7 +161,7 @@ const SellerProfile = () => {
                     </div>
                   </div>
                   <ButtonMat
-                    name="Update Profile"
+                    name={t("Update_Profile")}
                     icon={<Publish />}
                     style={{ marginTop: "30px" }}
                     type="submit"

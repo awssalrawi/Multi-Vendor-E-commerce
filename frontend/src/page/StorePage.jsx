@@ -6,6 +6,7 @@ import FilteredProducts from './FilteredProducts';
 import LoaderSpinner from '../component/utilis/LoaderSpinner';
 import './style/store-page.scss';
 import Footer from './../component/layout/Footer';
+import PageTitle from '../component/utilis/PageTitle';
 const StorePage = () => {
   const dispatch = useDispatch();
   const params = useParams();
@@ -18,6 +19,7 @@ const StorePage = () => {
   const { data, loading } = useSelector((state) => state.storePage);
   return (
     <Fragment>
+      <PageTitle title="Store" />
       {loading ? (
         <LoaderSpinner />
       ) : (

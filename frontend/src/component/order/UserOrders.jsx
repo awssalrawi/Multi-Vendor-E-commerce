@@ -14,6 +14,7 @@ import ButtonMat from '../../generalComponent/ButtonMat';
 import { getReview } from '../../redux/actions/reviewAction';
 import NameOfPage from '../utilis/NameOfPage';
 import Footer from '../layout/Footer';
+import PageTitle from '../utilis/PageTitle';
 const UserOrders = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -86,6 +87,7 @@ const UserOrders = () => {
   //*Review
   return (
     <div className="user-order">
+      <PageTitle title="My Orders" />
       <NameOfPage text="ألطلبات الخاصة بي" />
       {loading ? (
         <LoaderSpinner />

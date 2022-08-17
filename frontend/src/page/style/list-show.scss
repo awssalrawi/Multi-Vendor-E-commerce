@@ -38,6 +38,9 @@
       flex-direction: column;
       font-weight: 500;
       margin-left: 10px;
+      &__ratings {
+        margin-left: -5px;
+      }
       &__text {
         font-size: $mainTextSize;
         width: 100%;
@@ -45,7 +48,7 @@
         word-wrap: break-word;
       }
       &__price {
-        font-size: $mainTextSize;
+        font-size: $mainFontSize;
 
         color: $colorRed-D;
       }
@@ -55,8 +58,9 @@
       }
       &__store {
         font-size: $subTextSize;
-        color: #777;
-        text-decoration: underline;
+        // color: #777;
+        // text-decoration: underline;
+        text-transform: uppercase;
       }
 
       .item__price-dis {

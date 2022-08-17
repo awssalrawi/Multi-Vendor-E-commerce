@@ -13,14 +13,32 @@ const Header = () => {
   const { isAuthenticated, user } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
-  const [selectCurrency, setSelectCurrency] = useState("IQD");
+  // const [selectCurrency, setSelectCurrency] = useState("IQD");
 
+  // useEffect(() => {
+  //   dispatch(selectedCurrency(selectCurrency));
+  //   console.log("I called inside appjs currency effect");
+  // }, [selectCurrency]);
+  // useEffect(() => {
+  //   dispatch(getCurrencyConst());
+  //   $("[data-trigger]").on("click", function (e) {
+  //     e.preventDefault();
+  //     e.stopPropagation();
+  //     var offcanvas_id = $(this).attr("data-trigger");
+  //     $(offcanvas_id).toggleClass("show");
+  //   });
+
+  //   $(".btn-aside-minimize").on("click", function () {
+  //     if (window.innerWidth < 768) {
+  //       $("body").removeClass("aside-mini");
+  //       $(".navbar-aside").removeClass("show");
+  //     } else {
+  //       // minimize sidebar on desktop
+  //       $("body").toggleClass("aside-mini");
+  //     }
+  //   });
+  // }, []);
   useEffect(() => {
-    dispatch(selectedCurrency(selectCurrency));
-    console.log("I called inside appjs currency effect");
-  }, [selectCurrency]);
-  useEffect(() => {
-    dispatch(getCurrencyConst());
     $("[data-trigger]").on("click", function (e) {
       e.preventDefault();
       e.stopPropagation();
@@ -38,7 +56,6 @@ const Header = () => {
       }
     });
   }, []);
-
   return (
     <header className="main-header navbar">
       {/* <div className="topHeader">
@@ -67,7 +84,7 @@ const Header = () => {
         <span className="langBtn">{t("hello")}</span>
       </div> */}
       <div className="col-search">
-        <form className="searchform">
+        {/* <form className="searchform">
           <div className="input-group">
             <input
               list="search_terms"
@@ -85,7 +102,7 @@ const Header = () => {
             <option value="Apple iphone" />
             <option value="Ahmed Hassan" />
           </datalist>
-        </form>
+        </form> */}
       </div>
       <div className="col-nav">
         <button
@@ -126,7 +143,7 @@ const Header = () => {
             </Link>
           </li>
           <li className="nav-item">
-            <select
+            {/* <select
               name="currency"
               id="currency"
               onChange={(e) => setSelectCurrency(e.target.value)}
@@ -136,7 +153,7 @@ const Header = () => {
               <option value="IQD">IQD</option>
               <option value="USD">USD</option>
               <option value="TRY">TRY</option>
-            </select>
+            </select> */}
             {/* <Link className="nav-link" to="#">
               English
             </Link> */}
@@ -145,7 +162,7 @@ const Header = () => {
             <Link className="dropdown-toggle" data-bs-toggle="dropdown" to="#">
               <img
                 className="img-xs rounded-circle"
-                src="/images/favicon.png"
+                src="/images/favicon.ico"
                 alt="User"
               />
             </Link>

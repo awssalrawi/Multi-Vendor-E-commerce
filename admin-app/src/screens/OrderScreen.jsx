@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
-import OrderMain from "../components/orders/OrderMain";
+import OrderMain from "../dashboard/order/OrderMain";
 
 const OrderScreen = () => {
   return <OrderMain />;

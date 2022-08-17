@@ -29,6 +29,7 @@ const productSchema = new mongoose.Schema(
     inStockCount: {
       type: Number,
       required: [true, 'product must have a quantity'],
+      min: 0,
     },
     description: {
       type: String,
@@ -84,13 +85,16 @@ const productSchema = new mongoose.Schema(
     foundInTurkey: Boolean,
     foundInIraq: Boolean,
     taxes: Number,
+    createdAt: {
+      type: Date,
+      default: Date.now(),
+    },
   },
+  // { timestamps: true },
   {
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
-  },
-
-  { timestamps: true }
+  }
 );
 
 //*Vertual populate

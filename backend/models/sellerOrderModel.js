@@ -10,7 +10,11 @@ const sellerOrdersSchema = new mongoose.Schema(
     specific: String,
     payedPiceInDollar: Number,
     notification: { type: Boolean, default: true },
-    receiver: { type: String, required: true },
+    address: {
+      receiver: { type: String, required: true },
+      phoneNo: { type: String, required: true },
+      addressDetail: { type: String, required: true },
+    },
     itemStatus: {
       type: String,
       default: 'pending',

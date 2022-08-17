@@ -44,16 +44,16 @@ const Footer = () => {
               <h4>مساعدة</h4>
               <ul>
                 <li>
-                  <a href="#">أسئلة متكرره</a>
+                  <Link to="/ltreda-info">أسئلة متكرره</Link>
                 </li>
                 <li>
                   <a href="#">تسوق</a>
                 </li>
                 <li>
-                  <a href="#">اعادة طلب</a>
+                  <Link to="/ltreda-info">اعادة طلب</Link>
                 </li>
                 <li>
-                  <a href="#">الطلبيات خاصتي</a>
+                  <Link to="/my-orders">الطلبيات خاصتي</Link>
                 </li>
               </ul>
             </div>
@@ -61,18 +61,28 @@ const Footer = () => {
               <h4>ألشركة</h4>
               <ul>
                 <li>
-                  <a href="#">من نحن</a>
+                  <Link to="/ltreda-info">من نحن</Link>
                 </li>
                 <li>
-                  <a href="#">خدماتنا</a>
+                  <Link to="/ltreda-info">خدماتنا</Link>
                 </li>
                 <li>
-                  <a href="#">السياسة والخصوصية</a>
+                  <Link to="/ltreda-info">السياسة والخصوصية</Link>
+                </li>
+                <li>
+                  <a
+                    href="https://google.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    OPennn
+                  </a>
                 </li>
               </ul>
             </div>
           </div>
         </div>
+        <div className="aws-copyright"></div>
       </footer>
     </Fragment>
   );

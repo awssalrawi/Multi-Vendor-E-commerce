@@ -1,10 +1,10 @@
 import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-
+import { useTranslation } from "react-i18next";
 const LatestOrder = () => {
   const { loading, orders } = useSelector((state) => state.shop);
-
+  const { t } = useTranslation();
   const showDate = (date) => {
     return new Date(date).toLocaleDateString("tr-TR", {
       year: "numeric",
@@ -22,7 +22,7 @@ const LatestOrder = () => {
         <span>Wait</span>
       ) : (
         <div className="card-body">
-          <h5 className="card-title">Latest orders</h5>
+          <h5 className="card-title">{t("Latest_orders")}</h5>
           <div className="table-responsive">
             <table className="table">
               <tbody>
@@ -32,10 +32,10 @@ const LatestOrder = () => {
                       {index <= 5 && (
                         <tr>
                           <td>
-                            <b>Customer</b>
+                            <b>{t("Customer")}</b>
                           </td>
-                          <td>{order.receiver}</td>
-                          <td>{order.payedPrice}</td>
+                          <td>{order.address.receiver}</td>
+                          <td>{`${order.purchasedQty}x${order.payedPrice} ${order.payedCurrency}`}</td>
                           <td>
                             <span className="badge rounded-pill alert-success">
                               {showDate(order.createdAt)}

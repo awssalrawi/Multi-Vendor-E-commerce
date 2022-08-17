@@ -6,7 +6,6 @@ import {
   categoryReducer,
   categoryConfigReducer,
 } from "./reducers/categoryReducer";
-import { currencyReducer } from "./reducers/currencyReducer";
 import {
   sellerProductReducer,
   adminProductsReducer,
@@ -18,9 +17,9 @@ import {
   adminOrderConfigReducer,
 } from "./reducers/orderReducer";
 
+import { adminReducer, logoAdsReducer } from "./reducers/adminReducer";
 const reducer = combineReducers({
   auth: authReducer,
-  currency: currencyReducer,
   sellerProduct: sellerProductReducer,
   category: categoryReducer,
   shop: shopReducer,
@@ -29,6 +28,8 @@ const reducer = combineReducers({
   adminProducts: adminProductsReducer,
   adminOrders: adminOrdersReducer,
   adminOrderConfig: adminOrderConfigReducer,
+  admin: adminReducer,
+  logoAds: logoAdsReducer,
 });
 
 const store = configureStore({

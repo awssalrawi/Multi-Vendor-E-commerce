@@ -1,13 +1,15 @@
 import React, { Fragment } from 'react';
 import './style/activate-accountMs.scss';
+import { Link } from 'react-router-dom';
+
 const ActivateAccountMs = () => {
   return (
     <Fragment>
       <div className="activate">
-        <h1 className="activate-text">Welcome to Ltreda family</h1>
-        <p className="activate-content">
-          Now you will redirect to home page...
-        </p>
+        <h1 className="activate-text">اهلا بك في عائلة لتريدا </h1>
+        <Link to="/" className="activate-content">
+          اضغط هنا للذهاب الى القائمة الرئيسية
+        </Link>
       </div>
     </Fragment>
   );

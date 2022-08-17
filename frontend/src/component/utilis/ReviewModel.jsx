@@ -94,11 +94,12 @@ const ReviewModel = ({ item }) => {
   return (
     <div noderef={nodeRef}>
       <ButtonMat
-        name="Review"
+        name="ضع تقييم"
         //    icon={<RateReviewOutlined style={{ color: '#fc9539' }} size="small" />}
-        variant="true"
+        //variant="variant"
         style={{
           color: '#fc9539',
+          backgroundColor: '#eee',
         }}
         onClick={handleClickOpen}
       />
@@ -111,13 +112,13 @@ const ReviewModel = ({ item }) => {
         ref={nodeRef}
       >
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-          Submit Review
+          قييم المنتج
         </DialogTitle>
         <DialogContent dividers>
           {' '}
           <div className="md-review">
             <span className="md-review__header">
-              set review and get extra point for discount
+              ضع تقييمك لكي تحصل على نقاط اضافية
             </span>
             <div className="rev-product">
               <img
@@ -147,7 +148,7 @@ const ReviewModel = ({ item }) => {
                 name="comment"
                 cols="30"
                 rows="4"
-                placeholder="Review"
+                placeholder="اكتب تعليقك"
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
               ></textarea>
@@ -171,7 +172,7 @@ const ReviewModel = ({ item }) => {
         <DialogActions>
           <div className="submit-review">
             <ButtonMat
-              name="Submit"
+              name="حفظ"
               icon={<TurnedIn />}
               onClick={() => submitReview(item.productId._id)}
             />

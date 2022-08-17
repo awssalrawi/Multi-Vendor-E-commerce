@@ -1,8 +1,8 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import {
-  designPrice,
   priceConvert,
   iqdDesign,
+  priceShow,
 } from '../../assests/currencyControl';
 import { useSelector, useDispatch } from 'react-redux';
 import './styles/summary-cart.scss';
@@ -25,55 +25,29 @@ const SummaryCart = ({ summaryObj }) => {
     }
   }, [cart.cartItems]);
 
-  // const calTotalItemsInCart = (cartItems) => {
-  //   const items = cartItems.reduce((acc, item) => acc + item.cartQuant * 1, 0);
-  //   console.log('items', items);
-  //   return items;
-  // };
+  const [userPoint, setUserPoint] = useState(1);
 
-  // const calTotalPrice = (cartItems) => {
-  //   // (priceText.replace(/\D/g, '') * 1)
-  //   // realPrice(selectedCurrency, currs, ePrice)
-  //   return cartItems.reduce(
-  //     (acc, item) =>
-  //       acc +
-  //       item.cartQuant *
-  //         (realPrice(selectedCurrency, currs, item.price).replace(/\D/g, '') *
-  //           1),
-  //     0
-  //   );
-  // };
-
-  // const catTotalDiscount = (cartItems) => {
-  //   let totalItems;
-
-  //   let point = 0.005;
-  //   if (cartItems.length > 0) {
-  //     totalItems =
-  //       cartItems.reduce((acc, item) => acc + item.cartQuant * 1, 0) - 1;
-  //   } else {
-  //     totalItems = 0;
-  //   }
-  //   return totalItems * point * 100;
-  // };
-
-  // const calFinalPrice = (cartItems) => {
-  //   return (
-  //     calTotalPrice(cartItems) -
-  //     (calTotalPrice(cartItems) * catTotalDiscount(cartItems)) / 100
-  //   );
-  // };
+  useEffect(() => {
+    if (isAuthenticated) {
+      setUserPoint(point);
+    } else {
+      setUserPoint(1);
+    }
+  }, [isAuthenticated]);
 
   //*designed summary
-  const priceShow = (price, currency) => {
-    return `${priceConvert(
-      selectedCurrency,
-      currency,
-      price,
-      currs
-    ).toLocaleString('en-US')} ${selectedCurrency}`;
-  };
+  // const priceShow = (price, currency) => {
+  //   return `${priceConvert(
+  //     selectedCurrency,
+  //     currency,
+  //     price,
+  //     currs
+  //   ).toLocaleString('en-US')} ${selectedCurrency}`;
+  // };
 
+  const stringPrice = (number, currency) => {
+    return `${number.toLocaleString('en-US')} ${currency}`;
+  };
   const calTotalItemsInCart = (cartItems) => {
     const items = cartItems.reduce((acc, item) => acc + item.cartQuant * 1, 0);
     console.log('items', items);
@@ -164,67 +138,72 @@ const SummaryCart = ({ summaryObj }) => {
   const sendSummaryInfoToSteps = (cartItems) => ({
     totalItemInCart: calTotalItemsInCart(cartItems),
     totalPrice: calTotalPrice(cartItems),
-    discountPrice: catTotalDiscount(cartItems, point),
+    discountPrice: catTotalDiscount(cartItems, userPoint),
     finalPriceText: priceShow(
-      calFinalPrice(cartItems, selectedCurrency, point),
+      calFinalPrice(cartItems, selectedCurrency, userPoint),
       selectedCurrency
     ),
     totalAmountInDollar: priceConvert(
       'USD',
       selectedCurrency,
-      calFinalPrice(cartItems, selectedCurrency, point),
+      calFinalPrice(cartItems, selectedCurrency, userPoint),
       currs
     ),
   });
   return (
     <div className="sum-side">
-      <span className="ss-header">Order Summary</span>
+      <span className="ss-header">{'خلاصة الطلب'}</span>
 
       <div className="sum-side__row">
-        <span className="ss-item-txt">Total Items:</span>
         <span className="ss-item-val">
           {cartItems && calTotalItemsInCart(cartItems)}
         </span>
+        <span className="ss-item-txt">{' : ألعدد الكلي'}</span>
       </div>
       <div className="sum-side__row">
-        <span className="ss-item-txt">Total Price:</span>
         <span className="ss-item-val">
           {cartItems &&
             currs.length > 0 &&
-            priceShow(calTotalPrice(cartItems), selectedCurrency)}
+            stringPrice(calTotalPrice(cartItems), selectedCurrency)}
         </span>
+        <span className="ss-item-txt">{' : السعر الكلي'}</span>
       </div>
       <div className="sum-side__row">
-        <span className="ss-item-txt">Points:</span>
         <span className="ss-item-val">{point}</span>
+        <span className="ss-item-txt">{' : المستوى'}</span>
       </div>
       <div className="sum-side__row">
-        <span className="ss-item-txt">Shipping Price:</span>
         <span className="ss-item-val">
           {cartItems?.length > 0 &&
-            priceShow(
+            stringPrice(
               calShippingPrice(cartItems, selectedCurrency),
               selectedCurrency
             )}
         </span>
+        <span className="ss-item-txt">{' : سعر الشحن'}</span>
       </div>
       <div className="sum-side__row">
-        <span className="ss-item-txt">Discount </span>
         <span className="ss-item-val">
           {cartItems?.length > 0 &&
-            priceShow(catTotalDiscount(cartItems, point), selectedCurrency)}
-        </span>
-      </div>
-      <hr />
-      <div className="sum-side__row">
-        <span className="ss-item-txt">Final Price </span>
-        <span className="ss-item-val">
-          {cartItems?.length > 0 &&
-            priceShow(
-              calFinalPrice(cartItems, selectedCurrency, point),
+            currs.length > 0 &&
+            stringPrice(
+              catTotalDiscount(cartItems, userPoint),
               selectedCurrency
             )}
         </span>
+        <span className="ss-item-txt">{' : الخصم'}</span>
+      </div>
+      <hr />
+      <div className="sum-side__row">
+        <span className="ss-item-val">
+          {cartItems?.length > 0 &&
+            currs.length &&
+            stringPrice(
+              calFinalPrice(cartItems, selectedCurrency, userPoint),
+              selectedCurrency
+            )}
+        </span>
+        <span className="ss-item-txt">{' : السعر النهائي'}</span>
       </div>
     </div>
   );

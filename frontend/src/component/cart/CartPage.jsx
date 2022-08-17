@@ -2,7 +2,6 @@ import React, { Fragment, useState, useEffect } from 'react';
 import './styles/cart-page.scss';
 import { Link, useNavigate } from 'react-router-dom';
 import { IconButton } from '@material-ui/core';
-//import { makeStyles } from '@material-ui/core/styles';
 import {
   Add,
   DeleteOutline,
@@ -17,23 +16,20 @@ import {
   getMyCartItems,
 } from '../../redux/actions/cartAction';
 import {
-  designPrice,
   priceConvert,
   iqdDesign,
+  priceShow,
 } from '../../assests/currencyControl';
 import ButtonMat from '../../generalComponent/ButtonMat';
 import WaitingDialog from '../utilis/WaitingDialog';
-import SummaryCart from './SummaryCart';
 import NameOfPage from '../utilis/NameOfPage';
 import Footer from '../layout/Footer';
+import PageTitle from '../utilis/PageTitle';
 const CartPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
-  const {
-    isAuthenticated,
-    user: { point },
-  } = useSelector((state) => state.auth);
+  const { isAuthenticated, user } = useSelector((state) => state.auth);
   const [cartItems, setCartItems] = useState(cart.cartItems);
   const { currs, selectedCurrency } = useSelector((state) => state.currency);
 
@@ -53,6 +49,15 @@ const CartPage = () => {
   const removeItem = (item) => {
     dispatch(removeItemToCart(item));
   };
+  const [userPoint, setUserPoint] = useState(1);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      setUserPoint(user?.point || 1);
+    } else {
+      setUserPoint(1);
+    }
+  }, [isAuthenticated]);
 
   const increaseQty = (item) => {
     if (item.cartQuant >= item.inStock) return;
@@ -161,17 +166,23 @@ const CartPage = () => {
   };
 
   //*new Price model function
-  const priceShow = (price, currency) => {
-    return `${priceConvert(
-      selectedCurrency,
-      currency,
-      price,
-      currs
-    ).toLocaleString('en-US')} ${selectedCurrency}`;
+  // const priceShow = (price, currency) => {
+  //   return `${priceConvert(
+  //     selectedCurrency,
+  //     currency,
+  //     price,
+  //     currs
+  //   ).toLocaleString('en-US')} ${selectedCurrency}`;
+  // };
+  const stringPrice = (price, currency) => {
+    let designedP = price.toLocaleString('en-US');
+    console.log('designedP', designedP);
+    return `${price.toLocaleString('en-US')} ${currency}`;
   };
   //*new Price model function
   return (
     <div className="cart-page">
+      <PageTitle title="My Cart" />
       <WaitingDialog loading={processLoading} />
       {/* <span className="ltpuhead">My Cart Details</span> */}
       <NameOfPage text="عربة التسوق" />
@@ -231,8 +242,16 @@ const CartPage = () => {
                           </IconButton>
                         </div>
                         <div className="item-price">
-                          {currs.length > 0 &&
-                            priceShow(item.price, item.currency)}
+                          {
+                            currs.length > 0 &&
+                              priceShow(
+                                selectedCurrency,
+                                item.currency,
+                                item.price,
+                                currs
+                              )
+                            // stringPrice(item.price, item.currency)
+                          }
                         </div>
                         <IconButton
                           className="item-remove"
@@ -249,73 +268,80 @@ const CartPage = () => {
           ) : (
             <div className="no-item-show">
               <span className="no-item-show__text">
-                There is no item in your card!!
+                لا يوجد اي عناصر في سلتك !
               </span>
               <Link className="no-item-show__link" to="/">
-                Click here to see Product
+                اضغط هنا لروية منتجات قد تعجبك
               </Link>
             </div>
           )}
         </div>
-        <div className="summary-side">
-          <span className="ss-header">{'خلاصة الطلب'}</span>
+        {currs.length > 0 && (
+          <div className="summary-side">
+            <span className="ss-header">{'خلاصة الطلب'}</span>
 
-          <div className="summary-side__row">
-            <span className="ss-item-val">
-              {cartItems && calTotalItemsInCart(cartItems)}
-            </span>
-            <span className="ss-item-txt">{' : ألعدد الكلي'}</span>
+            <div className="summary-side__row">
+              <span className="ss-item-val">
+                {cartItems.length > 0 && calTotalItemsInCart(cartItems)}
+              </span>
+              <span className="ss-item-txt">{' : ألعدد الكلي'}</span>
+            </div>
+            <div className="summary-side__row">
+              <span className="ss-item-val">
+                {cartItems.length > 0 &&
+                  currs.length > 0 &&
+                  stringPrice(calTotalPrice(cartItems), selectedCurrency)}
+              </span>
+              <span className="ss-item-txt">{' : السعر الكلي'}</span>
+            </div>
+            <div className="summary-side__row">
+              <span className="ss-item-val">{userPoint}</span>
+              <span className="ss-item-txt">{' : المستوى'}</span>
+            </div>
+            <div className="summary-side__row">
+              <span className="ss-item-val">
+                {cartItems?.length > 0 &&
+                  stringPrice(
+                    calShippingPrice(cartItems, selectedCurrency),
+                    selectedCurrency
+                  )}
+              </span>
+              <span className="ss-item-txt">{' : سعر الشحن'}</span>
+            </div>
+            <div className="summary-side__row">
+              <span className="ss-item-val">
+                {cartItems?.length > 0 &&
+                  currs.length > 0 &&
+                  stringPrice(
+                    catTotalDiscount(cartItems, userPoint),
+                    selectedCurrency
+                  )}
+              </span>
+              <span className="ss-item-txt">{' : الخصم'}</span>
+            </div>
+            <hr />
+            <div className="summary-side__row">
+              <span className="ss-item-val">
+                {cartItems?.length > 0 &&
+                  currs.length &&
+                  stringPrice(
+                    calFinalPrice(cartItems, selectedCurrency, userPoint),
+                    selectedCurrency
+                  )}
+              </span>
+              <span className="ss-item-txt">{' : السعر النهائي'}</span>
+            </div>
+            <div className="summary-side__btn">
+              <ButtonMat
+                name="اطلب الان"
+                icon={<OpenInNewOutlined fontSize="large" />}
+                className="ss-mtui-btn"
+                onClick={() => navigate('/place-order')}
+                disabled={cartItems?.length > 0 ? false : true}
+              />
+            </div>
           </div>
-          <div className="summary-side__row">
-            <span className="ss-item-val">
-              {cartItems &&
-                currs.length > 0 &&
-                priceShow(calTotalPrice(cartItems), selectedCurrency)}
-            </span>
-            <span className="ss-item-txt">{' : السعر الكلي'}</span>
-          </div>
-          <div className="summary-side__row">
-            <span className="ss-item-val">{point}</span>
-            <span className="ss-item-txt">{' : المستوى'}</span>
-          </div>
-          <div className="summary-side__row">
-            <span className="ss-item-val">
-              {cartItems?.length > 0 &&
-                priceShow(
-                  calShippingPrice(cartItems, selectedCurrency),
-                  selectedCurrency
-                )}
-            </span>
-            <span className="ss-item-txt">{' : سعر الشحن'}</span>
-          </div>
-          <div className="summary-side__row">
-            <span className="ss-item-val">
-              {cartItems?.length > 0 &&
-                priceShow(catTotalDiscount(cartItems, point), selectedCurrency)}
-            </span>
-            <span className="ss-item-txt">{' : الخصم'}</span>
-          </div>
-          <hr />
-          <div className="summary-side__row">
-            <span className="ss-item-val">
-              {cartItems?.length > 0 &&
-                priceShow(
-                  calFinalPrice(cartItems, selectedCurrency, point),
-                  selectedCurrency
-                )}
-            </span>
-            <span className="ss-item-txt">{' : السعر النهائي'}</span>
-          </div>
-          <div className="summary-side__btn">
-            <ButtonMat
-              name="اطلب الان"
-              icon={<OpenInNewOutlined fontSize="large" />}
-              className="ss-mtui-btn"
-              onClick={() => navigate('/place-order')}
-              disabled={cartItems?.length > 0 ? false : true}
-            />
-          </div>
-        </div>
+        )}
       </div>
       <Footer />
     </div>

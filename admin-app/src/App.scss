@@ -119,8 +119,10 @@ a.disabled {
   pointer-events: none;
 }
 .btn-primary {
-  background-color: #4fa607 !important;
-  border: 1px solid #4fa607 !important;
+  background-color: #fc9539 !important;
+  // background-color: #4fa607 !important;
+  border: 1px solid #fc9539 !important;
+  // border: 1px solid #4fa607 !important;
 }
 .Header-green {
   background-color: #4fa607;
@@ -409,7 +411,8 @@ body.aside-mini .menu-aside .menu-item.has-submenu .menu-link:after {
   font-size: 18px;
 }
 .menu-aside .active .icon {
-  color: #4fa607;
+  color: #fc9539;
+  // color: #4fa607;
 }
 .menu-aside .active {
   background-color: #ebf0fd;
@@ -999,4 +1002,7 @@ ul.row-sm {
   font-size: 1.2rem;
   line-height: 0.7;
   vertical-align: bottom;
+}
+.notify-order {
+  background-color: #86f183;
 }

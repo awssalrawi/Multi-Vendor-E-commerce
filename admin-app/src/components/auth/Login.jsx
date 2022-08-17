@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { clearErrors, loginAsSeller } from "../../redux/actions/authAction";
 import { toast } from "react-toastify";
+import PageTitle from "../../dashboard/utilities/PageTitle";
 // import PageTitle from '../utilis/PageTitle';
 import LoaderSpinner from "../../utilities/LoaderSpinner/LoaderSpinner";
 //import GoogleSign from "./GoogleSign";
@@ -54,7 +55,7 @@ const Login = () => {
   }
   return (
     <Fragment>
-      {/* <PageTitle title="Login" /> */}
+      <PageTitle title="Login" />
       {loading ? (
         <LoaderSpinner />
       ) : (

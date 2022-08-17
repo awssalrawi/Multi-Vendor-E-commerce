@@ -149,9 +149,9 @@ exports.getOrderAndTurnNotifications = catchAsync(async (req, res, next) => {
       new AppError('There is no Order with That Id belong to you', 400)
     );
 
-  if (order.notification) {
+  if (order.notification === true) {
     order.notification = false;
-    await order.save();
+    await order.save({ runValidators: false });
   }
   res.status(200).json({
     success: true,
@@ -182,8 +182,8 @@ exports.sellerUpdateOrderStatus = catchAsync(async (req, res, next) => {
   );
 
   const product = await Product.findById(sellerOrder.productId);
-  console.log('found Prod', product);
-  product.quantity = product.quantity - sellerOrder.purchasedQty;
+  // console.log('found Prod', product);
+  product.inStockCount = product.inStockCount - sellerOrder.purchasedQty;
 
   if (product.subProducts.model.length > 0) {
     const specific = sellerOrder.specific;
@@ -198,7 +198,7 @@ exports.sellerUpdateOrderStatus = catchAsync(async (req, res, next) => {
 
   await product.save().catch((err) => console.log(err));
 
-  console.log('after update', product);
+  // console.log('after update', product);
   res.status(200).json({
     success: true,
     sellerOrder,

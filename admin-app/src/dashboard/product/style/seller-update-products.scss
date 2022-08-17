@@ -3,7 +3,9 @@
 .agp-body {
   display: flex;
   justify-content: space-between;
-
+  @media (max-width: 800px) {
+    flex-direction: column;
+  }
   .agp-exists {
     flex: 1;
     margin: 1rem;
@@ -19,7 +21,7 @@
       text-align: center;
       font-size: $mainFontSize;
       font-weight: bold;
-      color: $colorOrng-D;
+      color: $newOrg;
     }
     .price-currency-container {
       display: flex;
@@ -111,10 +113,13 @@
         background-color: inherit;
         border: none;
         border-bottom: 1px solid #eee;
-        font-size: 0.9rem;
+        font-size: $subTextSize;
         &:focus {
           outline: none;
           border-bottom: 1px solid #000;
+        }
+        &::placeholder {
+          font-size: $subTextSize;
         }
       }
       &__label {
@@ -146,7 +151,7 @@
         border-radius: 5px;
         font-family: "Roboto", "Helvetica", "Arial", sans-serif;
         font-weight: 500;
-        font-size: 0.875rem;
+        font-size: $mainTextSize;
         text-transform: uppercase;
         cursor: pointer;
 
@@ -188,20 +193,28 @@
   }
 }
 .require {
-  color: #c83131;
+  color: rgb(239, 27, 27);
 }
 
 //* for sub products
 .subprodLabel {
-  font-size: 10px;
+  font-size: $subTextSize;
   display: block;
 }
 .subprodInput {
-  padding: 5px;
+  &::placeholder {
+    font-size: $subTextSize;
+  }
+  font-size: $subTextSize;
+  padding: 4px;
   background-color: inherit;
   border: 1px solid #777;
   border-radius: 5px;
   margin-right: 5px;
+  @media (max-width: 768px) {
+    padding: 1px;
+    margin-right: 3px;
+  }
 }
 .subProdModel {
   display: flex;
@@ -221,7 +234,7 @@
 }
 
 .options-style {
-  font-size: 0.8rem;
+  font-size: $subTextSize;
   font-family: inherit;
   font-weight: 500;
 }
