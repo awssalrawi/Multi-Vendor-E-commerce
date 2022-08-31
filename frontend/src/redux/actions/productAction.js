@@ -95,6 +95,7 @@ export const getAllProducts =
           });
         }
       } catch (error) {
+        console.log(error);
         dispatch({
           type: ADMIN_GET_ALL_PRODUCTS_FAIL,
           payload: error.response.data.message,

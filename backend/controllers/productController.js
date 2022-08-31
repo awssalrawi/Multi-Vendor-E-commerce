@@ -88,7 +88,7 @@ exports.createProduct = catchAsync(async (req, res, next) => {
 
 //*                /products/get-all
 exports.getAllProducts = catchAsync(async (req, res, next) => {
-  // const products = await Product.find();
+  // const prod = await Product.find();
   // const page = 3;
   const features = new APIFeatures(Product.find(), req.query)
     .search()

@@ -92,12 +92,14 @@ const Product = ({ products }) => {
                       <Box component="fieldset" borderColor="transparent">
                         <Rating
                           name="read-only"
-                          value={value}
+                          value={product.ratingsAverage}
                           readOnly
                           size="small"
                         />
                       </Box>
-                      <span className="product-review-number">(134)</span>
+                      <span className="product-review-number">
+                        ({product.ratingsQuantity})
+                      </span>
                     </div>
                     {/* <span className="product__item__shipping">+Shipping: 5$</span> */}
                     <span className="product__item__seller">{`${shop}-store`}</span>

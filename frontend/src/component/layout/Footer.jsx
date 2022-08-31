@@ -82,7 +82,10 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <div className="aws-copyright"></div>
+        <div className="aws-copyright">
+          {' '}
+          Built by Awss Nafea Copyright &copy; by Awss Nafea.
+        </div>
       </footer>
     </Fragment>
   );

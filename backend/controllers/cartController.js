@@ -147,6 +147,7 @@ exports.getMyCartItems = catchAsync(async (req, res, next) => {
       subItem = item.product.subProducts.model.find(
         (c) => c.name === item.specific
       );
+      console.log('the problem : ', item);
 
       return {
         _id: item.product._id,

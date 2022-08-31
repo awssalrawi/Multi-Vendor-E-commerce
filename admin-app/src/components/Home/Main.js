@@ -1,14 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import TopTotal from "./TopTotal";
 import LatestOrder from "./LatestOrder";
 import SaleStatistics from "./SalesStatistics";
 import ProductsStatistics from "./ProductsStatistics";
 import { useTranslation } from "react-i18next";
 import PageTitle from "../../dashboard/utilities/PageTitle";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { clearErrors } from "../../redux/actions/authAction";
+
 const Main = () => {
+  const dispatch = useDispatch();
   const { shop } = useSelector((state) => state.shop);
+  const { error } = useSelector((state) => state.auth);
   const { t } = useTranslation();
+
+  useEffect(() => {
+    if (error) {
+      dispatch(clearErrors());
+    }
+  }, [error, dispatch]);
   return (
     <>
       <PageTitle title="Dashboard" />

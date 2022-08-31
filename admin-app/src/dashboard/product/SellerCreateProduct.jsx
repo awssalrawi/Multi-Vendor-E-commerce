@@ -221,7 +221,7 @@ const SellerCreateProduct = () => {
       .promise(promise, {
         loading: "Loading",
       })
-      .then(() => navigate(-1))
+      .then(() => navigate("/seller-products"))
       .catch((error) => toast.error(error));
 
     //*Create form data and set content inside

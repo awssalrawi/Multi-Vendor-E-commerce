@@ -1,6 +1,7 @@
-import React from 'react';
-import './styles/widget-sm.scss';
-import { Visibility } from '@material-ui/icons';
+import React from "react";
+import "./styles/widget-sm.scss";
+import { Visibility } from "@material-ui/icons";
+
 const WidgetSm = () => {
   return (
     <div className="widget-sm">

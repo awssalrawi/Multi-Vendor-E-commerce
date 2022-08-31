@@ -4,7 +4,7 @@ const StaticInfo = () => {
   return (
     <div>
       <span>StaticInfo</span>
-
+      <h1>Hi everyone!</h1>
       <Footer />
     </div>
   );

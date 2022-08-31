@@ -139,8 +139,8 @@ const SummaryCart = ({ summaryObj }) => {
     totalItemInCart: calTotalItemsInCart(cartItems),
     totalPrice: calTotalPrice(cartItems),
     discountPrice: catTotalDiscount(cartItems, userPoint),
-    finalPriceText: priceShow(
-      calFinalPrice(cartItems, selectedCurrency, userPoint),
+    finalPriceText: stringPrice(
+      calFinalPrice(cartItems, selectedCurrency, userPoint).toFixed(0),
       selectedCurrency
     ),
     totalAmountInDollar: priceConvert(

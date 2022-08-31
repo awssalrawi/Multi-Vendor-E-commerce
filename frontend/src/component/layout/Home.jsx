@@ -146,6 +146,7 @@ const Home = () => {
         createCategoryList(category.children, options);
       }
     }
+    console.log(options);
 
     return options;
   };
@@ -172,9 +173,9 @@ const Home = () => {
   }, []);
 
   const handleScroll = (e) => {
-    console.log('window.innerHeight = ', window.innerHeight);
-    console.log('scrollTop = ', e.target.documentElement.scrollTop);
-    console.log('scrollHeight = ', e.target.documentElement.scrollHeight);
+    // console.log('window.innerHeight = ', window.innerHeight);
+    // console.log('scrollTop = ', e.target.documentElement.scrollTop);
+    // console.log('scrollHeight = ', e.target.documentElement.scrollHeight);
 
     if (!loading || rejectLoad === false) {
       const { scrollTop, scrollHeight } = e.target.documentElement;

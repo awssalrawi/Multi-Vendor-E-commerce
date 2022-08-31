@@ -175,12 +175,12 @@ const Sidebar = () => {
               </li>
               <li className="sidebarListItem">
                 <Link
-                  to="/admin/product"
+                  to="/"
                   className="page-side-link"
                   onClick={() => handleActive(12)}
                 >
                   <Report className="sidebarIcon" />
-                  Reports
+                  Back
                 </Link>
               </li>
             </ul>

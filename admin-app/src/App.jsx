@@ -53,7 +53,7 @@ import MainProducts from "./dashboard/product/MainProducts";
 import SellerUpdateProduct from "./dashboard/product/SellerUpdateProduct";
 
 //*Design pro
-
+import NotFound from "./screens/NotFound";
 function App() {
   // const { t, i18n } = useTranslation();
   const { isAuthenticated } = useSelector((state) => state.auth);
@@ -144,6 +144,7 @@ function App() {
             <Route path="create-product" element={<AdminCreateProduct />} />
           </Route>
         </Route>
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   );
