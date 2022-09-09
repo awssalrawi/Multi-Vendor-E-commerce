@@ -5,13 +5,13 @@ import {
   SELECTED_CURRENCY,
   CURR_REQUEST,
 } from '../constants/currencyConstant';
-
+import { URL } from '../../Url';
 import axios from 'axios';
 
 export const getCurrencyConst = () => async (dispatch) => {
   try {
     dispatch({ type: CURR_REQUEST });
-    const { data } = await axios.get('/api/v1/currency');
+    const { data } = await axios.get(`${URL}/api/v1/currency`);
     dispatch({ type: CURR_SUCCESS, payload: data });
   } catch (error) {
     console.log(error);

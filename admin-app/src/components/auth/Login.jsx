@@ -63,6 +63,14 @@ const Login = () => {
           <div className="auth">
             <div className="auth__container">
               <span className="auth__header"> Login </span>
+              <p style={{ fontSize: "10px" }}>
+                {" "}
+                for seller: email=lili@example.com ,password=a123456
+              </p>
+              <p style={{ fontSize: "10px" }}>
+                {" "}
+                for admin: email=moro@example.com ,password=a123456{" "}
+              </p>
               <form action="#" className="auth__form" onSubmit={submitHandler}>
                 <div className="auth__input">
                   <input

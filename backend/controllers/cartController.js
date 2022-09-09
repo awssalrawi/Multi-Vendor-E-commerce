@@ -147,7 +147,6 @@ exports.getMyCartItems = catchAsync(async (req, res, next) => {
       subItem = item.product.subProducts.model.find(
         (c) => c.name === item.specific
       );
-      console.log('the problem : ', item);
 
       return {
         _id: item.product._id,
@@ -189,6 +188,8 @@ exports.getMyCartItems = catchAsync(async (req, res, next) => {
 
 exports.removeItemFromCart = catchAsync(async (req, res, next) => {
   let update;
+
+  console.log('Must visit here');
   const hasSpecific = req.body.specific ? true : false;
   if (hasSpecific) {
     update = {

@@ -35,16 +35,27 @@ import {
 
   //*will stay
 } from "./../constants/productConstant";
-
+import { URL } from "../../Url";
 export const adminCreateProduct = (form) => async (dispatch) => {
   try {
     dispatch({ type: ADMIN_CREATE_PRODUCT_REQUEST });
+    //!bearer token
+
+    const token = localStorage.getItem("SellerAuthTokenReload")
+      ? localStorage.getItem("SellerAuthTokenReload")
+      : "";
     const config = {
-      header: {
-        "Content-Type": "multipart/form-data",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
     };
-    const { data } = await axios.post("/api/v1/products/create", form, config);
+    //!bearer token
+    const { data } = await axios.post(
+      `${URL}/api/v1/products/create`,
+      form,
+      config
+    );
 
     dispatch({ type: ADMIN_CREATE_PRODUCT_SUCCESS, payload: data.data });
   } catch (error) {
@@ -59,8 +70,19 @@ export const adminCreateProduct = (form) => async (dispatch) => {
 export const getProductsBySlug = (slug) => async (dispatch) => {
   try {
     dispatch({ type: GET_PRODUCTS_BY_SLUG_REQUEST });
+    //!bearer token
 
-    const { data } = await axios.get(`/api/v1/products/${slug}`);
+    const token = localStorage.getItem("SellerAuthTokenReload")
+      ? localStorage.getItem("SellerAuthTokenReload")
+      : "";
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    //!bearer token
+    const { data } = await axios.get(`${URL}/api/v1/products/${slug}`, config);
     dispatch({ type: GET_PRODUCTS_BY_SLUG_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
@@ -73,8 +95,19 @@ export const getProductsBySlug = (slug) => async (dispatch) => {
 export const adminGetAllProducts = () => async (dispatch) => {
   try {
     dispatch({ type: ADMIN_GET_ALL_PRODUCTS_REQUEST });
+    //!bearer token
 
-    const { data } = await axios.get("/api/v1/admin/get-product");
+    const token = localStorage.getItem("SellerAuthTokenReload")
+      ? localStorage.getItem("SellerAuthTokenReload")
+      : "";
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    //!bearer token
+    const { data } = await axios.get(`${URL}/api/v1/admin/get-product`, config);
 
     dispatch({ type: ADMIN_GET_ALL_PRODUCTS_SUCCESS, payload: data.products });
   } catch (error) {
@@ -88,8 +121,19 @@ export const adminGetAllProducts = () => async (dispatch) => {
 export const adminDeleteProductById = (id) => async (dispatch) => {
   try {
     dispatch({ type: ADMIN_DELETE_PRODUCT_REQUEST });
+    //!bearer token
 
-    await axios.delete(`/api/v1/products/${id}`);
+    const token = localStorage.getItem("SellerAuthTokenReload")
+      ? localStorage.getItem("SellerAuthTokenReload")
+      : "";
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    //!bearer token
+    await axios.delete(`${URL}/api/v1/products/${id}`, config);
     dispatch({ type: ADMIN_DELETE_PRODUCT_SUCCESS, payload: id });
   } catch (error) {
     dispatch({
@@ -102,12 +146,23 @@ export const adminDeleteProductById = (id) => async (dispatch) => {
 export const adminUpdateProductById = (id, form) => async (dispatch) => {
   try {
     dispatch({ type: ADMIN_UPDATE_PRODUCT_REQUEST });
+    //!bearer token
+
+    const token = localStorage.getItem("SellerAuthTokenReload")
+      ? localStorage.getItem("SellerAuthTokenReload")
+      : "";
     const config = {
-      header: {
-        "Content-Type": "multipart/form-data",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
     };
-    const { data } = await axios.put(`/api/v1/products/${id}`, form, config);
+    //!bearer token
+    const { data } = await axios.put(
+      `${URL}/api/v1/products/${id}`,
+      form,
+      config
+    );
     dispatch({ type: ADMIN_UPDATE_PRODUCT_SUCCESS, payload: data.data });
   } catch (error) {
     console.log(error);
@@ -121,8 +176,19 @@ export const adminUpdateProductById = (id, form) => async (dispatch) => {
 export const cusGetSingleProductDetails = (id) => async (dispatch) => {
   try {
     dispatch({ type: GET_CUS_PRODUCT_BY_ID_REQUEST });
+    //!bearer token
 
-    const { data } = await axios.get(`/api/v1/products/${id}`);
+    const token = localStorage.getItem("SellerAuthTokenReload")
+      ? localStorage.getItem("SellerAuthTokenReload")
+      : "";
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    //!bearer token
+    const { data } = await axios.get(`${URL}/api/v1/products/${id}`, config);
     dispatch({ type: GET_CUS_PRODUCT_BY_ID_SUCCESS, payload: data.product });
   } catch (error) {
     console.log(error);
@@ -137,8 +203,19 @@ export const cusGetSingleProductDetails = (id) => async (dispatch) => {
 export const getSellerProducts = () => async (dispatch) => {
   try {
     dispatch({ type: SELLER_GET_PRODUCTS_REQUEST });
+    //!bearer token
 
-    const { data } = await axios.get("/api/v1/seller/products");
+    const token = localStorage.getItem("SellerAuthTokenReload")
+      ? localStorage.getItem("SellerAuthTokenReload")
+      : "";
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    //!bearer token
+    const { data } = await axios.get(`${URL}/api/v1/seller/products`, config);
 
     dispatch({ type: SELLER_GET_PRODUCTS_SUCCESS, payload: data.products });
   } catch (error) {
@@ -153,13 +230,20 @@ export const getSellerProducts = () => async (dispatch) => {
 export const sellerUpdateProductById = (id, form) => async (dispatch) => {
   try {
     dispatch({ type: SELLER_UPDATE_PRODUCTS_REQUEST });
+    //!bearer token
+
+    const token = localStorage.getItem("SellerAuthTokenReload")
+      ? localStorage.getItem("SellerAuthTokenReload")
+      : "";
     const config = {
-      header: {
-        "Content-Type": "multipart/form-data",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
     };
+    //!bearer token
     const { data } = await axios.put(
-      `/api/v1/seller/products/${id}`,
+      `${URL}/api/v1/seller/products/${id}`,
       form,
       config
     );
@@ -176,12 +260,23 @@ export const sellerUpdateProductById = (id, form) => async (dispatch) => {
 export const sellerCreateProduct = (form) => async (dispatch) => {
   try {
     dispatch({ type: SELLER_CREATE_PRODUCTS_REQUEST });
+    //!bearer token
+
+    const token = localStorage.getItem("SellerAuthTokenReload")
+      ? localStorage.getItem("SellerAuthTokenReload")
+      : "";
     const config = {
-      header: {
-        "Content-Type": "multipart/form-data",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
     };
-    const { data } = await axios.post("/api/v1/products/create", form, config);
+    //!bearer token
+    const { data } = await axios.post(
+      `${URL}/api/v1/products/create`,
+      form,
+      config
+    );
 
     dispatch({ type: SELLER_CREATE_PRODUCTS_SUCCESS, payload: data.data });
   } catch (error) {
@@ -196,8 +291,19 @@ export const sellerCreateProduct = (form) => async (dispatch) => {
 export const sellerDeleteProductById = (id) => async (dispatch) => {
   try {
     dispatch({ type: SELLER_DELETE_PRODUCTS_REQUEST });
+    //!bearer token
 
-    await axios.delete(`/api/v1/seller/products/${id}`);
+    const token = localStorage.getItem("SellerAuthTokenReload")
+      ? localStorage.getItem("SellerAuthTokenReload")
+      : "";
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    //!bearer token
+    await axios.delete(`${URL}/api/v1/seller/products/${id}`, config);
     dispatch({ type: SELLER_DELETE_PRODUCTS_SUCCESS, payload: id });
   } catch (error) {
     console.log(error);

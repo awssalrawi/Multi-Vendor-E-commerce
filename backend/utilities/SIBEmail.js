@@ -32,6 +32,7 @@ const sendEmailWithSIB = async (option) => {
   };
 
   await apiInstance.sendTransacEmail(sendSmtpEmail);
+  // await apiInstance.sendTransacEmail(sendSmtpEmail);
 };
 
 //*create contact information

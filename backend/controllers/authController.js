@@ -12,9 +12,18 @@ const { OAuth2Client } = require('google-auth-library');
 const fetch = require('node-fetch');
 /////////////////////////////////////////////////////////////////////////////////////////////
 //*Create and send token and save in the cookie.
+//!Barer authentication
+const generateToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: '30d',
+  });
+};
+
+//!Barer authentication
+
 const sendToken = (user, statusCode, res) => {
   //*Create jwt token
-  const token = user.getJwtToken();
+  // const token = user.getJwtToken();
   //*Options for cookie
   const options = {
     expires: new Date(
@@ -23,11 +32,20 @@ const sendToken = (user, statusCode, res) => {
     httpOnly: true, //!if not httpOnly that mean it can be access by js code
   };
 
-  res.status(statusCode).cookie('token', token, options).json({
+  console.log('tokenXX', generateToken(user._id));
+
+  const token = generateToken(user._id);
+  res.status(statusCode).json({
     success: true,
     token,
     user,
   });
+
+  // res.status(statusCode).cookie('token', token, options).json({
+  //   success: true,
+  //   token,
+  //   user,
+  // });
   // res.status(statusCode).json({ success: true, token });
 };
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -35,6 +53,7 @@ const sendToken = (user, statusCode, res) => {
 
 exports.signupWithEmailAndPassword = catchAsync(async (req, res, next) => {
   const { name, email, password } = req.body;
+  console.log('Login action error', req.body);
   //*Check if user is already exists
   const checkUser = await User.findOne({ email });
   if (checkUser) {
@@ -69,7 +88,8 @@ exports.signupWithEmailAndPassword = catchAsync(async (req, res, next) => {
   //   templateId: 1,
   //   link: `${process.env.CLIENT_URL}/user/active-account/${temporaryToken}`,
   // };
-  //! await sendEmailWithSIB(options);  //for real word email
+
+  // await sendEmailWithSIB(options); //for real word email
   //*try
 
   await sendEmail(activateEmailContent); //! for development purposes
@@ -135,16 +155,28 @@ exports.signInWithEmailAndPassword = catchAsync(async (req, res, next) => {
 //*r
 
 exports.LogoutUser = catchAsync(async (req, res, next) => {
-  res
-    .status(200)
-    .cookie('token', null, {
-      expires: new Date(Date.now()),
-      httpOnly: true,
-    })
-    .json({
-      success: true,
-      message: 'Logged out successfully',
-    });
+  // res
+  //   .status(200)
+  //   .cookie('token', "x", {
+  //     expires: new Date(Date.now()),
+  //     httpOnly: true,
+  //   })
+  //   .json({
+  //     success: true,
+  //     message: 'Logged out successfully',
+  //   });
+
+  //*Login
+  res.cookie('jwt', 'loggedout', {
+    expires: new Date(Date.now() + 10000),
+    httpOnly: true,
+  });
+  // res.status(200).json({
+  //   status: 'success',
+  // });
+
+  res.status(200).json({ status: 'success' });
+  //*Login
 });
 
 exports.getUserById = catchAsync(async (req, res, next) => {

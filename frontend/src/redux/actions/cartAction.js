@@ -10,16 +10,12 @@ import {
   GET_CART_ITEMS_DB_FAIL,
   GET_CART_ITEMS_LOCAL,
   REMOVE_ITEM_DB_REQUEST,
-  REMOVE_ITEM_DB_SUCCESS,
-  REMOVE_ITEM_DB_FAIL,
   DECREASE_QTY_DB,
-  CURR_SUCCESS,
-  CURR_FAIL,
   CLEAR_ERRORS,
   DECREASE_QTY_DB_REQUEST,
 } from '../constants/cartConstant';
 import axios from 'axios';
-
+import { URL } from '../../Url';
 //!working on action
 const addItemToCartConditions = (cartItems, cartItemToAdd) => {
   let existingCartItem;
@@ -77,6 +73,20 @@ const decreaseQuantity = (cartItems, item) => {
 export const addItemToCart = (item) => async (dispatch, getState) => {
   const isAuthenticated = getState().auth.isAuthenticated;
   const { cartItems } = getState().cart;
+
+  //!bearer token
+
+  const token = localStorage.getItem('authTokenReload')
+    ? localStorage.getItem('authTokenReload')
+    : '';
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  //!bearer token
+
   if (!isAuthenticated) {
     dispatch({
       type: ADD_TO_CART,
@@ -88,7 +98,6 @@ export const addItemToCart = (item) => async (dispatch, getState) => {
     );
   } else {
     try {
-      dispatch({ type: ADD_TO_CART_REQUEST });
       let itemSendToDb = {};
 
       if (cartItems.length > 0) {
@@ -103,7 +112,11 @@ export const addItemToCart = (item) => async (dispatch, getState) => {
         }
 
         if (ItemAlreadyAdded) {
-          if (ItemAlreadyAdded.cartQuant >= ItemAlreadyAdded.inStock) return;
+          //  console.log('ıtem there');
+          if (ItemAlreadyAdded.cartQuant >= ItemAlreadyAdded.inStock) {
+            //   console.log('Yes Condition true');
+            return;
+          }
 
           itemSendToDb = {
             cartItems: [
@@ -134,8 +147,12 @@ export const addItemToCart = (item) => async (dispatch, getState) => {
           ],
         };
       }
-
-      const { data } = await axios.post('/api/v1/user/cart/test', itemSendToDb);
+      dispatch({ type: ADD_TO_CART_REQUEST });
+      const { data } = await axios.post(
+        `${URL}/api/v1/user/cart/test`,
+        itemSendToDb,
+        config
+      );
 
       dispatch(getMyCartItems());
 
@@ -161,9 +178,26 @@ export const removeItemToCart = (item) => async (dispatch, getState) => {
       specific: item.specific || undefined,
     };
 
+    //!bearer token
+
+    const token = localStorage.getItem('authTokenReload')
+      ? localStorage.getItem('authTokenReload')
+      : '';
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    //!bearer token
+
     try {
       dispatch({ type: REMOVE_ITEM_DB_REQUEST });
-      const res = await axios.put('/api/v1/user/cart/delete-one', removeItem);
+      const res = await axios.put(
+        `${URL}/api/v1/user/cart/delete-one`,
+        removeItem,
+        config
+      );
       if (res.data.success) {
         dispatch(getMyCartItems());
         // dispatch({ type: REMOVE_ITEM_DB_SUCCESS });
@@ -199,10 +233,27 @@ export const decreaseQtyFormCart = (item) => async (dispatch, getState) => {
       ],
     };
 
+    //!bearer token
+
+    const token = localStorage.getItem('authTokenReload')
+      ? localStorage.getItem('authTokenReload')
+      : '';
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    //!bearer token
+
     try {
       dispatch({ type: DECREASE_QTY_DB_REQUEST });
 
-      const res = await axios.post('/api/v1/user/cart/test', decItem);
+      const res = await axios.post(
+        `${URL}/api/v1/user/cart/test`,
+        decItem,
+        config
+      );
 
       if (res.status === 200) {
         dispatch(getMyCartItems());
@@ -230,7 +281,22 @@ export const getMyCartItems = () => async (dispatch, getState) => {
 
   try {
     dispatch({ type: GET_CART_ITEMS_DB_REQUEST });
-    const { data } = await axios.get('/api/v1/user/cart/getcartitem');
+    //!bearer token
+
+    const token = localStorage.getItem('authTokenReload')
+      ? localStorage.getItem('authTokenReload')
+      : '';
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    //!bearer token
+    const { data } = await axios.get(
+      `${URL}/api/v1/user/cart/getcartitem`,
+      config
+    );
     dispatch({ type: GET_CART_ITEMS_DB_SUCCESS, payload: data.cartItems });
   } catch (error) {
     console.log('error', error);
@@ -246,10 +312,11 @@ export const updateCart = () => async (dispatch, getState) => {
     ? JSON.parse(localStorage.getItem('ltredaCartItem'))
     : [];
 
-  const isAuthenticated = getState().auth.isAuthenticated;
+  const isAuthenticated = getState().auth?.isAuthenticated || false;
 
   if (isAuthenticated) {
     localStorage.removeItem('ltredaCartItem');
+
     try {
       if (cartItems.length > 0) {
         const itemSendToDb = {
@@ -259,7 +326,24 @@ export const updateCart = () => async (dispatch, getState) => {
             specific: item.specific || undefined,
           })),
         };
-        const res = await axios.post('/api/v1/user/cart/test', itemSendToDb);
+        //!bearer token
+
+        const token = localStorage.getItem('authTokenReload')
+          ? localStorage.getItem('authTokenReload')
+          : '';
+        const config = {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        };
+        //!bearer token
+        console.log('The token is', token);
+        const res = await axios.post(
+          `${URL}/api/v1/user/cart/test`,
+          itemSendToDb,
+          config
+        );
       }
 
       dispatch(getMyCartItems());

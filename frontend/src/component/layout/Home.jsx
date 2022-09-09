@@ -23,6 +23,7 @@ const settings1 = {
   slidesToScroll: 1,
   autoplay: false,
   // autoplay: true,
+
   focusOnSelect: true,
   mobileFirst: true,
   autoplaySpeed: 3000,
@@ -146,7 +147,6 @@ const Home = () => {
         createCategoryList(category.children, options);
       }
     }
-    console.log(options);
 
     return options;
   };
@@ -235,9 +235,12 @@ const Home = () => {
             أضهر الكل
           </Link>
         </div>
-        <Slider {...settings1}>
+        <Slider
+          {...settings1}
+          // slidesToShow={categories.length > 4 ? 4 : categories.length}
+        >
           {categories.length > 0 &&
-            createCategoryList(categories).map((category, i) => (
+            createCategoryList(categories, []).map((category, i) => (
               <CategoryInsideSlider category={category} key={i} />
             ))}
         </Slider>

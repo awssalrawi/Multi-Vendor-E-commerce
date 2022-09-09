@@ -15,7 +15,11 @@ const Product = (props) => {
             <Link to="#" className="title text-truncate">
               {product.name}
             </Link>
-            <div className="price mb-2">${product.price}</div>
+            <div className="price mb-2">{`${
+              product.priceAfterDiscount
+                ? product.priceAfterDiscount
+                : product.price
+            } ${product.currency}`}</div>
             <div className="row">
               <Link
                 to={`/seller-products/${product._id}`}

@@ -27,7 +27,7 @@ import {
   ADMIN_UPDATE_STATUS_FAIL,
 } from "../constants/orderConstant";
 import axios from "axios";
-
+import { URL } from "../../Url";
 // export const userAddOrder = (order) => async (dispatch) => {
 //   try {
 //     console.log(order);
@@ -71,8 +71,22 @@ import axios from "axios";
 export const sellerGetInfo = () => async (dispatch) => {
   try {
     dispatch({ type: GET_SELLER_INFO_REQUEST });
+    //!bearer token
 
-    const { data } = await axios.get("/api/v1/seller/get-my-data");
+    const token = localStorage.getItem("SellerAuthTokenReload")
+      ? localStorage.getItem("SellerAuthTokenReload")
+      : "";
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    //!bearer token
+    const { data } = await axios.get(
+      `${URL}/api/v1/seller/get-my-data`,
+      config
+    );
 
     dispatch({ type: GET_SELLER_INFO_SUCCESS, payload: data.shop });
   } catch (error) {
@@ -87,8 +101,19 @@ export const sellerGetInfo = () => async (dispatch) => {
 export const sellerOrders = () => async (dispatch) => {
   try {
     dispatch({ type: GET_SELLER_ORDERS_REQUEST });
+    //!bearer token
 
-    const { data } = await axios.get("/api/v1/seller/getorders");
+    const token = localStorage.getItem("SellerAuthTokenReload")
+      ? localStorage.getItem("SellerAuthTokenReload")
+      : "";
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    //!bearer token
+    const { data } = await axios.get(`${URL}/api/v1/seller/getorders`, config);
 
     dispatch({ type: GET_SELLER_ORDERS_SUCCESS, payload: data.orders });
   } catch (error) {
@@ -103,8 +128,23 @@ export const sellerOrders = () => async (dispatch) => {
 export const getSingleOrder = (id) => async (dispatch) => {
   try {
     dispatch({ type: GET_SINGLE_ORDER_REQUEST });
+    //!bearer token
 
-    const { data } = await axios.get(`/api/v1/seller/getorder-details/${id}`);
+    const token = localStorage.getItem("SellerAuthTokenReload")
+      ? localStorage.getItem("SellerAuthTokenReload")
+      : "";
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    //!bearer token
+
+    const { data } = await axios.get(
+      `${URL}/api/v1/seller/getorder-details/${id}`,
+      config
+    );
 
     dispatch({ type: GET_SINGLE_ORDER_SUCCESS, payload: data.order });
   } catch (error) {
@@ -120,7 +160,24 @@ export const sellerUpdateOrderStatus = (id, body) => async (dispatch) => {
   try {
     dispatch({ type: UPDATE_SINGLE_ORDER_REQUEST });
 
-    await axios.put(`/api/v1/seller/getorder-details/${id}`, body);
+    //!bearer token
+
+    const token = localStorage.getItem("SellerAuthTokenReload")
+      ? localStorage.getItem("SellerAuthTokenReload")
+      : "";
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    //!bearer token
+
+    await axios.put(
+      `${URL}/api/v1/seller/getorder-details/${id}`,
+      body,
+      config
+    );
 
     dispatch({ type: UPDATE_SINGLE_ORDER_SUCCESS });
   } catch (error) {
@@ -135,8 +192,24 @@ export const sellerUpdateOrderStatus = (id, body) => async (dispatch) => {
 export const updateSellerShop = (form) => async (dispatch) => {
   try {
     dispatch({ type: UPDATE_SHOP_INFO_REQUEST });
+    //!bearer token
 
-    const { data } = await axios.put("/api/v1/seller/update-shop", form);
+    const token = localStorage.getItem("SellerAuthTokenReload")
+      ? localStorage.getItem("SellerAuthTokenReload")
+      : "";
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    //!bearer token
+
+    const { data } = await axios.put(
+      `${URL}/api/v1/seller/update-shop`,
+      form,
+      config
+    );
 
     dispatch({ type: UPDATE_SHOP_INFO_SUCCESS, payload: data.shop });
   } catch (error) {
@@ -153,8 +226,20 @@ export const updateSellerShop = (form) => async (dispatch) => {
 export const adminGetOrders = () => async (dispatch) => {
   try {
     dispatch({ type: ADMIN_GET_ORDERS_REQUEST });
+    //!bearer token
 
-    const { data } = await axios.get("/api/v1/admin/get-orders");
+    const token = localStorage.getItem("SellerAuthTokenReload")
+      ? localStorage.getItem("SellerAuthTokenReload")
+      : "";
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    //!bearer token
+
+    const { data } = await axios.get(`${URL}/api/v1/admin/get-orders`, config);
 
     dispatch({ type: ADMIN_GET_ORDERS_SUCCESS, payload: data.orders });
   } catch (error) {
@@ -169,8 +254,23 @@ export const adminGetOrders = () => async (dispatch) => {
 export const adminGetOrderDetail = (orderId) => async (dispatch) => {
   try {
     dispatch({ type: ADMIN_GET_ORDER_DET_REQUEST });
+    //!bearer token
 
-    const { data } = await axios.get(`/api/v1/admin/get-orders/${orderId}`);
+    const token = localStorage.getItem("SellerAuthTokenReload")
+      ? localStorage.getItem("SellerAuthTokenReload")
+      : "";
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    //!bearer token
+
+    const { data } = await axios.get(
+      `${URL}/api/v1/admin/get-orders/${orderId}`,
+      config
+    );
 
     dispatch({ type: ADMIN_GET_ORDER_DET_SUCCESS, payload: data.order });
   } catch (error) {
@@ -185,8 +285,23 @@ export const adminGetOrderDetail = (orderId) => async (dispatch) => {
 export const adminUpdateOrderStatus = (body) => async (dispatch) => {
   try {
     dispatch({ type: ADMIN_UPDATE_STATUS_REQUEST });
+    //!bearer token
 
-    const { data } = await axios.post("/api/v1//order/update", body);
+    const token = localStorage.getItem("SellerAuthTokenReload")
+      ? localStorage.getItem("SellerAuthTokenReload")
+      : "";
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    //!bearer token
+    const { data } = await axios.post(
+      `${URL}/api/v1//order/update`,
+      body,
+      config
+    );
 
     dispatch({ type: ADMIN_UPDATE_STATUS_SUCCESS, payload: data.data });
   } catch (error) {

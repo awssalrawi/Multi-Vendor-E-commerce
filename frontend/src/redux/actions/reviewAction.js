@@ -10,16 +10,23 @@ import {
   CLEAR_ERRORS,
   CLEAR_MESSAGE,
 } from '../constants/reviewConstant';
-
+import { URL } from '../../Url';
 export const userAddReview = (obj) => async (dispatch) => {
   try {
     dispatch({ type: NEW_REVIEW_REQUEST });
+    //!bearer token
+
+    const token = localStorage.getItem('authTokenReload')
+      ? localStorage.getItem('authTokenReload')
+      : '';
     const config = {
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
     };
-    const { data } = await axios.post('/api/v1/review', obj, config);
+    //!bearer token
+    const { data } = await axios.post(`${URL}/api/v1/review`, obj, config);
     console.log('data', data);
     dispatch({ type: NEW_REVIEW_SUCCESS, payload: data.review });
   } catch (error) {
@@ -31,7 +38,20 @@ export const userAddReview = (obj) => async (dispatch) => {
 export const getReview = () => async (dispatch) => {
   try {
     dispatch({ type: GET_REVIEW_REQUEST });
-    const { data } = await axios.get('/api/v1/review');
+
+    //!bearer token
+
+    const token = localStorage.getItem('authTokenReload')
+      ? localStorage.getItem('authTokenReload')
+      : '';
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    //!bearer token
+    const { data } = await axios.get(`${URL}/api/v1/review`, config);
     dispatch({ type: GET_REVIEW_SUCCESS, payload: data.reviews });
   } catch (error) {
     console.log(error);

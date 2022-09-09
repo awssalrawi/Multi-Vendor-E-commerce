@@ -18,12 +18,12 @@ import {
   ADMIN_UPDATE_CATEGORY_FAIL,
   CLEAR_ERRORS,
 } from '../constants/categoryConstant';
-
+import { URL } from '../../Url';
 export const getAllCategories = () => async (dispatch) => {
   try {
     dispatch({ type: GET_ALL_CATEGORIES_REQUEST });
 
-    const { data } = await axios.get('/api/v1/categories/getall');
+    const { data } = await axios.get(`${URL}/api/v1/categories/getall`);
     dispatch({
       type: GET_ALL_CATEGORIES_SUCCESS,
       payload: data.data.categoryList,
@@ -47,7 +47,7 @@ export const adminCreateCategory = (form) => async (dispatch) => {
       },
     };
     const { data } = await axios.post(
-      '/api/v1/categories/create',
+      `${URL}/api/v1/categories/create`,
       form,
       config
     );
@@ -65,7 +65,7 @@ export const adminGetCategoryById = (categoryId) => async (dispatch) => {
   try {
     dispatch({ type: ADMIN_GET_CATEGORY_BY_ID_REQUEST });
 
-    const { data } = await axios.get(`/api/v1/categories/${categoryId}`);
+    const { data } = await axios.get(`${URL}/api/v1/categories/${categoryId}`);
 
     dispatch({
       type: ADMIN_GET_CATEGORY_BY_ID_SUCCESS,
@@ -84,7 +84,7 @@ export const adminDeleteCategoryById = (categoryId) => async (dispatch) => {
   try {
     dispatch({ type: ADMIN_DELETE_CATEGORY_BY_ID_REQUEST });
 
-    await axios.delete(`/api/v1/categories/${categoryId}`);
+    await axios.delete(`${URL}/api/v1/categories/${categoryId}`);
     dispatch({
       type: ADMIN_DELETE_CATEGORY_BY_ID_SUCCESS,
       payload: categoryId,
@@ -107,7 +107,7 @@ export const adminUpdateCategory = (categoryId, form) => async (dispatch) => {
       },
     };
     const { data } = await axios.put(
-      `/api/v1/categories/${categoryId}`,
+      `${URL}/api/v1/categories/${categoryId}`,
       form,
       config
     );

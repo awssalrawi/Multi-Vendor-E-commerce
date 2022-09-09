@@ -37,13 +37,13 @@ app.use(bodyParser.json());
 
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use(cookieParser());
+app.use(cors());
 const path = require('path'); //*to be able to find ve main path
 app.use('/public', express.static(path.join(__dirname, 'uploads'))); //*__dirname give as backend folder
 app.use(morgan('tiny'));
 //app.use(cors());  allow access to api from all domains
 if (process.env.NOD_ENV === 'DEVELOPMENT') {
   // app.use(cors({ origin: 'http://127.0.0.1:3000' }));
-  app.use(cors());
 }
 app.use('/api/v1', categoryRouter);
 app.use('/api/v1', productRouter);

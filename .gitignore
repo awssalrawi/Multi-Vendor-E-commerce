@@ -4,6 +4,7 @@
 /frontend/node_modules/
 /admin-app/node_modules/
 /frontend/.env
+/admin-app/.env
 /backend/uploads
 
 

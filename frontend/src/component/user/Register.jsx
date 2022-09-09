@@ -12,6 +12,7 @@ import { toast } from 'react-toastify';
 import {
   signUpWithEmailAndPassword,
   clearErrors,
+  clearMessage,
 } from '../../redux/actions/userAction';
 // import { UilUser } from "@iconscout/react-unicons";
 import './style/login.scss';
@@ -35,6 +36,7 @@ const Register = () => {
     }
     if (message) {
       toast.success(message);
+      dispatch(clearMessage());
     }
   }, [dispatch, error, message]);
   const submitHandler = (e) => {

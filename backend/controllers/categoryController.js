@@ -52,7 +52,7 @@ exports.createCategory = catchAsync(async (req, res, next) => {
   if (req.body.showType) {
     categoryObj.showType = req.body.showType;
   }
-  console.log('Iam here');
+
   const category = await Category.create(categoryObj);
 
   res.status(201).json({

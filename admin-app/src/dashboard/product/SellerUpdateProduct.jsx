@@ -298,7 +298,14 @@ const SellerUpdateProduct = () => {
             <TextDetail header={t("Currency")} content={product.currency} />
           </div>
           <div className="content-container">
-            <TextDetail header={t("Price")} content={product.price} />
+            <TextDetail
+              header={t("Price")}
+              content={
+                product.priceAfterDiscount
+                  ? product.priceAfterDiscount
+                  : product.price
+              }
+            />
           </div>
           <div className="content-container">
             <TextDetail
@@ -535,7 +542,11 @@ const SellerUpdateProduct = () => {
             </label>
             <input
               type="number"
-              placeholder={product.price}
+              placeholder={
+                product.priceAfterDiscount
+                  ? product.priceAfterDiscount
+                  : product.price
+              }
               className="content-container__input"
               id="agp-price"
               value={price}

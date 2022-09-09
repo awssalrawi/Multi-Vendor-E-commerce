@@ -61,7 +61,7 @@ const CartPage = () => {
 
   const increaseQty = (item) => {
     if (item.cartQuant >= item.inStock) return;
-    console.log('items', item.cartQuant > item.inStock);
+
     dispatch(addItemToCart(item));
   };
 
@@ -75,13 +75,13 @@ const CartPage = () => {
     cartItems.forEach((item) => {
       !shopItems.includes(item.shop) && (shopItems = [...shopItems, item.shop]);
     });
-    console.log('shopItems', shopItems);
+
     return shopItems;
   };
 
   const calTotalItemsInCart = (cartItems) => {
     const items = cartItems.reduce((acc, item) => acc + item.cartQuant * 1, 0);
-    console.log('items', items);
+
     return items;
   };
 
@@ -176,7 +176,7 @@ const CartPage = () => {
   // };
   const stringPrice = (price, currency) => {
     let designedP = price.toLocaleString('en-US');
-    console.log('designedP', designedP);
+
     return `${price.toLocaleString('en-US')} ${currency}`;
   };
   //*new Price model function

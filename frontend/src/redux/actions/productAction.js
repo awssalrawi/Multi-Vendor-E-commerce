@@ -28,7 +28,7 @@ import {
   NO_PRODUCTS_STOP_PAGINATION,
   CLEAR_ERRORS,
 } from './../constants/productConstant';
-
+import { URL } from '../../Url';
 export const adminCreateProduct = (form) => async (dispatch) => {
   try {
     dispatch({ type: ADMIN_CREATE_PRODUCT_REQUEST });
@@ -37,7 +37,11 @@ export const adminCreateProduct = (form) => async (dispatch) => {
         'Content-Type': 'multipart/form-data',
       },
     };
-    const { data } = await axios.post('/api/v1/products/create', form, config);
+    const { data } = await axios.post(
+      `${URL}/api/v1/products/create`,
+      form,
+      config
+    );
 
     dispatch({ type: ADMIN_CREATE_PRODUCT_SUCCESS, payload: data.data });
   } catch (error) {
@@ -53,7 +57,7 @@ export const getProductsBySlug = (slug) => async (dispatch) => {
   try {
     dispatch({ type: GET_PRODUCTS_BY_SLUG_REQUEST });
     // const response  = await axios.post("/signin")
-    const { data } = await axios.get(`/api/v1/products-cat/${slug}`);
+    const { data } = await axios.get(`${URL}/api/v1/products-cat/${slug}`);
     dispatch({ type: GET_PRODUCTS_BY_SLUG_SUCCESS, payload: data });
   } catch (error) {
     console.log(error);
@@ -75,7 +79,7 @@ export const getAllProducts =
         dispatch({ type: ADMIN_GET_ALL_PRODUCTS_REQUEST });
 
         const { data } = await axios.get(
-          `/api/v1/products/get-all?page=${page}`
+          `${URL}/api/v1/products/get-all?page=${page}`
         );
         if (page > 1) {
           if (data.products.length > 0) {
@@ -104,44 +108,11 @@ export const getAllProducts =
     }
   };
 
-export const adminDeleteProductById = (id) => async (dispatch) => {
-  try {
-    dispatch({ type: ADMIN_DELETE_PRODUCT_REQUEST });
-
-    await axios.delete(`/api/v1/products/${id}`);
-    dispatch({ type: ADMIN_DELETE_PRODUCT_SUCCESS, payload: id });
-  } catch (error) {
-    dispatch({
-      type: ADMIN_DELETE_PRODUCT_FAIL,
-      payload: error.response.data.message,
-    });
-  }
-};
-
-export const adminUpdateProductById = (id, form) => async (dispatch) => {
-  try {
-    dispatch({ type: ADMIN_UPDATE_PRODUCT_REQUEST });
-    const config = {
-      header: {
-        'Content-Type': 'multipart/form-data',
-      },
-    };
-    const { data } = await axios.put(`/api/v1/products/${id}`, form, config);
-    dispatch({ type: ADMIN_UPDATE_PRODUCT_SUCCESS, payload: data.data });
-  } catch (error) {
-    console.log(error);
-    dispatch({
-      type: ADMIN_UPDATE_PRODUCT_FAIL,
-      payload: error.response.data.message,
-    });
-  }
-};
-
 export const cusGetSingleProductDetails = (id) => async (dispatch) => {
   try {
     dispatch({ type: GET_CUS_PRODUCT_BY_ID_REQUEST });
 
-    const { data } = await axios.get(`/api/v1/products/${id}`);
+    const { data } = await axios.get(`${URL}/api/v1/products/${id}`);
     dispatch({ type: GET_CUS_PRODUCT_BY_ID_SUCCESS, payload: data.product });
   } catch (error) {
     console.log(error);
@@ -157,7 +128,7 @@ export const cusGetShopProduct = (slug) => async (dispatch) => {
   try {
     dispatch({ type: GET_SHOP_PRODUCT_REQUEST });
 
-    const { data } = await axios.get(`/api/v1/products-stor/${slug}`);
+    const { data } = await axios.get(`${URL}/api/v1/products-stor/${slug}`);
     console.log(data);
     dispatch({ type: GET_SHOP_PRODUCT_SUCCESS, payload: data.info });
   } catch (error) {
@@ -176,7 +147,7 @@ export const getProductsByFilter =
       dispatch({ type: GET_FILTERED_PRODUCTS_REQUEST });
 
       const { data } = await axios.get(
-        `/api/v1/products/get-all?keyword=${keyword}`
+        `${URL}/api/v1/products/get-all?keyword=${keyword}`
       );
 
       dispatch({

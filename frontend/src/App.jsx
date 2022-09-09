@@ -33,10 +33,7 @@ import OrderSuccess from './component/cart/OrderSuccess';
 import NotFound from './page/NotFound';
 import Categories from './page/Categories';
 function App() {
-  const { isAuthenticated } = useSelector((state) => state.auth);
-  useEffect(() => {
-    store.dispatch(updateCart());
-  }, [isAuthenticated]);
+  const { isAuthenticated, user } = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (localStorage.getItem('authTokenReload')) {
@@ -46,6 +43,10 @@ function App() {
     store.dispatch(getAllProducts());
     store.dispatch(getCurrencyConst());
   }, []);
+
+  useEffect(() => {
+    store.dispatch(updateCart());
+  }, [isAuthenticated, user]);
 
   return (
     <Router>

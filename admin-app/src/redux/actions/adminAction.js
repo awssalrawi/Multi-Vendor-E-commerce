@@ -17,11 +17,25 @@ import {
   GET_LOGO_ADS_FAIL,
 } from "../constants/adminConstant";
 
+import { URL } from "../../Url";
+
 export const getAllUser = () => async (dispatch) => {
   try {
     dispatch({ type: GET_ALL_USERS_REQUEST });
+    //!bearer token
 
-    const { data } = await axios.get("/api/v1/admin/get-users");
+    const token = localStorage.getItem("SellerAuthTokenReload")
+      ? localStorage.getItem("SellerAuthTokenReload")
+      : "";
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    //!bearer token
+
+    const { data } = await axios.get(`${URL}/api/v1/admin/get-users`, config);
 
     dispatch({ type: GET_ALL_USERS_SUCCESS, payload: data.users });
   } catch (error) {
@@ -36,8 +50,24 @@ export const getAllUser = () => async (dispatch) => {
 export const updateUser = (id, body) => async (dispatch) => {
   try {
     dispatch({ type: UPDATE_USER_REQUEST });
+    //!bearer token
 
-    const { data } = await axios.put(`/api/v1/admin/update-user/${id}`, body);
+    const token = localStorage.getItem("SellerAuthTokenReload")
+      ? localStorage.getItem("SellerAuthTokenReload")
+      : "";
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    //!bearer token
+
+    const { data } = await axios.put(
+      `${URL}/api/v1/admin/update-user/${id}`,
+      body,
+      config
+    );
 
     dispatch({ type: UPDATE_USER_SUCCESS, payload: data.user });
   } catch (error) {
@@ -53,7 +83,24 @@ export const updateAdsLogo = (body) => async (dispatch) => {
   try {
     dispatch({ type: UPDATE_LOGO_ADS_REQUEST });
 
-    const { data } = await axios.put("/api/v1/admin/initial-imgs", body);
+    //!bearer token
+
+    const token = localStorage.getItem("SellerAuthTokenReload")
+      ? localStorage.getItem("SellerAuthTokenReload")
+      : "";
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    //!bearer token
+
+    const { data } = await axios.put(
+      `${URL}/api/v1/admin/initial-imgs`,
+      body,
+      config
+    );
 
     dispatch({ type: UPDATE_LOGO_ADS_SUCCESS, payload: data.data });
   } catch (error) {
@@ -68,8 +115,19 @@ export const updateAdsLogo = (body) => async (dispatch) => {
 export const getAdsLogo = () => async (dispatch) => {
   try {
     dispatch({ type: GET_LOGO_ADS_REQUEST });
+    //!bearer token
 
-    const { data } = await axios.get("/api/v1/admin/getadslogo");
+    const token = localStorage.getItem("SellerAuthTokenReload")
+      ? localStorage.getItem("SellerAuthTokenReload")
+      : "";
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    //!bearer token
+    const { data } = await axios.get(`${URL}/api/v1/admin/getadslogo`, config);
 
     dispatch({ type: GET_LOGO_ADS_SUCCESS, payload: data.data });
   } catch (error) {

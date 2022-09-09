@@ -29,27 +29,35 @@ import {
   DELETE_USER_ADDRESS_SUCCESS,
   DELETE_USER_ADDRESS_FAIL,
 } from '../constants/userConstant';
-
+import { URL } from '../../Url';
 import axios from 'axios';
-
-export const login = (email, password) => async (dispatch) => {
+import { updateCart } from './cartAction';
+export const login = (email, password) => async (dispatch, getState) => {
   try {
     dispatch({ type: LOGIN_REQUEST });
 
+    //!bearer token
+
+    const token = localStorage.getItem('authTokenReload')
+      ? localStorage.getItem('authTokenReload')
+      : '';
     const config = {
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
     };
+    //!bearer token
+
     const { data } = await axios.post(
-      '/api/v1/user/signin',
+      `${URL}/api/v1/user/signin`,
       { email, password },
       config
     );
-
+    localStorage.setItem('ltredaUser', JSON.stringify(data.user));
+    localStorage.setItem('authTokenReload', data.token);
     dispatch({ type: LOGIN_SUCCESS, payload: data.user });
     dispatch({ type: GET_TOKEN_FROM_COOKIE, payload: data.token });
-    localStorage.setItem('authTokenReload', data.token);
   } catch (error) {
     console.log('Login action error', error);
     dispatch({ type: LOGIN_FAIL, payload: error.response.data.message });
@@ -66,11 +74,10 @@ export const getMyProfileData = () => async (dispatch) => {
     try {
       dispatch({ type: LOAD_PROFILE_REQUEST });
 
-      const { data } = await axios.get('/api/v1/user/me');
-      console.log('jsonstew', JSON.stringify(data.user));
+      const { data } = await axios.get(`${URL}/api/v1/user/me`);
+
       dispatch({ type: LOAD_PROFILE_SUCCESS, payload: data.user });
       localStorage.setItem('ltredaUser', JSON.stringify(data.user));
-      console.log('ltetetetea', JSON.parse(localStorage.getItem('ltredaUser')));
     } catch (error) {
       console.log('Login action error', error);
       dispatch({ type: LOAD_PROFILE_FAIL });
@@ -81,10 +88,10 @@ export const getMyProfileData = () => async (dispatch) => {
 
 export const logout = () => async (dispatch) => {
   try {
-    await axios.get('/api/v1/user/logout');
-    dispatch({ type: LOGOUT_SUCCESS });
+    await axios.get(`${URL}/api/v1/user/logout`);
     localStorage.removeItem('authTokenReload');
     localStorage.removeItem('ltredaUser');
+    dispatch({ type: LOGOUT_SUCCESS });
   } catch (error) {
     console.log(error);
     dispatch({ type: LOGOUT_FAIL, payload: error.message });
@@ -92,24 +99,37 @@ export const logout = () => async (dispatch) => {
 };
 
 //!google and facebook
-export const SignWithGoogle = (info) => async (dispatch) => {
+export const SignWithGoogle = (info) => async (dispatch, getState) => {
   try {
     dispatch({ type: GOOGLE_SIGN_REQUEST });
 
     // const tokenId = response.tokenId;
+    // const config = {
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    // };
+    //!bearer token
+
+    const token = localStorage.getItem('authTokenReload')
+      ? localStorage.getItem('authTokenReload')
+      : '';
     const config = {
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
     };
+    //!bearer token
     const { data } = await axios.post(
-      '/api/v1/user/google-login',
+      `${URL}/api/v1/user/google-login`,
       info,
       config
     );
-    dispatch({ type: GOOGLE_SIGN_SUCCESS, payload: data.user });
     localStorage.setItem('authTokenReload', data.token);
     localStorage.setItem('ltredaUser', JSON.stringify(data.user));
+    dispatch({ type: GOOGLE_SIGN_SUCCESS, payload: data.user });
+    // dispatch(updateCart());
   } catch (error) {
     console.log(error);
     dispatch({ type: GOOGLE_SIGN_FAIL, payload: error.response.data.message });
@@ -126,10 +146,12 @@ export const signWithFacebook = (response) => async (dispatch) => {
     };
 
     const { data } = await axios.post(
-      '/api/v1/user/facebook-login',
+      `${URL}/api/v1/user/facebook-login`,
       response,
       config
     );
+
+    localStorage.setItem('authTokenReload', data.token);
     localStorage.setItem('ltredaUser', JSON.stringify(data.user));
     dispatch({ type: FACEBOOK_SIGN_SUCCESS, payload: data.user });
   } catch (error) {
@@ -142,37 +164,61 @@ export const signWithFacebook = (response) => async (dispatch) => {
 };
 
 export const signUpWithEmailAndPassword =
-  (name, email, password) => async (dispatch) => {
+  (name, email, password) => async (dispatch, getState) => {
     try {
       dispatch({ type: SIGNUP_REQUEST });
 
+      //!bearer token
+
+      const token = localStorage.getItem('authTokenReload')
+        ? localStorage.getItem('authTokenReload')
+        : '';
       const config = {
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
       };
+      //!bearer token
 
       const { data } = await axios.post(
-        '/api/v1/user/signup',
+        `${URL}/api/v1/user/signup`,
         { name, email, password },
         config
       );
       dispatch({ type: SIGNUP_SUCCESS, payload: data.message });
     } catch (error) {
+      console.log(error);
       dispatch({ type: SIGNUP_FAIL, payload: error.response.data.message });
     }
   };
 
 //! user addresses
-export const addAddress = (obj) => async (dispatch) => {
+export const addAddress = (obj) => async (dispatch, getState) => {
   try {
-    console.log('Iam here');
     dispatch({ type: ADD_USER_ADDRESS_REQUEST });
     const form = {
       data: { address: obj },
     };
 
-    const { data } = await axios.post('/api/v1/user/address/create', form);
+    //!bearer token
+
+    const token = localStorage.getItem('authTokenReload')
+      ? localStorage.getItem('authTokenReload')
+      : '';
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    //!bearer token
+
+    const { data } = await axios.post(
+      `${URL}/api/v1/user/address/create`,
+      form,
+      config
+    );
 
     dispatch({ type: ADD_USER_ADDRESS_SUCCESS, payload: data.newAddress });
   } catch (error) {
@@ -183,11 +229,23 @@ export const addAddress = (obj) => async (dispatch) => {
     });
   }
 };
-export const getAddress = () => async (dispatch) => {
+export const getAddress = () => async (dispatch, getState) => {
   try {
     dispatch({ type: GET_USER_ADDRESS_REQUEST });
+    //!bearer token
 
-    const { data } = await axios.get('/api/v1/user/address/get');
+    const token = localStorage.getItem('authTokenReload')
+      ? localStorage.getItem('authTokenReload')
+      : '';
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    //!bearer token
+
+    const { data } = await axios.get(`${URL}/api/v1/user/address/get`, config);
 
     dispatch({
       type: GET_USER_ADDRESS_SUCCESS,
@@ -202,12 +260,28 @@ export const getAddress = () => async (dispatch) => {
   }
 };
 
-export const removeAddress = (obj) => async (dispatch) => {
+export const removeAddress = (obj) => async (dispatch, getState) => {
   try {
-    console.log('Iam here');
     dispatch({ type: DELETE_USER_ADDRESS_REQUEST });
 
-    const { data } = await axios.put('/api/v1/user/address/delete', obj);
+    //!bearer token
+
+    const token = localStorage.getItem('authTokenReload')
+      ? localStorage.getItem('authTokenReload')
+      : '';
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    //!bearer token
+
+    const { data } = await axios.put(
+      `${URL}/api/v1/user/address/delete`,
+      obj,
+      config
+    );
 
     dispatch({ type: DELETE_USER_ADDRESS_SUCCESS });
   } catch (error) {
